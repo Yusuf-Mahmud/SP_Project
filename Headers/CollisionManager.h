@@ -9,7 +9,7 @@ using namespace std;
 struct collisionManager1
 {
 	//The functionName is describes what it does (: 
-	bool CollidingWithScreenBounderies(Window & , Sprite&);
+	bool CollidingWithScreenBounderies(Window&, Sprite&);
 	//Testing
 	bool CollidingWithScreenBounderies(Window&, RectangleShape&);
 
@@ -17,6 +17,7 @@ struct collisionManager1
 	bool isColliding(Sprite& a, Sprite& b);
 	//Testing
 	bool isColliding(RectangleShape& a, RectangleShape& b); //Overloading Function
+	bool isColliding(Sprite& a, RectangleShape& b); //Overloading Function
 
 	//Set Bounderies
 	void setObjectBound(Sprite& a, Sprite& b);
@@ -24,9 +25,11 @@ struct collisionManager1
 	void setObjectBound(RectangleShape& a, RectangleShape& b); //Overloading Function
 	void setObjectBound(RectangleShape& a, Sprite& b);		   //Overloading Function
 
+	void setObjectBound(Sprite& a, RectangleShape& b);
+
 	//Calculate OverLap on X-axis
 	float calcOverlapX(FloatRect& ob1Bounds, FloatRect& ob2Bounds);
-	
+
 	//Calculate OverLap on Y-axis
 	float calcOverlapY(FloatRect& a, FloatRect& b);
 
@@ -46,7 +49,7 @@ protected:
 struct collisionManager2 : public collisionManager1
 {
 	void applyCollision(vector<Sprite>&, Vector2f&, vector<Sprite>&);
-	void applyCollision(vector<RectangleShape>& , Vector2f& , RectangleShape& );
+	void applyCollision(vector<RectangleShape>&, Vector2f&, RectangleShape&);
 	void applyCollision(vector<Sprite>&, Vector2f&, RectangleShape&);
 
 
@@ -58,9 +61,10 @@ struct collisionManager2 : public collisionManager1
 	bool topCollision();
 	bool bottomCollision();
 
+	void applyCollisionWithAnimals(vector<Sprite>& walls, Vector2f& Velocity, RectangleShape& object);
+
 private:
 	FloatRect nextStep;
 };
 
 #endif 
-
