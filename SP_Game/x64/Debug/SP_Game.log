@@ -1,0 +1,59 @@
+﻿  Enemies.cpp
+D:\Codes\SP_Game\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Enemies.cpp')
+  
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,59): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(16,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(21,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(35,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(35,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Enemies.cpp(296,13): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Game.cpp
+D:\Codes\SP_Game\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+D:\Codes\SP_Game\SP_Game\Game.cpp(28,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(32,23): warning C4305: '=': truncation from 'double' to 'float'
+D:\Codes\SP_Game\SP_Game\Game.cpp(57,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         ]
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         with
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         [
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:             T=unsigned int
+D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         ]
+  Generating Code...
+  SP_Game.vcxproj -> D:\Codes\SP_Game\x64\Debug\SP_Game.exe
