@@ -25,8 +25,6 @@ struct enemies
 	Sprite sprite;
 	Texture SpriteTexture;
 
-	//Teeeeest
-	//aaah
 	void set(int, int, int, string, string, string);
 	void DealDamageTo(int&);
 	void move(string);
