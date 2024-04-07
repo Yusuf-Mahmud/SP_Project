@@ -1,59 +1,160 @@
-﻿  Enemies.cpp
-D:\Codes\SP_Game\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+﻿  CollisionManager.cpp
+  Enemies.cpp
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
   (compiling source file 'Enemies.cpp')
   
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,59): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(13,53): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(16,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(17,53): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(21,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(22,48): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(35,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(35,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Enemies.cpp(296,13): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,59): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,53): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,53): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,53): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(13,53): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(16,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(17,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(17,53): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(17,53): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(17,53): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(17,53): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(21,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(22,48): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(22,48): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(22,48): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(22,48): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(22,48): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(35,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(35,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.cpp(296,13): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   Game.cpp
-D:\Codes\SP_Game\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
   (compiling source file 'Game.cpp')
   
-D:\Codes\SP_Game\SP_Game\Game.cpp(28,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(32,23): warning C4305: '=': truncation from 'double' to 'float'
-D:\Codes\SP_Game\SP_Game\Game.cpp(57,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,70): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Game.cpp(125,46): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Game.cpp(156,53): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,81): warning C4244:         ]
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         with
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         [
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:             T=unsigned int
-D:\Codes\SP_Game\SP_Game\Game.cpp(176,57): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(28,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(32,23): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(57,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,70): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,70): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,70): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,70): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,70): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,46): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,46): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,46): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(125,46): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(156,53): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(156,53): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(156,53): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(156,53): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(156,53): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,81): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,81): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,81): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,81): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,81): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,57): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,57): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,57): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,57): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,57): warning C4244:         ]
+  GameScenes.cpp
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'GameScenes.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(3,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(3,36): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(35,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(75,44): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(75,44): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(75,44): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(75,44): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(75,44): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(121,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(121,51): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(121,51): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(121,51): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(121,51): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,70): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,70): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,70): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,70): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,70): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,46): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,46): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,46): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(123,46): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(131,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(131,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(131,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(131,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(131,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(135,30): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(165,35): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(201,33): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(208,34): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(237,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(237,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(237,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(237,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(237,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(238,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(238,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(238,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(238,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(238,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(239,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(239,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(239,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(239,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(239,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(240,43): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(240,43): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(240,43): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(240,43): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(240,43): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,66): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,66): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,66): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,66): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,66): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,40): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,40): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,40): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,40): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(241,40): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(245,30): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(298,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(313,16): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(380,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(380,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(380,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(380,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(380,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(381,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(381,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(381,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(381,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(381,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(382,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(382,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(382,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(382,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(382,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(457,41): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(457,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(457,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(457,41): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(457,41): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(458,42): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(458,42): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(458,42): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(458,42): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.cpp(458,42): warning C4244:         ]
+  main.cpp
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.h(8,32): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'main.cpp')
+  
+  temp.cpp
   Generating Code...
-  SP_Game.vcxproj -> D:\Codes\SP_Game\x64\Debug\SP_Game.exe
+  LINK : C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\x64\Debug\SP_Game.exe not found or not built by the last incremental link; performing full link
+  SP_Game.vcxproj -> C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\x64\Debug\SP_Game.exe
