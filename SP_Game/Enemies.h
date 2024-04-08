@@ -25,6 +25,7 @@ struct enemies
 	Sprite sprite;
 	Texture SpriteTexture;
 
+	//Test VS Pushing
 	void set(int, int, int, string, string, string);
 	void DealDamageTo(int&);
 	void move(string);
