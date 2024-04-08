@@ -1,0 +1,10 @@
+E:\Characters\x64\Debug\sfml-graphics-d-2.dll
+E:\Characters\x64\Debug\sfml-window-d-2.dll
+E:\Characters\x64\Debug\sfml-system-d-2.dll
+E:\Characters\x64\Debug\freetyped.dll
+E:\Characters\x64\Debug\zlibd1.dll
+E:\Characters\x64\Debug\bz2d.dll
+E:\Characters\x64\Debug\libpng16d.dll
+E:\Characters\x64\Debug\brotlidec.dll
+E:\Characters\x64\Debug\brotlicommon.dll
+E:\Characters\Characters\x64\Debug\Characte.EB90C1AA.Up2Date
