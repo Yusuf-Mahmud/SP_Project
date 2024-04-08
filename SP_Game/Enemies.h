@@ -1,5 +1,5 @@
 #pragma once
-#include "temp.h"
+#include "character.h"
 
 struct enemies
 {
@@ -25,17 +25,16 @@ struct enemies
 	Sprite sprite;
 	Texture SpriteTexture;
 
-	//Test VS Pushing
-	void set(int, int, int, string, string, string);
+	void set(int posx, int posy, int heal, string type, string shadow, string shield);
 	void DealDamageTo(int&);
 	void move(string);
 	void hit(string, int&);
 	void die(string);
 	void GoTo(Sprite);
-	void ChaceAndHit(rects &);
-	Vector2f VectorDistanceBetween(RectangleShape);
+	void ChaceAndHit(character &);
+	Vector2f VectorDistanceBetween(Sprite);
 	int DistanceBetween(Sprite);
-	void FinalBossDraw(rects);
-	void SpawnAndChace(rects &);
-	bool MonstersKill(rects);
+	void FinalBossDraw(character);
+	void SpawnAndChace(character &);
+	bool MonstersKill(character);
 };

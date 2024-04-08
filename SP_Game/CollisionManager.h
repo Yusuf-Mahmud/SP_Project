@@ -1,6 +1,6 @@
 #ifndef CollisionManager_H_
 #define CollisionManager_H_
-#include "includes.h"
+#include "character.h"
 
 struct collisionManager1
 {

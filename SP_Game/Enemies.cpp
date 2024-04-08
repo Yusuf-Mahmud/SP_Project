@@ -30,7 +30,7 @@ void enemies::set(int posx = 0, int posy = 0, int heal = 50, string x = "FinalBo
 	}
 	sprite.setTexture(SpriteTexture);
 	sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
-	sprite.setOrigin(37, 37);
+	sprite.setOrigin(32, 32);
 	sprite.setScale(1.5f, 1.5f);
 	sprite.setPosition(posx, posy);
 	IsAlive = true;
@@ -246,9 +246,9 @@ void enemies::GoTo(Sprite x)
 }
 
 //Chasing Function
-void enemies::ChaceAndHit(rects &x)
+void enemies::ChaceAndHit(character &x)
 {
-	ChaseDestance = (x.rect.getPosition() - (sprite.getPosition()));
+	ChaseDestance = (x.sprite.getPosition() - (sprite.getPosition()));
 	if (sqrt(ChaseDestance.x * ChaseDestance.x + ChaseDestance.y * ChaseDestance.y) > HitDistance)
 	{
 		Hiti = 0;
@@ -276,16 +276,16 @@ void enemies::ChaceAndHit(rects &x)
 	}
 }
 
-void enemies::FinalBossDraw(rects x)
+void enemies::FinalBossDraw(character x)
 {
-	if (x.rect.getPosition().y > sprite.getPosition().y)
+	if (x.sprite.getPosition().y > sprite.getPosition().y)
 		window.draw(sprite);
-	window.draw(x.rect);
-	if (x.rect.getPosition().y <= sprite.getPosition().y)
+	window.draw(x.sprite);
+	if (x.sprite.getPosition().y <= sprite.getPosition().y)
 		window.draw(sprite);
 }
 
-Vector2f enemies::VectorDistanceBetween(RectangleShape x)
+Vector2f enemies::VectorDistanceBetween(Sprite x)
 {
 	return (x.getPosition() - (sprite.getPosition()));
 }
@@ -300,7 +300,7 @@ int enemies::DistanceBetween(Sprite x)
 const int MaxMonsterSpawn = 10;
 bool ch[MaxMonsterSpawn] = {};
 enemies Monsters[MaxMonsterSpawn];
-void enemies::SpawnAndChace(rects &x)
+void enemies::SpawnAndChace(character &x)
 {
 	if (GameTime % SpawnDelay == ls)
 	{
@@ -326,7 +326,7 @@ void enemies::SpawnAndChace(rects &x)
 		{
 			if (Monsters[i].IsAlive && Monsters[i].health > 0)
 			{
-				if (x.rect.getPosition().y > Monsters[i].sprite.getPosition().y)
+				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
 				{
 					window.draw(Monsters[i].sprite);
 					Monsters[i].ChaceAndHit(x);
@@ -335,7 +335,7 @@ void enemies::SpawnAndChace(rects &x)
 			else if (Monsters[i].IsAlive)
 			{
 				Monsters[i].die("");
-				if (x.rect.getPosition().y > Monsters[i].sprite.getPosition().y)
+				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
 				{
 					window.draw(Monsters[i].sprite);
 				}
@@ -343,19 +343,19 @@ void enemies::SpawnAndChace(rects &x)
 			else if (!Monsters[i].IsAlive)
 			{
 				cout << "Erase " << i << endl;
-				x.kills++;
+				x.score++;
 				ch[i] = 0;
 			}
 		}
 	}
-	window.draw(x.rect);
+	window.draw(x.sprite);
 	for (int i = 0; i < MaxMonsterSpawn; i++)
 	{
 		if (ch[i] == 1)
 		{
 			if (Monsters[i].IsAlive && Monsters[i].health > 0)
 			{
-				if (x.rect.getPosition().y <= Monsters[i].sprite.getPosition().y)
+				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
 				{
 					window.draw(Monsters[i].sprite);
 					Monsters[i].ChaceAndHit(x);
@@ -364,7 +364,7 @@ void enemies::SpawnAndChace(rects &x)
 			else if (Monsters[i].IsAlive)
 			{
 				Monsters[i].die("");
-				if (x.rect.getPosition().y <= Monsters[i].sprite.getPosition().y)
+				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
 				{
 					window.draw(Monsters[i].sprite);
 				}
@@ -372,16 +372,16 @@ void enemies::SpawnAndChace(rects &x)
 			else if (!Monsters[i].IsAlive)
 			{
 				cout << "Erase " << i << endl;
-				x.kills++;
+				x.score++;
 				ch[i] = 0;
 			}
 		}
 	}
 }
 
-bool enemies::MonstersKill(rects h)
+bool enemies::MonstersKill(character h)
 {
-	window.draw(h.rect);
+	window.draw(h.sprite);
 	for (int i = 0; i < MaxMonsterSpawn; i++)
 	{
 		if (ch[i] == 1)

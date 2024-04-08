@@ -7,13 +7,13 @@ struct GameScenes
 
 	void blink();
 	void Scene0Set();
-	void scene0(enemies&, rects&);
-	void Scene1Set(enemies&, rects&);
-	void scene1(enemies&, rects&);
+	void scene0(enemies&, character&);
+	void Scene1Set(enemies&, character&);
+	void scene1(enemies&, character&);
 	void Scene2Set();
-	void scene2(enemies&, rects&);
+	void scene2(enemies&, character&);
 	void Scene3Set();
-	void scene3(enemies&, rects&);
+	void scene3(enemies&, character&);
 	void Scene4Set();
-	void scene4(enemies&, rects&);
+	void scene4(enemies&, character&);
 };

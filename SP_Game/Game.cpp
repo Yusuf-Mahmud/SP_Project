@@ -3,13 +3,31 @@
 
 //Window Control
 RenderWindow window(VideoMode(1680, 800), "SP_Game");
+Vector2f WindowSize = { (float)window.getSize().x, (float)window.getSize().y };
 
 //Game Time Control
 float DeltaTime = 0;
 int GameTime = 0;
 
-//Temp Hero
-rects hero;
+// walking to right start frame
+const int WalkRightIndex = 64 * 11;
+
+// walking to left start frame
+const int WalkLeftIndex = 9 * 64;
+
+// walking up start frame
+const int WalkUpIndex = 8 * 64;
+
+// walking down start frame
+const int WalkDownIndex = 10 * 64;
+
+const int HitRightIndex = 30 * 64;
+const int HitLeftIndex = 24 * 64;
+const int HitUpIndex = 21 * 64;
+const int HitDownIndex = 27 * 64;
+
+//Game Scene Tests
+float TestTimer = 0, TestDelay = 4;
 
 //Normalize to auto move
 Vector2f normalize(Vector2f vec)
@@ -25,6 +43,13 @@ Vector2f normalize(Vector2f vec)
 
 void Game::Begin()
 {
+	//temp
+	RectangleShape r;
+	r.setSize(Vector2f(20, 20));
+	r.setPosition(500, 500);
+	r.setFillColor(Color::White);
+
+
 	srand(time(0));
 
 	enemies FinalBoss, Monster;
@@ -35,9 +60,9 @@ void Game::Begin()
 	FinalBoss.set(500, 400, 500, "FinalBoss", "Shadow", "Shield"); //set(StartPosX, StartPosY, Health, Type, Shadow?, Shield?)
 	Monster.set(0, 0, 0, "", "", ""); //Empty strings as "SpawnAndChase" functoin generates them
 
-	hero.size = { 50, 50 };
-	hero.health = 50;
-	hero.set();
+	character hero;
+	hero.chooseHero();
+	hero.set(0, 0, 200);
 
 	GameScenes scene;
 	scene.Scene0Set();
@@ -74,6 +99,13 @@ void Game::Begin()
 		}
 		else if (hero.health > 20 && scene.scene2ch)
 		{
+			if (hero.sprite.getGlobalBounds().intersects(r.getGlobalBounds())) {
+				hero.weapon = "sword";
+				hero.isWeapon = true;
+				r.setPosition(10000, 10000);
+				hero.takeSword();
+			}
+
 			hero.move();
 			if (FinalBoss.IsAlive && FinalBoss.health > 0)
 			{
@@ -87,13 +119,14 @@ void Game::Begin()
 				window.draw(FinalBoss.BossHealthBarFrame);
 				window.draw(FinalBoss.BossHealthText);
 			}
+			window.draw(r);
 		}
 		else if (scene.scene2ch)
 		{
 			// To look at the hero when he defeat him
 			if (hero.health <= 0)
 				hero.health = 2;
-			Vector2f ChaseDestance = FinalBoss.VectorDistanceBetween(hero.rect);
+			Vector2f ChaseDestance = FinalBoss.VectorDistanceBetween(hero.sprite);
 			if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
 			{
 				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
@@ -119,45 +152,45 @@ void Game::Begin()
 		else if (hero.state == "sleep")
 		{
 			FinalBoss.health = 500;
-			if (hero.TestDelay < 0)
+			if (TestDelay < 0)
 			{
 				hero.state = "BeingStronger";
-				hero.rect.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-				hero.TestDelay = 4;
+				hero.sprite.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+				TestDelay = 4;
 			}
 			else
-				hero.TestDelay -= DeltaTime;
+				TestDelay -= DeltaTime;
 		}
 		else if (hero.state == "BeingStronger")
 		{
 			if (scene.IsBlinking)
 			{
-				window.draw(hero.rect);
+				window.draw(hero.sprite);
 				scene.blink();
 			}
 			else
 			{
 				//GamePlay
-				if (hero.kills >= 5)
+				if (hero.score >= 5)
 				{
 					if (Monster.MonstersKill(hero))
 					{
-						destance = {(hero.rect.getPosition().x - ((float)window.getSize().x)),(hero.rect.getPosition().y - ((float)window.getSize().y / 2)) };
+						destance = {(hero.sprite.getPosition().x - ((float)window.getSize().x)),(hero.sprite.getPosition().y - ((float)window.getSize().y / 2)) };
 						if (sqrt(destance.x * destance.x + destance.y * destance.y) > 3)
 						{
-							hero.rect.move(-1.f * normalize(destance) * 500.f * DeltaTime);
-							window.draw(hero.rect);
+							hero.sprite.move(-1.f * normalize(destance) * 500.f * DeltaTime);
+							window.draw(hero.sprite);
 						}
 						else
 						{
-							if (hero.TestDelay < 0)
+							if (TestDelay < 0)
 							{
 								hero.state = "FinalBossFight";
-								hero.rect.setPosition(0, window.getSize().y / 2);
-								hero.TestDelay = 4;
+								hero.sprite.setPosition(0, window.getSize().y / 2);
+								TestDelay = 4;
 							}
 							else
-								hero.TestDelay -= DeltaTime;
+								TestDelay -= DeltaTime;
 						}
 					}
 				}

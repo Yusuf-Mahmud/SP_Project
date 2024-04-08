@@ -21,7 +21,7 @@
     <ClCompile Include="Enemies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="temp.cpp">
+    <ClCompile Include="character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -41,13 +41,13 @@
     <ClInclude Include="Enemies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="temp.h">
+    <ClInclude Include="character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
+    <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameScenes.h">
