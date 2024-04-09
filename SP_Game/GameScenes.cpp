@@ -48,8 +48,7 @@ void DisplayText(Text &t, string &s, int &idx, enemies& e, character& h, string 
 	}
 	else
 	{
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		if (talker == "hero")
 			window.draw(HeroTalk.sprite);
 		else
@@ -88,8 +87,7 @@ void GameScenes::scene0(enemies &e, character &h)
 	else if (ChatTime > 0 && i0 == s0.size())
 	{
 		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		window.draw(HeroTalk.sprite);
 		window.draw(screen);
 		window.draw(t0);
@@ -132,7 +130,7 @@ void GameScenes::Scene1Set(enemies &e, character &h)
 	t1.setPosition(192, window.getSize().y - 160);
 }
 
-int ch = 1, ieye = 255;
+int che = 1, ieye = 255;
 float EyeTimer = 0, EyeDelay = 0.009;
 bool BlinkCheck = true;
 RectangleShape eye;
@@ -146,9 +144,9 @@ void GameScenes::blink()
 		{
 			EyeTimer = EyeDelay;
 			ieye--;
-			if (ieye == 110 && ch == 1)
-				BlinkCheck = false, ch++;
-			else if (ieye == 0 && ch == 2)
+			if (ieye == 110 && che == 1)
+				BlinkCheck = false, che++;
+			else if (ieye == 0 && che == 2)
 				IsBlinking = false;
 		}
 		else
@@ -178,8 +176,7 @@ void GameScenes::scene1(enemies &e, character &h)
 {
 	if (IsBlinking)
 	{
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		blink();
 	}
 	else if (i1 < s1.size())
@@ -190,8 +187,7 @@ void GameScenes::scene1(enemies &e, character &h)
 	else if (ChatTime > 0 && i1 == s1.size())
 	{
 		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		window.draw(HeroTalk.sprite);
 		window.draw(t1);
 	}
@@ -199,14 +195,14 @@ void GameScenes::scene1(enemies &e, character &h)
 	{
 		ChatTime = ChatDelay;
 		i1++;
-		ieye = 255, ch = 1,EyeDelay = 0.009, IsBlinking = true;
+		ieye = 255, che = 1,EyeDelay = 0.009, IsBlinking = true;
 		scene1ch = 0;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Num1))
 	{
 		ChatTime = ChatDelay;
 		i1++;
-		ieye = 255, ch = 1, EyeDelay = 0.009, IsBlinking = true;
+		ieye = 255, che = 1, EyeDelay = 0.009, IsBlinking = true;
 		scene1ch = 0;
 	}
 }
@@ -247,112 +243,116 @@ float NapTimer = 0, NapDelay = 0.015;
 RectangleShape nap;
 void GameScenes::scene2(enemies& e, character& h)
 {
-	nap.setSize({ (float)window.getSize().x, (float)window.getSize().y });
-	nap.setFillColor(Color(0, 0, 0, inap));
-	if (i2 < s2.size())
+	if (!h.IsStanding)
 	{
-		ChatTime = ChatDelay;
-		DisplayText(t2, s2, i2, e, h, "FinalBoss");
-	}
-	else if (ChatTime > 0 && i2 == s2.size())
-	{
-		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
-		window.draw(FinalBossTalk.sprite);
-		window.draw(t2);
-	}
-	else if (i3 < s3.size())
-	{
-		ChatTime = ChatDelay;
-		i2++;
-		DisplayText(t3, s3, i3, e, h, "hero");
-	}
-	else if (ChatTime > 0 && i3 == s3.size())
-	{
-		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
-		window.draw(HeroTalk.sprite);
-		window.draw(t3);
-	}
-	else if (i4 < s4.size())
-	{
-		ChatTime = ChatDelay;
-		i3++;
-		DisplayText(t4, s4, i4, e, h, "FinalBoss");
-	}
-	else if (ChatTime > 0 && i4 == s4.size())
-	{
-		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
-		window.draw(FinalBossTalk.sprite);
-		window.draw(t4);
-	}
-	else if (i4_5 < s4_5.size() || inap < 255)
-	{
-		ChatTime = ChatDelay;
-		i4++;
-		if (i4_5 < s4_5.size())
+		nap.setSize({ (float)window.getSize().x, (float)window.getSize().y });
+		nap.setFillColor(Color(0, 0, 0, inap));
+		HeroTalk.sprite.setTextureRect(IntRect(64 * 3, 64 * 20, 64, 64));
+		if (i2 < s2.size())
 		{
+			ChatTime = ChatDelay;
+			DisplayText(t2, s2, i2, e, h, "FinalBoss");
+		}
+		else if (ChatTime > 0 && i2 == s2.size())
+		{
+			ChatTime -= DeltaTime;
+			e.FinalBossDraw(h);
+			window.draw(FinalBossTalk.sprite);
+			window.draw(t2);
+		}
+		else if (i3 < s3.size())
+		{
+			ChatTime = ChatDelay;
+			i2++;
+			DisplayText(t3, s3, i3, e, h, "hero");
+		}
+		else if (ChatTime > 0 && i3 == s3.size())
+		{
+			ChatTime -= DeltaTime;
+			e.FinalBossDraw(h);
+			window.draw(HeroTalk.sprite);
+			window.draw(t3);
+		}
+		else if (i4 < s4.size())
+		{
+			ChatTime = ChatDelay;
+			i3++;
+			DisplayText(t4, s4, i4, e, h, "FinalBoss");
+		}
+		else if (ChatTime > 0 && i4 == s4.size())
+		{
+			ChatTime -= DeltaTime;
+			e.FinalBossDraw(h);
+			window.draw(FinalBossTalk.sprite);
+			window.draw(t4);
+		}
+		else if (i4_5 < s4_5.size())
+		{
+			ChatTime = ChatDelay;
+			i4++;
 			TextDelay = 0.15;
 			DisplayText(t4_5, s4_5, i4_5, e, h, "hero");
-			if (NapTimer < 0)
-			{
-				NapTimer = NapDelay;
-				inap++;
-			}
-			else
-			{
-				NapTimer -= DeltaTime;
-			}
-			window.draw(nap);
+
 		}
-		else
+		else if (h.IsAlive)
 		{
-			TextDelay = 0.085;
-			if (NapTimer < 0)
-			{
-				NapTimer = NapDelay;
-				inap++;
-			}
-			else
-			{
-				NapTimer -= DeltaTime;
-			}
-			window.draw(e.sprite);
-			window.draw(h.sprite);
+			h.die("");
+			HeroTalk.sprite.setTextureRect(h.sprite.getTextureRect());
+			e.FinalBossDraw(h);
 			window.draw(HeroTalk.sprite);
 			window.draw(t4_5);
-			window.draw(nap);
 		}
-	}
-	else if (ChatTime > 0 && inap == 255)
-	{
-		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
-		window.draw(nap);
-	}
-	else if (i5 < s5.size())
-	{
-		inap++;
-		ChatTime = ChatDelay;
-		window.draw(nap);
-		DisplayText(t5, s5, i5, e, h, "no");
-	}
-	else if (ChatTime > 0 && i5 == s5.size())
-	{
-		ChatTime -= DeltaTime;
-		window.draw(nap);
-		window.draw(t5);
+		else if (!h.IsAlive)
+		{
+			if (i4_5 < s4_5.size() || inap < 255)
+			{
+				HeroTalk.sprite.setTextureRect(h.sprite.getTextureRect());
+				TextDelay = 0.085;
+				if (NapTimer < 0)
+				{
+					NapTimer = NapDelay;
+					inap++;
+				}
+				else
+				{
+					NapTimer -= DeltaTime;
+				}
+				e.FinalBossDraw(h);
+				window.draw(HeroTalk.sprite);
+				window.draw(t4_5);
+				window.draw(nap);
+			}
+			else if (ChatTime > 0 && inap == 255)
+			{
+				ChatTime -= DeltaTime;
+				e.FinalBossDraw(h);
+				window.draw(nap);
+			}
+			else if (i5 < s5.size())
+			{
+				inap++;
+				ChatTime = ChatDelay;
+				window.draw(nap);
+				DisplayText(t5, s5, i5, e, h, "no");
+			}
+			else if (ChatTime > 0 && i5 == s5.size())
+			{
+				ChatTime -= DeltaTime;
+				window.draw(nap);
+				window.draw(t5);
+			}
+			else
+			{
+				ChatTime = ChatDelay;
+				i5++;
+				HeroTalk.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+				scene2ch = 0;
+			}
+		}
 	}
 	else
 	{
-		ChatTime = ChatDelay;
-		i5++;
-		scene2ch = 0;
+		e.FinalBossDraw(h);
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Num2))
 	{
@@ -390,20 +390,19 @@ void GameScenes::scene3(enemies& e, character& h)
 	Destance = { (h.sprite.getPosition().x - ((float)window.getSize().x / 4)),(h.sprite.getPosition().y - ((float)window.getSize().y / 2)) };
 	if (sqrt(Destance.x * Destance.x + Destance.y * Destance.y) > 3)
 	{
-		h.sprite.move(-1.f * normalize(Destance) * 500.f * DeltaTime);
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		h.GoTo({ ((float)window.getSize().x / 4), ((float)window.getSize().y / 2) });
+		e.FinalBossDraw(h);
 	}
 	else if (i6 < s6.size())
 	{
 		ChatTime = ChatDelay;
+		e.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
 		DisplayText(t6, s6, i6, e, h, "FinalBoss");
 	}
 	else if (ChatTime > 0 && i6 == s6.size())
 	{
 		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		window.draw(FinalBossTalk.sprite);
 		window.draw(t6);
 	}
@@ -416,8 +415,7 @@ void GameScenes::scene3(enemies& e, character& h)
 	else if (ChatTime > 0 && i7 == s7.size())
 	{
 		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		window.draw(HeroTalk.sprite);
 		window.draw(t7);
 	}
@@ -430,8 +428,7 @@ void GameScenes::scene3(enemies& e, character& h)
 	else if (ChatTime > 0 && i8 == s8.size())
 	{
 		ChatTime -= DeltaTime;
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 		window.draw(FinalBossTalk.sprite);
 		window.draw(t8);
 	}
@@ -473,8 +470,7 @@ void GameScenes::scene4(enemies& e, character& h)
 		else if (ChatTime > 0 && i9 == s9.size())
 		{
 			ChatTime -= DeltaTime;
-			window.draw(e.sprite);
-			window.draw(h.sprite);
+			e.FinalBossDraw(h);
 			window.draw(FinalBossTalk.sprite);
 			window.draw(t9);
 		}
@@ -487,8 +483,7 @@ void GameScenes::scene4(enemies& e, character& h)
 		else if (ChatTime > 0 && i10 == s10.size())
 		{
 			ChatTime -= DeltaTime;
-			window.draw(e.sprite);
-			window.draw(h.sprite);
+			e.FinalBossDraw(h);
 			window.draw(HeroTalk.sprite);
 			window.draw(t10);
 		}
@@ -502,7 +497,6 @@ void GameScenes::scene4(enemies& e, character& h)
 	}
 	else
 	{
-		window.draw(e.sprite);
-		window.draw(h.sprite);
+		e.FinalBossDraw(h);
 	}
 }

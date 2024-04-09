@@ -8,10 +8,6 @@ struct enemies
 	float speed = 150, HitSpeed = 0.1;
 	bool IsAlive = true, IsStanding = true;
 
-	//Monster Spawn Controls 
-	int SpawnDelay = 10; //Delay is random So (Max = SpawnDelay + Min - 1) & (Min = 3)
-	int ls = 3; // (Min)
-
 	//Constants
 	string Type;
 	int Animationi = 0, Hiti = 0, Deathi = 0;
@@ -32,9 +28,5 @@ struct enemies
 	void die(string);
 	void GoTo(Sprite);
 	void ChaceAndHit(character &);
-	Vector2f VectorDistanceBetween(Sprite);
-	int DistanceBetween(Sprite);
 	void FinalBossDraw(character);
-	void SpawnAndChace(character &);
-	bool MonstersKill(character);
 };

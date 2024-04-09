@@ -1,6 +1,125 @@
 #include "GameScenes.h"
 #include "global.h"
 
+//Enemies Spawn
+//Monster Spawn Controls 
+int SpawnDelay = 10; //Delay is random So (Max = SpawnDelay + Min - 1) & (Min = 3)
+int ls = 3; // (Min)
+extern const int MaxMonsterSpawn = 10;
+extern bool enemiesch[MaxMonsterSpawn] = {};
+extern enemies Monsters[MaxMonsterSpawn] = {};
+void SpawnAndChace(character& x)
+{
+	if (GameTime % SpawnDelay == ls)
+	{
+		for (int i = 0; i < MaxMonsterSpawn; i++)
+		{
+			if (enemiesch[i] == 0)
+			{
+				cout << "Spawn " << i << endl;
+				enemiesch[i] = 1;
+				int x = rand() % 2;
+				if (x)
+					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Skelaton", "", "");
+				else
+					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Zombie", "", "");
+				break;
+			}
+		}
+		ls = rand() % SpawnDelay;
+	}
+	for (int i = 0; i < MaxMonsterSpawn; i++)
+	{
+		if (enemiesch[i] == 1)
+		{
+			if (Monsters[i].IsAlive && Monsters[i].health > 0)
+			{
+				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
+				{
+					window.draw(Monsters[i].sprite);
+					Monsters[i].ChaceAndHit(x);
+				}
+			}
+			else if (Monsters[i].IsAlive)
+			{
+				Monsters[i].die("");
+				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
+				{
+					window.draw(Monsters[i].sprite);
+				}
+			}
+			else if (!Monsters[i].IsAlive)
+			{
+				cout << "Erase " << i << endl;
+				x.score++;
+				enemiesch[i] = 0;
+			}
+		}
+	}
+	window.draw(x.sprite);
+	for (int i = 0; i < MaxMonsterSpawn; i++)
+	{
+		if (enemiesch[i] == 1)
+		{
+			if (Monsters[i].IsAlive && Monsters[i].health > 0)
+			{
+				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
+				{
+					window.draw(Monsters[i].sprite);
+					Monsters[i].ChaceAndHit(x);
+				}
+			}
+			else if (Monsters[i].IsAlive)
+			{
+				Monsters[i].die("");
+				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
+				{
+					window.draw(Monsters[i].sprite);
+				}
+			}
+			else if (!Monsters[i].IsAlive)
+			{
+				cout << "Erase " << i << endl;
+				x.score++;
+				enemiesch[i] = 0;
+			}
+		}
+	}
+}
+
+bool MonstersKill(character h)
+{
+	window.draw(h.sprite);
+	for (int i = 0; i < MaxMonsterSpawn; i++)
+	{
+		if (enemiesch[i] == 1)
+		{
+			if (Monsters[i].IsAlive)
+			{
+				Monsters[i].die("");
+				window.draw(Monsters[i].sprite);
+			}
+			else if (!Monsters[i].IsAlive)
+			{
+				cout << "Erase " << i << endl;
+				enemiesch[i] = 0;
+			}
+		}
+	}
+	int j;
+	for (j = 0; j < MaxMonsterSpawn; j++)
+	{
+		if (enemiesch[j] == 1)
+			break;
+	}
+	if (j == MaxMonsterSpawn)
+		return 1;
+	else
+		return 0;
+}
+
+
+
 //Window Control
 RenderWindow window(VideoMode(1680, 800), "SP_Game");
 Vector2f WindowSize = { (float)window.getSize().x, (float)window.getSize().y };
@@ -41,6 +160,19 @@ Vector2f normalize(Vector2f vec)
 	return vec;
 }
 
+//Get the distance between two Sprites
+int DistanceBetween(Sprite x, Sprite y)
+{
+	Vector2f Destance;
+	Destance = (x.getPosition() - (y.getPosition()));
+	return sqrt(Destance.x * Destance.x + Destance.y * Destance.y);
+}
+
+Vector2f VectorDistanceBetween(Sprite x, Sprite y)
+{
+	return (x.getPosition() - (y.getPosition()));
+}
+
 void Game::Begin()
 {
 	//temp
@@ -52,17 +184,16 @@ void Game::Begin()
 
 	srand(time(0));
 
-	enemies FinalBoss, Monster;
+	enemies FinalBoss;
 	FinalBoss.HitDistance = 100;
 	FinalBoss.HitSpeed = 0.07;
 	FinalBoss.damage = 10;
 	FinalBoss.health = 50;
 	FinalBoss.set(500, 400, 500, "FinalBoss", "Shadow", "Shield"); //set(StartPosX, StartPosY, Health, Type, Shadow?, Shield?)
-	Monster.set(0, 0, 0, "", "", ""); //Empty strings as "SpawnAndChase" functoin generates them
 
 	character hero;
 	hero.chooseHero();
-	hero.set(0, 0, 200);
+	hero.set(0, 0, 50);
 
 	GameScenes scene;
 	scene.Scene0Set();
@@ -99,14 +230,18 @@ void Game::Begin()
 		}
 		else if (hero.health > 20 && scene.scene2ch)
 		{
-			if (hero.sprite.getGlobalBounds().intersects(r.getGlobalBounds())) {
+			if (hero.sprite.getGlobalBounds().intersects(r.getGlobalBounds())) 
+			{
 				hero.weapon = "sword";
-				hero.isWeapon = true;
+				hero.IsWeapon = true;
 				r.setPosition(10000, 10000);
 				hero.takeSword();
 			}
-
 			hero.move();
+			hero.hit();
+			hero.DealDamage(FinalBoss.sprite, FinalBoss.health); 
+			if (hero.var == 6)
+				hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
 			if (FinalBoss.IsAlive && FinalBoss.health > 0)
 			{
 				FinalBoss.ChaceAndHit(hero);
@@ -126,7 +261,7 @@ void Game::Begin()
 			// To look at the hero when he defeat him
 			if (hero.health <= 0)
 				hero.health = 2;
-			Vector2f ChaseDestance = FinalBoss.VectorDistanceBetween(hero.sprite);
+			Vector2f ChaseDestance = VectorDistanceBetween(hero.sprite, FinalBoss.sprite);
 			if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
 			{
 				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
@@ -147,6 +282,9 @@ void Game::Begin()
 				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
 				FinalBoss.sprite.setOrigin(32, 32);
 			}
+			if (hero.health <= 0)
+				hero.health = 2;
+			hero.die("defeated");
 			scene.scene2(FinalBoss, hero);
 		}
 		else if (hero.state == "sleep")
@@ -168,17 +306,23 @@ void Game::Begin()
 				window.draw(hero.sprite);
 				scene.blink();
 			}
+			else if (!hero.IsAlive)
+			{
+				hero.die("stand");
+				hero.lastKey = "down";
+				window.draw(hero.sprite);
+			}
 			else
 			{
 				//GamePlay
 				if (hero.score >= 5)
 				{
-					if (Monster.MonstersKill(hero))
+					if (MonstersKill(hero))
 					{
-						destance = {(hero.sprite.getPosition().x - ((float)window.getSize().x)),(hero.sprite.getPosition().y - ((float)window.getSize().y / 2)) };
+						destance = {(hero.sprite.getPosition().x - WindowSize.x),(hero.sprite.getPosition().y - (WindowSize.y / 2)) };
 						if (sqrt(destance.x * destance.x + destance.y * destance.y) > 3)
 						{
-							hero.sprite.move(-1.f * normalize(destance) * 500.f * DeltaTime);
+							hero.GoTo({WindowSize.x, WindowSize.y / 2});
 							window.draw(hero.sprite);
 						}
 						else
@@ -197,7 +341,15 @@ void Game::Begin()
 				else
 				{
 					hero.move();
-					Monster.SpawnAndChace(hero);
+					hero.hit();
+					SpawnAndChace(hero);
+					for (int i = 0; i < MaxMonsterSpawn; i++)
+					{
+						if (enemiesch[i] == 1)
+							hero.DealDamage(Monsters[i].sprite, Monsters[i].health);
+						if (i == MaxMonsterSpawn - 1 && hero.var == 6)
+							hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
+					}
 				}
 			}
 		}
@@ -213,6 +365,10 @@ void Game::Begin()
 			else if (FinalBoss.health > 20 && scene.scene4ch)
 			{
 				hero.move();
+				hero.hit();
+				hero.DealDamage(FinalBoss.sprite, FinalBoss.health); 
+				if (hero.var == 6)
+					hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
 				if (FinalBoss.IsAlive && FinalBoss.health > 0)
 				{
 					FinalBoss.ChaceAndHit(hero);

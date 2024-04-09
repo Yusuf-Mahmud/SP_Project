@@ -5,13 +5,13 @@
 struct character
 {
 
-	int score = 0, health = 200;
-	float speed = 200;
-	bool IsAlive = 0, isWeapon = 0, Walk = 0, isAttacking = 0;
+	int score = 0, health = 20, HitDistance = 60, damage = 40, var;
+	float speed = 200, HitSpeed = 0.1f;
+	bool IsAlive = 0, IsWeapon = 0, IsWalking = 1, IsAttacking = 0, IsStanding = 1;
 
-	float AnemationTimer = 0, AnemationDelay = 0.1f;
-	float HitTimer = 0, HitDelay = 0.05f;
-	int AnimationI = 0, HitI = 0;
+	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0;
+	float AnemationDelay = 10 / speed, DeathDelay = 0.5;
+	int AnimationI = 0, HitI = 0, DeathI = 0;
 
 	string who, weapon, lastKey, state = "sleep";
 	Vector2i HeroSize = { 64, 64 };
@@ -26,6 +26,9 @@ struct character
 	void walkDown();
 	void takeSword();
 	void move();
+	void die(string);
 	void hit();
+	void DealDamage(Sprite&, int& heal);
+	void GoTo(Vector2f);
 	void chooseHero();
 };

@@ -70,13 +70,13 @@ void character::walkRight()
 
         AnimationI++;
         AnimationI %= 9;
-        sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkRightIndex, HeroSize.x, HeroSize.y));
+    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
     sprite.move(speed * DeltaTime, 0);
     lastKey = "Right";
 }
@@ -90,13 +90,13 @@ void character::walkLeft()
 
         AnimationI++;
         AnimationI %= 9;
-        sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkLeftIndex, HeroSize.x, HeroSize.y));
+    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
     sprite.move(-speed * DeltaTime, 0);
     lastKey = "Left";
 }
@@ -111,13 +111,13 @@ void character::walkUp()
 
         AnimationI++;
         AnimationI %= 9;
-        sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkUpIndex, HeroSize.x, HeroSize.y));
+    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
     sprite.move(0, -speed * DeltaTime);
     lastKey = "Up";
 }
@@ -131,64 +131,131 @@ void character::walkDown()
 
         AnimationI++;
         AnimationI %= 9;
-        sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkDownIndex, HeroSize.x, HeroSize.y));
+    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
     sprite.move(0, speed * DeltaTime);
     lastKey = "Down";
 }
 
 void character::move()
 {
-    if (lastKey == "Right")
+    if (!IsAttacking && !IsWalking)
     {
-
-        sprite.setOrigin(Vector2f(32, 32));
-        sprite.setTextureRect(IntRect(0, WalkRightIndex, HeroSize.x, HeroSize.y));
-
-
+        HeroSize = { 64, 64 };
+        sprite.setOrigin(32, 32);
+        if (lastKey == "Right")
+        {
+            sprite.setTextureRect(IntRect(0, WalkRightIndex, HeroSize.x, HeroSize.y));
+        }
+        else if (lastKey == "Left")
+        {
+            sprite.setTextureRect(IntRect(0, WalkLeftIndex, HeroSize.x, HeroSize.y));
+        }
+        else if (lastKey == "Up")
+        {
+            sprite.setTextureRect(IntRect(0, WalkUpIndex, HeroSize.x, HeroSize.y));
+        }
+        else if (lastKey == "Down")
+        {
+            sprite.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
+        }
     }
-    else if (lastKey == "Left")
-    {
-        sprite.setTextureRect(IntRect(0, WalkLeftIndex, HeroSize.x, HeroSize.y));
-    }
-    else if (lastKey == "Up")
-    {
-        sprite.setTextureRect(IntRect(0, WalkUpIndex, HeroSize.x, HeroSize.y));
-    }
-    else if (lastKey == "Down")
-    {
-        sprite.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
-    }
-
     // moving hero
     if (Keyboard::isKeyPressed(Keyboard::D))
     {
-        Walk = true;
+        HitI = 0;
+        IsAttacking = 0;
+        IsWalking = 1;
         walkRight();
-
     }
-    if (Keyboard::isKeyPressed(Keyboard::A))
+    else if (Keyboard::isKeyPressed(Keyboard::A))
     {
-        Walk = true;
+        HitI = 0;
+        IsAttacking = 0;
+        IsWalking = 1;
         walkLeft();
-
     }
-    if (Keyboard::isKeyPressed(Keyboard::W))
+    else if (Keyboard::isKeyPressed(Keyboard::W))
     {
-        Walk = true;
+        HitI = 0;
+        IsAttacking = 0;
+        IsWalking = 1;
         walkUp();
     }
-    if (Keyboard::isKeyPressed(Keyboard::S))
+    else if (Keyboard::isKeyPressed(Keyboard::S))
     {
-        Walk = true;
+        HitI = 0;
+        IsAttacking = 0;
+        IsWalking = 1;
         walkDown();
     }
-    else Walk = false;
+    else
+        IsWalking = 0;
+}
+
+void character::die(string x)
+{
+    if (x == "defeated")
+    {
+        if (IsStanding)
+        {
+            if (DeathTimer < 0)
+            {
+                DeathI++;
+                DeathI %= 4;
+                sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
+                sprite.setOrigin(32, 32);
+                DeathTimer = DeathDelay;
+                if (DeathI == 3)
+                    IsStanding = false;
+            }
+            else
+            {
+                DeathTimer -= DeltaTime;
+            }
+        }
+    }
+    else if (x == "stand")
+    {
+        if (!IsStanding)
+        {
+            if (DeathTimer < 0)
+            {
+                DeathI--;
+                sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
+                sprite.setOrigin(32, 32);
+                DeathTimer = DeathDelay;
+                if (DeathI == 0)
+                    IsStanding = true, IsAlive = true;
+            }
+            else
+            {
+                DeathTimer -= DeltaTime;
+            }
+        }
+    }
+    else if (IsAlive)
+    {
+        if (DeathTimer < 0)
+        {
+            DeathI++;
+            DeathI %= 6;
+            sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
+            sprite.setOrigin(32, 32);
+            DeathTimer = DeathDelay;
+            if (DeathI == 5)
+                IsAlive = false;
+        }
+        else
+        {
+            DeathTimer -= DeltaTime;
+        }
+    }
 }
 
 void character::takeSword()
@@ -200,14 +267,140 @@ void character::takeSword()
 
 void character::hit()
 {
-    if (HitTimer <= HitDelay) {
-        HitI++;
-        if (HitI >= 6) {
-            HitI = 0;
-            isAttacking = false;
+    if (Mouse::isButtonPressed(Mouse::Left))
+        IsAttacking = 1;
+    if (IsWeapon && IsAttacking && !IsWalking)
+    {
+        AnimationI = 0;
+        if (lastKey == "Right")
+        {
+            HeroSize = { 192, 192 };
+            if (HitTimer < 0)
+            {
+                HitI++;
+                var = HitI;
+                HitI %= 6;
+                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitRightIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(95, 95);
+                HitTimer = HitSpeed;
+            }
+            else {
+                HitTimer -= DeltaTime;
+            }
+            lastKey = "Right";
         }
-        sprite.setOrigin(Vector2f(96, 96));
-        sprite.setTextureRect(IntRect(HitI * 192, HitRightIndex, 192, 192));
-        HitTimer -= DeltaTime;
+        if (lastKey == "Left")
+        {
+            HeroSize.x = 192;
+            HeroSize.y = 192;
+            if (HitTimer < 0)
+            {
+                HitI++;
+                var = HitI;
+                HitI %= 6;
+                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitLeftIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(95, 95);
+                HitTimer = HitSpeed;
+            }
+            else {
+                HitTimer -= DeltaTime;
+            }
+            lastKey = "Left";
+        }
+        if (lastKey == "Up")
+        {
+            HeroSize.x = 192;
+            HeroSize.y = 192;
+            if (HitTimer < 0)
+            {
+                HitI++;
+                var = HitI;
+                HitI %= 6;
+                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitUpIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(95, 95);
+                HitTimer = HitSpeed;
+            }
+            else {
+                HitTimer -= DeltaTime;
+            }
+            lastKey = "Up";
+        }
+        if (lastKey == "Down")
+        {
+            HeroSize.x = 192;
+            HeroSize.y = 192;
+            if (HitTimer < 0)
+            {
+                HitI++;
+                var = HitI;
+                HitI %= 6;
+                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitDownIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(95, 95);
+                HitTimer = HitSpeed;
+            }
+            else {
+                HitTimer -= DeltaTime;
+            }
+            lastKey = "Down";
+        }
+    }
+}
+
+void character::DealDamage(Sprite &s, int& h)
+{
+    Vector2f d = VectorDistanceBetween(sprite, s);
+    if (IsWeapon && IsAttacking && !IsWalking)
+    {
+        if (lastKey == "Right")
+        {
+            if (var == 6)
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) > abs(d.y))
+                    h -= damage;
+            }
+        }
+        if (lastKey == "Left")
+        {
+            
+            if (var == 6)
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) > abs(d.y))
+                    h -= damage;
+            }
+        }
+        if (lastKey == "Up")
+        {
+            if (var == 6)
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) < abs(d.y))
+                    h -= damage;
+            }
+        }
+        if (lastKey == "Down")
+        {
+            if (var == 6)
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) < abs(d.y))
+                    h -= damage;
+            }
+        }
+    }
+}
+
+//Go To some sprite
+void character::GoTo(Vector2f x)
+{
+    Vector2f ChaseDestance = (x - (sprite.getPosition()));
+    if (sqrt(ChaseDestance.x * ChaseDestance.x + ChaseDestance.y * ChaseDestance.y) > 3)
+    {
+        if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+            walkRight();
+        if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+            walkDown();
+        if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+            walkLeft();
+        if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+            walkUp();
+        sprite.move(normalize(ChaseDestance) * speed * DeltaTime);
     }
 }

@@ -29,5 +29,7 @@ extern const int HitUpIndex;
 extern const int HitDownIndex;
 
 Vector2f normalize(Vector2f vec);
+int DistanceBetween(Sprite, Sprite);
+Vector2f VectorDistanceBetween(Sprite, Sprite);
 
 #endif
