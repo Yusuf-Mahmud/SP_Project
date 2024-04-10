@@ -1,5 +1,6 @@
 #pragma once
 #include "CollisionManager.h"
+#include "SpriteVector.h"
 #ifndef GLOBALS_H 
 #define GLOBALS_H 
 
@@ -27,6 +28,11 @@ extern const int HitRightIndex;
 extern const int HitLeftIndex;
 extern const int HitUpIndex;
 extern const int HitDownIndex;
+
+//Press Control
+extern float PressTimer, PressDelay;
+
+extern SpriteVector DrawSprite;
 
 Vector2f normalize(Vector2f vec);
 int DistanceBetween(Sprite, Sprite);

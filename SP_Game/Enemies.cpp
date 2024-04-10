@@ -128,6 +128,25 @@ void enemies::die(string x)
 			}
 		}
 	}
+	else if (x == "stand")
+	{
+		if (!IsStanding)
+		{
+			if (DeathTimer < 0)
+			{
+				Deathi--;
+				sprite.setTextureRect(IntRect(64 * Deathi, 64 * 20, 64, 64));
+				sprite.setOrigin(32, 32);
+				DeathTimer = DeathDelay;
+				if (Deathi == 0)
+					IsStanding = true, IsAlive = true;
+			}
+			else
+			{
+				DeathTimer -= DeltaTime;
+			}
+		}
+	}
 	else
 	{
 		if (DeathTimer < 0)
@@ -278,8 +297,17 @@ void enemies::ChaceAndHit(character &x)
 void enemies::FinalBossDraw(character x)
 {
 	if (x.sprite.getPosition().y > sprite.getPosition().y)
-		window.draw(sprite);
-	window.draw(x.sprite);
+		DrawSprite.add(sprite);
+	DrawSprite.add(x.sprite);
 	if (x.sprite.getPosition().y <= sprite.getPosition().y)
-		window.draw(sprite);
+		DrawSprite.add(sprite);
+}
+
+void enemies::ShowHealthBar()
+{
+	BossHealthBar.setSize({ (float)health, 32.f });
+	BossHealthText.setString(to_string(health));
+	window.draw(BossHealthBar);
+	window.draw(BossHealthBarFrame);
+	window.draw(BossHealthText);
 }

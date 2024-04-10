@@ -143,6 +143,7 @@
     <ClCompile Include="GameScenes.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
+    <ClCompile Include="SpriteVector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionManager.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="SpriteVector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

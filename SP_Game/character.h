@@ -7,7 +7,7 @@ struct character
 
 	int score = 0, health = 20, HitDistance = 60, damage = 40, var;
 	float speed = 200, HitSpeed = 0.1f;
-	bool IsAlive = 0, IsWeapon = 0, IsWalking = 1, IsAttacking = 0, IsStanding = 1;
+	bool IsAlive = 0, IsWeapon = 0, IsWalking = 0, IsAttacking = 0, IsStanding = 1;
 
 	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0;
 	float AnemationDelay = 10 / speed, DeathDelay = 0.5;
@@ -18,6 +18,8 @@ struct character
 	const Vector2f scale = { 1.5, 1.5 };
 	Sprite sprite;
 	Texture tHero;
+	Sound walk;
+	SoundBuffer Bwalk;
 
 	void set(int posx, int posy, int heal);
 	void walkRight();

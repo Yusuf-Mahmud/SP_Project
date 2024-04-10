@@ -29,4 +29,5 @@ struct enemies
 	void GoTo(Sprite);
 	void ChaceAndHit(character &);
 	void FinalBossDraw(character);
+	void ShowHealthBar();
 };

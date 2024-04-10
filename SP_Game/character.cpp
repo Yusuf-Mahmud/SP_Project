@@ -59,6 +59,10 @@ void character::set(int posx, int posy, int heal)
     speed = 200;
     health = heal;
     IsAlive = 1;
+    Bwalk.loadFromFile("./res/Sounds/OnStoneRun3.mp3");
+    walk.setBuffer(Bwalk);
+    walk.setPitch(1.2);
+    walk.setVolume(10);
 }
 
 void character::walkRight()
@@ -142,6 +146,7 @@ void character::walkDown()
     lastKey = "Down";
 }
 
+bool mu = 0;
 void character::move()
 {
     if (!IsAttacking && !IsWalking)
@@ -166,6 +171,17 @@ void character::move()
         }
     }
     // moving hero
+    if (IsWalking && mu == 0)
+    {
+        walk.play();
+        walk.setLoop(1);
+        mu = 1;
+    }
+    else if (!IsWalking && mu == 1)
+    {
+        walk.pause();
+        mu = 0;
+    }
     if (Keyboard::isKeyPressed(Keyboard::D))
     {
         HitI = 0;
@@ -200,6 +216,7 @@ void character::move()
 
 void character::die(string x)
 {
+    walk.pause();
     if (x == "defeated")
     {
         if (IsStanding)
@@ -388,11 +405,18 @@ void character::DealDamage(Sprite &s, int& h)
 }
 
 //Go To some sprite
+bool mu2 = 0;
 void character::GoTo(Vector2f x)
 {
     Vector2f ChaseDestance = (x - (sprite.getPosition()));
     if (sqrt(ChaseDestance.x * ChaseDestance.x + ChaseDestance.y * ChaseDestance.y) > 3)
     {
+        if (!mu2)
+        {
+            walk.play();
+            walk.setLoop(1);
+            mu2 = 1;
+        }
         if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
             walkRight();
         if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
@@ -403,4 +427,6 @@ void character::GoTo(Vector2f x)
             walkUp();
         sprite.move(normalize(ChaseDestance) * speed * DeltaTime);
     }
+    else
+        walk.pause();
 }

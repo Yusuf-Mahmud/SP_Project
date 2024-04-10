@@ -1,13 +1,19 @@
 #include "GameScenes.h"
 #include "global.h"
 
+//Press Control
+float PressTimer = 0, PressDelay = 0.19;
+
+SpriteVector DrawSprite;
+
 //Enemies Spawn
 //Monster Spawn Controls 
 int SpawnDelay = 10; //Delay is random So (Max = SpawnDelay + Min - 1) & (Min = 3)
 int ls = 3; // (Min)
-extern const int MaxMonsterSpawn = 10;
-extern bool enemiesch[MaxMonsterSpawn] = {};
-extern enemies Monsters[MaxMonsterSpawn] = {};
+bool chidx = 0; int FirstIdx = 0; //Show the first apear of monsters in draw array
+const int MaxMonsterSpawn = 10;
+bool enemiesch[MaxMonsterSpawn] = {};
+enemies Monsters[MaxMonsterSpawn] = {};
 void SpawnAndChace(character& x)
 {
 	if (GameTime % SpawnDelay == ls)
@@ -34,19 +40,13 @@ void SpawnAndChace(character& x)
 		{
 			if (Monsters[i].IsAlive && Monsters[i].health > 0)
 			{
-				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
-				{
-					window.draw(Monsters[i].sprite);
-					Monsters[i].ChaceAndHit(x);
-				}
+				Monsters[i].ChaceAndHit(x);
+				DrawSprite.add(Monsters[i].sprite);
 			}
 			else if (Monsters[i].IsAlive)
 			{
 				Monsters[i].die("");
-				if (x.sprite.getPosition().y > Monsters[i].sprite.getPosition().y)
-				{
-					window.draw(Monsters[i].sprite);
-				}
+				DrawSprite.add(Monsters[i].sprite);
 			}
 			else if (!Monsters[i].IsAlive)
 			{
@@ -56,40 +56,12 @@ void SpawnAndChace(character& x)
 			}
 		}
 	}
-	window.draw(x.sprite);
-	for (int i = 0; i < MaxMonsterSpawn; i++)
-	{
-		if (enemiesch[i] == 1)
-		{
-			if (Monsters[i].IsAlive && Monsters[i].health > 0)
-			{
-				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
-				{
-					window.draw(Monsters[i].sprite);
-					Monsters[i].ChaceAndHit(x);
-				}
-			}
-			else if (Monsters[i].IsAlive)
-			{
-				Monsters[i].die("");
-				if (x.sprite.getPosition().y <= Monsters[i].sprite.getPosition().y)
-				{
-					window.draw(Monsters[i].sprite);
-				}
-			}
-			else if (!Monsters[i].IsAlive)
-			{
-				cout << "Erase " << i << endl;
-				x.score++;
-				enemiesch[i] = 0;
-			}
-		}
-	}
+	DrawSprite.add(x.sprite);
 }
 
 bool MonstersKill(character h)
 {
-	window.draw(h.sprite);
+	DrawSprite.add(h.sprite);
 	for (int i = 0; i < MaxMonsterSpawn; i++)
 	{
 		if (enemiesch[i] == 1)
@@ -97,7 +69,7 @@ bool MonstersKill(character h)
 			if (Monsters[i].IsAlive)
 			{
 				Monsters[i].die("");
-				window.draw(Monsters[i].sprite);
+				DrawSprite.add(Monsters[i].sprite);
 			}
 			else if (!Monsters[i].IsAlive)
 			{
@@ -121,7 +93,7 @@ bool MonstersKill(character h)
 
 
 //Window Control
-RenderWindow window(VideoMode(1680, 800), "SP_Game");
+RenderWindow window(VideoMode(1680, 900), "SP_Game");
 Vector2f WindowSize = { (float)window.getSize().x, (float)window.getSize().y };
 
 //Game Time Control
@@ -211,6 +183,15 @@ void Game::Begin()
 	{
 		DTclock.restart();
 		GameTime = GameClock.getElapsedTime().asSeconds();
+		for (int i = 0; i < WindowSize.y; i++)
+		{
+			for (int j = 0; j < DrawSprite.size(); j++)
+			{
+				if ((int)DrawSprite.pvec[j].getPosition().y == i)
+					window.draw(DrawSprite.pvec[j]);
+			}
+		}
+		DrawSprite.clear();
 
 		Event event;
 		while (window.pollEvent(event))
@@ -220,6 +201,13 @@ void Game::Begin()
 				window.close();
 			}
 		}
+
+		while (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
+			scene.skip = 1;
+			scene.typing.pause();
+		}
+
 		if (scene.scene0ch)
 		{
 			scene.scene0(FinalBoss, hero);
@@ -245,14 +233,11 @@ void Game::Begin()
 			if (FinalBoss.IsAlive && FinalBoss.health > 0)
 			{
 				FinalBoss.ChaceAndHit(hero);
-				FinalBoss.FinalBossDraw(hero);
+				DrawSprite.add(FinalBoss.sprite);
+				DrawSprite.add(hero.sprite);
 				if (FinalBoss.health < 0)
 					FinalBoss.health = 0;
-				FinalBoss.BossHealthBar.setSize({ (float)FinalBoss.health, 32.f });
-				FinalBoss.BossHealthText.setString(to_string(FinalBoss.health));
-				window.draw(FinalBoss.BossHealthBar);
-				window.draw(FinalBoss.BossHealthBarFrame);
-				window.draw(FinalBoss.BossHealthText);
+				FinalBoss.ShowHealthBar();
 			}
 			window.draw(r);
 		}
@@ -310,20 +295,21 @@ void Game::Begin()
 			{
 				hero.die("stand");
 				hero.lastKey = "down";
-				window.draw(hero.sprite);
+				DrawSprite.add(hero.sprite);
 			}
 			else
 			{
 				//GamePlay
 				if (hero.score >= 5)
 				{
+					hero.walk.pause();
 					if (MonstersKill(hero))
 					{
 						destance = {(hero.sprite.getPosition().x - WindowSize.x),(hero.sprite.getPosition().y - (WindowSize.y / 2)) };
 						if (sqrt(destance.x * destance.x + destance.y * destance.y) > 3)
 						{
 							hero.GoTo({WindowSize.x, WindowSize.y / 2});
-							window.draw(hero.sprite);
+							DrawSprite.add(hero.sprite);
 						}
 						else
 						{
@@ -372,12 +358,9 @@ void Game::Begin()
 				if (FinalBoss.IsAlive && FinalBoss.health > 0)
 				{
 					FinalBoss.ChaceAndHit(hero);
-					FinalBoss.FinalBossDraw(hero);
-					FinalBoss.BossHealthBar.setSize({ (float)FinalBoss.health, 32.f });
-					FinalBoss.BossHealthText.setString(to_string(FinalBoss.health));
-					window.draw(FinalBoss.BossHealthBar);
-					window.draw(FinalBoss.BossHealthBarFrame);
-					window.draw(FinalBoss.BossHealthText);
+					DrawSprite.add(FinalBoss.sprite);
+					DrawSprite.add(hero.sprite);
+					FinalBoss.ShowHealthBar();
 				}
 			}
 			else if (scene.scene4ch)
@@ -406,11 +389,7 @@ void Game::Begin()
 					FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
 					FinalBoss.sprite.setOrigin(32, 32);
 				}*/
-				FinalBoss.BossHealthBar.setSize({ (float)FinalBoss.health, 32.f });
-				FinalBoss.BossHealthText.setString(to_string(FinalBoss.health));
-				window.draw(FinalBoss.BossHealthBar);
-				window.draw(FinalBoss.BossHealthBarFrame);
-				window.draw(FinalBoss.BossHealthText);
+				FinalBoss.ShowHealthBar();
 				FinalBoss.die("defeated");
 				scene.scene4(FinalBoss, hero);
 			}
@@ -418,15 +397,15 @@ void Game::Begin()
 		/*else if (FinalBoss.IsAlive)
 		{
 			FinalBoss.die();
-			window.draw(FinalBoss.BossHealthBar);
-			window.draw(FinalBoss.BossHealthBarFrame);
-			window.draw(FinalBoss.BossHealthText);
-			window.draw(FinalBoss.sprite);
-			window.draw(hero.rect);
+			DrawSprite.add(FinalBoss.BossHealthBar);
+			DrawSprite.add(FinalBoss.BossHealthBarFrame);
+			DrawSprite.add(FinalBoss.BossHealthText);
+			DrawSprite.add(FinalBoss.sprite);
+			DrawSprite.add(hero.rect);
 		}
 		else if (!FinalBoss.IsAlive)
 		{
-			window.draw(hero.rect);
+			DrawSprite.add(hero.rect);
 		}*/
 		window.display();
 		window.clear();
