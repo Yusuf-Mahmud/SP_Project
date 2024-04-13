@@ -1,8 +1,20 @@
 #include "GameScenes.h"
 
-bool tch = 1, typech = 0;
+Text t[30];
+string s[30];
+int i[30];//Typing index
+
+Font f;
+bool tch = 1;
 void GameScenes::DisplayText(Text &t, string &s, int &idx, enemies& e, character& h, string talker)
 {
+	Text te;
+	te.setFont(f);
+	string ste = "Press Enter To Continue";
+	te.setString(ste);
+	te.setFillColor(Color::White);
+	te.setPosition(window.getSize().x / 2 - (te.getCharacterSize() * ste.size() / 5.f), window.getSize().y - te.getCharacterSize());
+	te.setScale(0.8, 0.8);
 	if (TextTimer < 0)
 	{
 		if (tch)
@@ -10,29 +22,28 @@ void GameScenes::DisplayText(Text &t, string &s, int &idx, enemies& e, character
 			if (typech == 0)
 				typech = 1, typing.play();
 			t.setString(t.getString() + s[idx]);
-			if (t.findCharacterPos(idx).x > window.getSize().x - 128 && s[idx] == ' ')
+			if (t.findCharacterPos(idx).x > window.getSize().x - 128 && s[idx] == ' ' && s[idx - 2] != ' ')
 				t.setString(t.getString() + '\n');
 		}
-		if (idx + 2 < s.size() && s[idx + 1] == '.' && s[idx + 2] == '.')
+		if (idx + 2 < s.size() && s[idx + 1] == '/' && s[idx + 2] == '/')
 		{
 			tch = 0;
 			typech = 0;
 			typing.stop();
-			if (s0ChatTime > 0)
-			{
-				s0ChatTime -= DeltaTime;
-				window.draw(t);
-			}
-			else
+			if (Keyboard::isKeyPressed(Keyboard::Enter))
 			{
 				tch = 1;
-				s0ChatTime = s0ChatDelay;
 				t.setString("");
 				idx += 3;
 			}
+			else
+			{
+				window.draw(t);
+				window.draw(te);
+			}
 		}
 		else if (s[idx] == ',')
-			TextTimer = TextDelay + 0.5, idx++,typech = 0, typing.stop();
+			TextTimer = ComaDelay, idx++,typech = 0, typing.stop();
 		else if (idx + 1 < s.size() && s[idx + 1] != ' ')
 			TextTimer = TextDelay, idx++;
 		else
@@ -58,71 +69,58 @@ void GameScenes::DisplayText(Text &t, string &s, int &idx, enemies& e, character
 	}
 }
 
-Font f;
-Text t0;
-string s0;
 void GameScenes::Scene0Set()
 {
 	f.loadFromFile("./res/Fonts/Vogue.ttf");
 	Btyping.loadFromFile("./res/Sounds/typing.mp3");
 	typing.setBuffer(Btyping);
-	s0 = "It all starts when i was traveling with the only person i know and trust in the whole world, everyone we meet ";
-	s0 += "thinks we are brothers, however, we are not, but i loved him as my real brother..";
-	s0 += "We were descovering the surroundings of our village until we fell in a monsters trap, i ran away whith all my strength,";
-	s0 += " I thought my brother will catch up with me, waited far away, but he did not come..";
-	s0 += "I lost my best friend back then, So I decided to avenge him at any cost and kill all those creepe monsters to relieve people from their evil..";
-	t0.setFont(f);
-	t0.setString("");
-	t0.setFillColor(Color::White);
-	t0.setPosition(32, window.getSize().y / 2 - 64);
+	for (int i = 0; i < 30; i++)
+	{
+		t[i].setFont(f);
+		t[i].setString("");
+		t[i].setFillColor(Color::White);
+		t[i].setPosition(192, window.getSize().y - 160);
+	}
+	s[0] = "It all starts when i was traveling with the only person i know and trust in the whole world, everyone we meet ";
+	s[0] += "thinks we are brothers, however, we are not, but he was like a brother to me//";
+	s[0] += "We were discovering the surroundings of our village until we fell in a monsters trap, i ran away whith all my strength,";
+	s[0] += " I thought my friend will catch up with me, i waited far away, but he did not make it//";
+	s[0] += "I lost my best friend back then, So I decided to take revenge at any cost and kill all these creepy monsters and relieve people from their evil//";
+	t[0].setPosition(32, window.getSize().y / 2 - 64);
 }
 
-int i0 = 0;
 RectangleShape screen;
 void GameScenes::scene0(enemies &e, character &h)
 {
 	screen.setSize({ (float)window.getSize().x, (float)window.getSize().y });
 	screen.setFillColor(Color::Black);
-	if (i0 < s0.size())
+	if (i[0] < s[0].size())
 	{
-		DisplayText(t0, s0, i0, e, h, "no");
+		DisplayText(t[0], s[0], i[0], e, h, "no");
 	}
-	else if (ChatTime > 0 && i0 == s0.size())
+	else if (i[0] == s[0].size())
 	{
-		ChatTime -= DeltaTime;
+		i[0]++;
 		DrawSprite.add(h.sprite); 
 		DrawSprite.add(e.sprite);
 		window.draw(HeroTalk.sprite);
 		window.draw(screen);
-		window.draw(t0);
+		window.draw(t[0]);
 	}
 	else
 	{
-		ChatTime = ChatDelay;
-		i0++;
+		i[0]++;
 		scene0ch = 0;
-	}
-	if (skip == 1)
-	{
-		ChatTime = ChatDelay;
-		i0++;
-		scene0ch = 0;
-		typing.stop();
-		skip = 0;
-		typech = 0;
-		typing.stop();
 	}
 }
 
-Text t1;
-string s1;
 void GameScenes::Scene1Set(enemies &e, character &h)
 {
 	FinalBossTalk.set(86, window.getSize().y - 128, 0, "FinalBoss", "NoShadow", "NoShield");
 	FinalBossTalk.sprite.setOrigin(32, 32);
 	FinalBossTalk.sprite.setScale(4, 4);
 	HeroTalk.who = h.who;
-	HeroTalk.set(86, WindowSize.y - 128, 130);
+	HeroTalk.set(86, WindowSize.y - 128);
 	HeroTalk.sprite.setOrigin(32, 32);
 	HeroTalk.sprite.setScale(4, 4);
 	e.sprite.setOrigin(32, 32);
@@ -131,11 +129,7 @@ void GameScenes::Scene1Set(enemies &e, character &h)
 	h.sprite.setOrigin(32, 32);
 	h.sprite.setPosition((float)window.getSize().x / 4, (float)window.getSize().y / 2);
 	h.sprite.setTextureRect(IntRect(0, WalkRightIndex, 64, 64));
-	s1 = "Ah, He is so strong..";
-	t1.setFont(f);
-	t1.setString("");
-	t1.setFillColor(Color::White);
-	t1.setPosition(192, window.getSize().y - 160);
+	s[1] = "Ah, He is so strong//";
 }
 
 int che = 1, ieye = 255;
@@ -179,7 +173,6 @@ void GameScenes::blink()
 	window.draw(eye);
 }
 
-int i1 = 0;
 void GameScenes::scene1(enemies &e, character &h)
 {
 	if (IsBlinking)
@@ -188,71 +181,31 @@ void GameScenes::scene1(enemies &e, character &h)
 		window.draw(e.sprite);
 		blink();
 	}
-	else if (i1 < s1.size())
+	else if (i[1] < s[1].size())
 	{
-		ChatTime = ChatDelay;
-		DisplayText(t1, s1, i1, e, h, "hero");
-	}
-	else if (ChatTime > 0 && i1 == s1.size() && t1.getString() != "")
-	{
-		ChatTime -= DeltaTime;
-		DrawSprite.add(h.sprite);
-		DrawSprite.add(e.sprite);
-		window.draw(HeroTalk.sprite);
-		window.draw(t1);
+		 
+		DisplayText(t[1], s[1], i[1], e, h, "hero");
 	}
 	else
 	{
-		ChatTime = ChatDelay;
-		i1++;
+		 
+		i[1]++;
 		ieye = 255, che = 1,EyeDelay = 0.009, IsBlinking = true;
 		scene1ch = 0;
 	}
-	if (skip == 1)
-	{
-		ChatTime = ChatDelay;
-		i1++;
-		ieye = 255, che = 1, EyeDelay = 0.009, IsBlinking = true;
-		scene1ch = 0;
-		typing.stop();
-		skip = 0;
-		typech = 0;
-		typing.stop();
-	}
 }
 
-Text t2, t3, t4, t4_5, t5;
-string s2, s3, s4, s4_5, s5;
 void GameScenes::Scene2Set()
 {
-	s2 = "Do you think you can Defeat me, hhh, You are a useles pathetic weak hero who does not even deserve to be killed by my blade..";
-	s3 = "Egh, i will take revenge on my brother and defeat you at any cost..";
-	s4 = "HHHH, your brother is still alive, but you will never see him again..";
-	s4_5 = "What do you meen?!";
-	s5 = "HaHaHaHa, FareWell, Hero!..";
-	t2.setFont(f);
-	t3.setFont(f);
-	t4.setFont(f);
-	t4_5.setFont(f);
-	t5.setFont(f);
-	t2.setString("");
-	t3.setString("");
-	t4.setString("");
-	t4_5.setString("");
-	t5.setString("");
-	t2.setFillColor(Color::White);
-	t3.setFillColor(Color::White);
-	t4.setFillColor(Color::White);
-	t4_5.setFillColor(Color::White);
-	t5.setFillColor(Color::White);
-	t2.setPosition(192, window.getSize().y - 160);
-	t3.setPosition(192, window.getSize().y - 160);
-	t4.setPosition(192, window.getSize().y - 160);
-	t4_5.setPosition(192, window.getSize().y - 160);
-	t5.setPosition(window.getSize().x / 2 - 254, window.getSize().y / 2);
+	s[2] = "Do you think you can Defeat me, hhh, You are a useles pathetic weak hero who does not even deserve to be killed by my blade//";
+	s[3] = "Egh, i will take revenge on my friend and defeat you at any cost//";
+	s[4] = "HHHH, your friend is still alive, but you will never see him again//";
+	s[5] = "What do you meen?!";
+	s[6] = "HaHaHaHa, FareWell, Hero!//";
+	t[6].setPosition(window.getSize().x / 2 - (t[6].getCharacterSize() * s[6].size() / 4.f), window.getSize().y / 2 - (t[6].getCharacterSize() / 2.f));
 }
 
-int i2 = 0, i3 = 0, i4 = 0, i4_5 = 0, i5 = 0, inap = 0;
+int inap = 0;
 float NapTimer = 0, NapDelay = 0.015;
 RectangleShape nap;
 void GameScenes::scene2(enemies& e, character& h)
@@ -262,62 +215,32 @@ void GameScenes::scene2(enemies& e, character& h)
 		nap.setSize({ (float)window.getSize().x, (float)window.getSize().y });
 		nap.setFillColor(Color(0, 0, 0, inap));
 		HeroTalk.sprite.setTextureRect(IntRect(64 * 3, 64 * 20, 64, 64));
-		if (i2 < s2.size())
+		if (i[2] < s[2].size())
 		{
-			ChatTime = ChatDelay;
-			DisplayText(t2, s2, i2, e, h, "FinalBoss");
+			DisplayText(t[2], s[2], i[2], e, h, "FinalBoss");
 		}
-		else if (ChatTime > 0 && i2 == s2.size() && t2.getString() != "")
+		else if (i[3] < s[3].size())
 		{
-			ChatTime -= DeltaTime;
-			e.FinalBossDraw(h);
-			window.draw(FinalBossTalk.sprite);
-			window.draw(t2);
+			DisplayText(t[3], s[3], i[3], e, h, "hero");
 		}
-		else if (i3 < s3.size())
+		else if (i[4] < s[4].size())
 		{
-			ChatTime = ChatDelay;
-			i2++;
-			DisplayText(t3, s3, i3, e, h, "hero");
+			DisplayText(t[4], s[4], i[4], e, h, "FinalBoss");
 		}
-		else if (ChatTime > 0 && i3 == s3.size() && t3.getString() != "")
+		else if (i[5] < s[5].size())
 		{
-			ChatTime -= DeltaTime;
-			e.FinalBossDraw(h);
-			window.draw(HeroTalk.sprite);
-			window.draw(t3);
-		}
-		else if (i4 < s4.size())
-		{
-			ChatTime = ChatDelay;
-			i3++;
-			DisplayText(t4, s4, i4, e, h, "FinalBoss");
-		}
-		else if (ChatTime > 0 && i4 == s4.size() && t4.getString() != "")
-		{
-			ChatTime -= DeltaTime;
-			e.FinalBossDraw(h);
-			window.draw(FinalBossTalk.sprite);
-			window.draw(t4);
-		}
-		else if (i4_5 < s4_5.size())
-		{
-			ChatTime = ChatDelay;
-			i4++;
-			TextDelay = 0.15;
-			DisplayText(t4_5, s4_5, i4_5, e, h, "hero");
-
+			TextDelay = SlowTextDelay;
+			DisplayText(t[5], s[5], i[5], e, h, "hero");
 		}
 		else if (h.IsAlive)
 		{
-			typing.pause();
+			typing.stop();
+			typech = 0;
 			h.die("");
 			HeroTalk.sprite.setTextureRect(h.sprite.getTextureRect());
 			e.FinalBossDraw(h);
 			window.draw(HeroTalk.sprite);
-			if (t4_5.getString() == "")
-				t4_5.setString(s4_5);
-			window.draw(t4_5);
+			window.draw(t[5]);
 		}
 		else if (!h.IsAlive)
 		{
@@ -336,32 +259,18 @@ void GameScenes::scene2(enemies& e, character& h)
 				}
 				e.FinalBossDraw(h);
 				window.draw(HeroTalk.sprite);
-				window.draw(t4_5);
+				window.draw(t[5]);
 				window.draw(nap);
 			}
-			else if (ChatTime > 0 && inap == 255)
+			else if (i[6] < s[6].size())
 			{
-				ChatTime -= DeltaTime;
-				e.FinalBossDraw(h);
 				window.draw(nap);
-			}
-			else if (i5 < s5.size())
-			{
-				inap++;
-				ChatTime = ChatDelay;
-				window.draw(nap);
-				DisplayText(t5, s5, i5, e, h, "no");
-			}
-			else if (ChatTime > 0 && i5 == s5.size() && t5.getString() != "")
-			{
-				ChatTime -= DeltaTime;
-				window.draw(nap);
-				window.draw(t5);
+				DisplayText(t[6], s[6], i[6], e, h, "no");
 			}
 			else
 			{
-				ChatTime = ChatDelay;
-				i5++;
+				TextDelay = InitTextDelay;
+				i[6]++;
 				HeroTalk.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
 				scene2ch = 0;
 			}
@@ -371,170 +280,74 @@ void GameScenes::scene2(enemies& e, character& h)
 	{
 		e.FinalBossDraw(h);
 	}
-	if (skip == 1)
-	{
-		ChatTime = ChatDelay;
-		i5++;
-		h.IsAlive = 0;
-		h.IsStanding = 0;
-		h.DeathI = 5;
-		h.sprite.setTextureRect(IntRect(64 * 5, 64 * 20, 64, 64));
-		HeroTalk.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
-		scene2ch = 0;
-		typing.stop();
-		skip = 0;
-		typech = 0;
-		typing.stop();
-	}
 }
 
-Text t6, t7, t8;
-string s6, s7, s8;
 void GameScenes::Scene3Set()
 {
-	s6 = "hmm, So you survived against my small monsters, hero..";
-	s7 = "I defeated them all, and now it is your turn, i will defeat you and get my brother back..";
-	s8 = "hahaha, come to your death you fool..";
-	t6.setFont(f);
-	t7.setFont(f);
-	t8.setFont(f);
-	t6.setString("");
-	t7.setString("");
-	t8.setString("");
-	t6.setFillColor(Color::White);
-	t7.setFillColor(Color::White);
-	t8.setFillColor(Color::White);
-	t6.setPosition(192, window.getSize().y - 160);
-	t7.setPosition(192, window.getSize().y - 160);
-	t8.setPosition(192, window.getSize().y - 160);
+	s[7] = "hmm, So you survived my small monsters, hero//";
+	s[8] = "I defeated them all, and now it is your turn, i will defeat you and get my friend back//";
+	s[9] = "hahaha, come to your death you fool//";
 }
 
-int i6 = 0, i7 = 0, i8 = 0;
-Vector2f Destance;
 void GameScenes::scene3(enemies& e, character& h)
 {
-	Destance = { (h.sprite.getPosition().x - ((float)window.getSize().x / 4)),(h.sprite.getPosition().y - ((float)window.getSize().y / 2)) };
-	if (sqrt(Destance.x * Destance.x + Destance.y * Destance.y) > 3)
+	if (!h.arrive)
 	{
-		h.GoTo({ ((float)window.getSize().x / 4), ((float)window.getSize().y / 2) });
+		h.GoTo({ ((float)window.getSize().x / 4), ((float)window.getSize().y / 2) }, 3, 200);
 		DrawSprite.add(h.sprite); 
 		DrawSprite.add(e.sprite);
 	}
-	else if (i6 < s6.size())
+	else if (i[7] < s[7].size())
 	{
-		h.walk.pause();
-		ChatTime = ChatDelay;
 		e.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
 		h.sprite.setTextureRect(IntRect(0, WalkRightIndex, 64, 64));
-		DisplayText(t6, s6, i6, e, h, "FinalBoss");
+		DisplayText(t[7], s[7], i[7], e, h, "FinalBoss");
 	}
-	else if (ChatTime > 0 && i6 == s6.size() && t6.getString() != "")
+	else if (i[8] < s[8].size())
 	{
-		ChatTime -= DeltaTime;
-		DrawSprite.add(h.sprite); 
-		DrawSprite.add(e.sprite);
-		window.draw(FinalBossTalk.sprite);
-		window.draw(t6);
+		 
+		i[7]++;
+		DisplayText(t[8], s[8], i[8], e, h, "hero");
 	}
-	else if (i7 < s7.size())
+	else if (i[9] < s[9].size())
 	{
-		ChatTime = ChatDelay;
-		i6++;
-		DisplayText(t7, s7, i7, e, h, "hero");
-	}
-	else if (ChatTime > 0 && i7 == s7.size() && t7.getString() != "")
-	{
-		ChatTime -= DeltaTime;
-		DrawSprite.add(h.sprite); 
-		DrawSprite.add(e.sprite);
-		window.draw(HeroTalk.sprite);
-		window.draw(t7);
-	}
-	else if (i8 < s8.size())
-	{
-		ChatTime = ChatDelay;
-		i7++;
-		DisplayText(t8, s8, i8, e, h, "FinalBoss");
-	}
-	else if (ChatTime > 0 && i8 == s8.size() && t8.getString() != "")
-	{
-		ChatTime -= DeltaTime;
-		DrawSprite.add(h.sprite); 
-		DrawSprite.add(e.sprite);
-		window.draw(FinalBossTalk.sprite);
-		window.draw(t8);
+		 
+		i[8]++;
+		DisplayText(t[9], s[9], i[9], e, h, "FinalBoss");
 	}
 	else
 	{
-		ChatTime = ChatDelay;
-		i8++;
+		 
+		i[9]++;
 		scene3ch = 0;
-	}
-	if (skip == 1)
-	{
-		ChatTime = ChatDelay;
-		i8++;
-		scene3ch = 0;
-		typing.stop();
-		skip = 0;
-		typech = 0;
-		typing.stop();
+		h.arrive = 0;
 	}
 }
 
-Text t9, t10;
-string s9, s10;
 void GameScenes::Scene4Set()
 {
-	s9 = "Okay Okay, you are strong, you win, i will take you to your friend..";
-	s10 = "hh, you better do..";
-	t9.setFont(f);
-	t10.setFont(f);
-	t9.setString("");
-	t10.setString("");
-	t9.setFillColor(Color::White);
-	t10.setFillColor(Color::White);
-	t9.setPosition(192, window.getSize().y - 160);
-	t10.setPosition(192, window.getSize().y - 160);
+	s[10] = "Okay Okay, you are strong, you win, i will take you to your friend//";
+	s[11] = "hh, you better do//";
 }
 
-int i9 = 0, i10 = 0;
 void GameScenes::scene4(enemies& e, character& h)
 {
 	if (!e.IsStanding)
 	{
 		FinalBossTalk.sprite.setTextureRect(IntRect(64 * 3, 64 * 20, 64, 64));
-		if (i9 < s9.size())
+		if (i[10] < s[10].size())
 		{
-			ChatTime = ChatDelay;
-			DisplayText(t9, s9, i9, e, h, "FinalBoss");
+			 
+			DisplayText(t[10], s[10], i[10], e, h, "FinalBoss");
 		}
-		else if (ChatTime > 0 && i9 == s9.size() && t9.getString() != "")
+		else if (i[11] < s[11].size())
 		{
-			ChatTime -= DeltaTime;
-			DrawSprite.add(h.sprite); 
-			DrawSprite.add(e.sprite);
-			window.draw(FinalBossTalk.sprite);
-			window.draw(t9);
-		}
-		else if (i10 < s10.size())
-		{
-			ChatTime = ChatDelay;
-			i9++;
-			DisplayText(t10, s10, i10, e, h, "hero");
-		}
-		else if (ChatTime > 0 && i10 == s10.size() && t10.getString() != "")
-		{
-			ChatTime -= DeltaTime;
-			DrawSprite.add(h.sprite); 
-			DrawSprite.add(e.sprite);
-			window.draw(HeroTalk.sprite);
-			window.draw(t10);
+			i[10]++;
+			DisplayText(t[11], s[11], i[11], e, h, "hero");
 		}
 		else
 		{
-			ChatTime = ChatDelay;
-			i10++;
+			i[11]++;
 			FinalBossTalk.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
 			scene4ch = false;
 		}
@@ -544,17 +357,366 @@ void GameScenes::scene4(enemies& e, character& h)
 		DrawSprite.add(h.sprite); 
 		DrawSprite.add(e.sprite);
 	}
-	if (skip == 1)
+}
+
+Sprite FakeBrother;
+Texture t1FakeBrother, t2FakeBrother;
+void GameScenes::Scene5Set()
+{
+	t1FakeBrother.loadFromFile("./res/enemies/FakeBrother/NoShadow/CoverWeapon/FakeBrother.png");
+	t2FakeBrother.loadFromFile("./res/enemies/FakeBrother/NoShadow/NoCoverWeapon/FakeBrother.png");
+	FakeBrother.setTexture(t1FakeBrother);
+	FakeBrother.setOrigin(32, 32);
+	FakeBrother.setScale(1.5, 1.5);
+	FakeBrother.setTextureRect(IntRect(0, 64 * 8, 64, 64));
+	FakeBrother.setPosition(WindowSize.x / 2, WindowSize.y / 2 + 50);
+	s[12] = "Siltara, Brother, Are you okay?//";
+	s[13] = "A Zombie?, Where is My friend you freaking pumpkin head??//";
+	s[14] = "hhhhhhhhhh, hahahaha, aah hero, my friend, my best friend, What you were looking for was always infront of you//";
+	s[15] = "Siltara???????!//";
+	s[16] = "Yes friend, it is me//";
+	s[17] = "but, how?, why??//";
+	s[18] = "Why?!, Are you asking me Why??!, dont you know what you have done to me, dont you know what happened after you ";
+	s[18] += "ran away that day and left me behind//";
+	s[19] = "you left me to my death and ran away from some weak monsters, we could have killed them and survived that ";
+	s[19] += "sitiuation together, but because of your cowrdness I am who i am today//";
+	s[20] = "Sorry Siltara, but my fear defeated me, i didnt realize what was happening until I was far away from you, forgive me//";
+	s[21] = "A useless pathetic excuse just like you, No forgiveness today brother, my only cure is to step on your dead body//";
+	s[22] = "Sorry siltara, But i wont let you kill me today//";
+	s[23] = "hhhhhh, we will see, my old friend//";
+}
+
+bool chw = 0, chh = 1, ttch = 1, IsFBalive = 1, ach = 1, bch = 1, cch = 1;
+float AnemationTimer = 0, AnemationDelay = 0.03;
+float HitTimer = 0, HitSpeed = 0.045;
+float DeathTimer = 0, DeathDelay = 0.7;
+int heroi = 6, FBi = 0, Deathi = 0;
+void GameScenes::scene5(enemies& e, character& h)
+{
+	if (!e.IsStanding)
 	{
-		ChatTime = ChatDelay;
-		i10++;
-		e.IsStanding = 0;
-		h.sprite.setTextureRect(IntRect(64 * 3, 64 * 20, 64, 64));
-		FinalBossTalk.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
-		scene4ch = false;
+		e.die("stand");
+		e.FinalBossDraw(h);
+	}
+	else if (!e.arrive && ach)
+	{
+		e.GoTo({ WindowSize.x / 2, WindowSize.y }, 300);
+		e.FinalBossDraw(h);
+	}
+	else if (!h.arrive && chw == 0)
+	{
+		e.sprite.setPosition(WindowSize.x / 2 + 100, 100);
+		ach = 0;
+		e.arrive = 0;
+		e.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+		h.GoTo({ WindowSize.x / 2, WindowSize.y }, 3, 300);
+		window.draw(h.sprite);
+	}
+	else if (i[12] < s[12].size())
+	{
+		if (h.weapon != "LongSword")
+			h.ChangeWeapon("LongSword");
+		h.sprite.setPosition(WindowSize.x / 2, 30);
+		h.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+		DrawSprite.add(FakeBrother);
+		DisplayText(t[12], s[12], i[12], e, h, "hero");
+		h.arrive = 0;
+		chw = 1;
+	}
+	else if (!h.arrive && bch)
+	{
+		h.GoTo({ WindowSize.x / 2, WindowSize.y / 2}, 3, 300);
+		DrawSprite.add(FakeBrother);
+		DrawSprite.add(h.sprite);
+		DrawSprite.add(e.sprite);
+	}
+	else if (heroi < 5 || chh)
+	{
+		bch = 0;
+		h.arrive = 0;
+		if (heroi > 0 && chh)
+		{
+			if (ttch)
+				FakeBrother.setTexture(t2FakeBrother), ttch = 0;
+			if (AnemationTimer < 0 && heroi > 0)
+			{
+
+				heroi--;
+				h.sprite.setTextureRect(IntRect(heroi * 64, WalkDownIndex, 64, 64));
+				h.sprite.setOrigin(64 / 2.f, 64 / 2.f);
+				AnemationTimer = AnemationDelay;
+			}
+			else 
+			{
+				AnemationTimer -= DeltaTime;
+			}
+			h.sprite.move(0, -110 * DeltaTime);
+		}
+		else 
+			chh = 0;
+		if (HitTimer < 0 && FBi < 5)
+		{
+			FBi++;
+			FBi %= 6;
+			FakeBrother.setTextureRect(IntRect(64 * FBi, 64 * 12, 64, 64));
+			HitTimer = HitSpeed;
+		}
+		else
+		{
+			HitTimer -= DeltaTime;
+		}
+		if (!chh && FBi == 5)
+		{
+			HitSpeed = 0.2;
+			if (HitTimer < 0)
+			{
+				heroi++;
+				heroi %= 6;
+				h.sprite.setTextureRect(IntRect(heroi * 192, HitDownIndex, 192, 192));
+				h.sprite.setOrigin(95, 95);
+				HitTimer = HitSpeed;
+			}
+			else {
+				HitTimer -= DeltaTime;
+			}
+		}
+		DrawSprite.add(FakeBrother);
+		DrawSprite.add(h.sprite);
+		DrawSprite.add(e.sprite);
+	}
+	else if (IsFBalive)
+	{
+		h.sprite.setTextureRect(IntRect(0, WalkDownIndex, 64, 64));
+		h.sprite.setOrigin(32, 32);
+		if (DeathTimer < 0)
+		{
+			Deathi++;
+			Deathi %= 6;
+			FakeBrother.setTextureRect(IntRect(64 * Deathi, 64 * 20, 64, 64));
+			FakeBrother.setOrigin(32, 32);
+			DeathTimer = DeathDelay;
+			if (Deathi == 5)
+				IsFBalive = 0;
+		}
+		else
+		{
+			DeathTimer -= DeltaTime;
+		}
+		DrawSprite.add(FakeBrother);
+		DrawSprite.add(h.sprite);
+		DrawSprite.add(e.sprite);
+	}
+	else if (i[13] < s[13].size())
+	{
+		h.sprite.setTextureRect(IntRect(0, WalkUpIndex, 64, 64));
+		i[12]++;
+		DisplayText(t[13], s[13], i[13], e, h, "hero");
+	}
+	else if (i[14] < s[14].size())
+	{
+		i[13]++;
+		DisplayText(t[14], s[14], i[14], e, h, "FinalBoss");
+	}
+	else if (!e.arrive)
+	{
+		e.GoTo({ WindowSize.x / 2, 0 }, 300);
+		e.FinalBossDraw(h);
+	}
+	else if (!h.arrive && cch)
+	{
+		h.GoTo({ WindowSize.x / 2, 0 }, 3, 300);
+		DrawSprite.add(h.sprite);
+	}
+	else if (h.arrive && cch)
+	{
+		e.set(WindowSize.x / 2, 100, 1000, "FinalBoss", "NoShadow", "Shield");
+		h.sprite.setPosition(WindowSize.x / 2, WindowSize.y);
+		e.sprite.setTextureRect(IntRect(0, WalkUpIndex, 64, 64));
+		FinalBossTalk.sprite.setTexture(e.SpriteTexture);
+		FinalBossTalk.sprite.setTextureRect(IntRect(0, WalkDownIndex, 64, 64));
+		cch = 0;
+		h.arrive = 0;
+	}
+	else if (!h.arrive)
+	{
+		h.GoTo({ WindowSize.x / 2, WindowSize.y / 2 + 100 }, 3, 300);
+		e.FinalBossDraw(h);
+	}
+	else if (i[15] < s[15].size())
+	{
+		e.sprite.setTextureRect(IntRect(0, WalkDownIndex, 64, 64));
+		DisplayText(t[15], s[15], i[15], e, h, "hero");
+	}
+	else if (i[16] < s[16].size())
+	{
+		i[15]++;
+		DisplayText(t[16], s[16], i[16], e, h, "FinalBoss");
+	}
+	else if (i[17] < s[17].size())
+	{
+		i[16]++;
+		DisplayText(t[17], s[17], i[17], e, h, "hero");
+	}
+	else if (i[18] < s[18].size())
+	{
+		i[17]++;
+		DisplayText(t[18], s[18], i[18], e, h, "FinalBoss");
+	}
+	else if (i[19] < s[19].size())
+	{
+		i[18]++;
+		DisplayText(t[19], s[19], i[19], e, h, "FnalBoss");
+	}
+	else if (i[20] < s[20].size())
+	{
+		i[19]++;
+		DisplayText(t[20], s[20], i[20], e, h, "hero");
+	}
+	else if (i[21] < s[21].size())
+	{
+		i[20]++;
+		DisplayText(t[21], s[21], i[21], e, h, "FinalBoss");
+	}
+	else if (i[22] < s[22].size())
+	{
+		i[21]++;
+		DisplayText(t[22], s[22], i[22], e, h, "hero");
+	}
+	else if (i[23] < s[23].size())
+	{
+		i[22]++;
+		DisplayText(t[23], s[23], i[23], e, h, "FinalBoss");
+	}
+	else
+		scene5ch = 0;
+}
+
+void GameScenes::Scene6Set(character h)
+{
+	s[24] = "Why do you keep avoiding my attacks and run away without killing me, dont tell me you are afraid of killing a human//";
+	s[25] = "Siltara, I cant kill my best friend becuse of some stupid act he did as a reaction on my betrayal, ";
+	s[25] += "it was my fault Siltara, and you have all the right to be mad, but forgive me please, i know you still have kindness inside//";
+	s[26] = "But i threw you to the monsters and tried to kill you many times, I cant stop now after all what i have done//";
+	s[27] = "No Siltara, you can, you tried to kill me but i am stell alive, and that all what mater, We can always ";
+	s[27] += "regret our mistakes and correct them";
+	s[28] = "Come here Siltara, I know its been tough while you were alone all this years//";
+	s[29] = h.who + "..........//";
+	t[29].setString("Siltara: ");
+	t[28].setPosition(32, WindowSize.y / 2 - t[28].getCharacterSize() / 2);
+	t[29].setPosition(window.getSize().x / 2 - (t[6].getCharacterSize() * (s[6].size()) / 4.f), window.getSize().y / 2 - (t[6].getCharacterSize() / 2.f));
+}
+
+int iCS = 0;
+float CSTimer = 0, CSDelay = 0.015;
+RectangleShape CS;
+void GameScenes::scene6(enemies& e, character& h)
+{
+	if (i[24] < s[24].size())
+	{
+		h.arrive = 0;
+		Vector2f* pDestance = new Vector2f(VectorDistanceBetween(h.sprite, e.sprite));
+		if ((*pDestance).x > (*pDestance).y && abs((*pDestance).x) > abs((*pDestance).y))
+		{
+			e.sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
+			e.sprite.setOrigin(32, 32);
+		}
+		if ((*pDestance).y > (*pDestance).x && abs((*pDestance).y) > abs((*pDestance).x))
+		{
+			e.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+			e.sprite.setOrigin(32, 32);
+		}
+		if ((*pDestance).y > (*pDestance).x && abs((*pDestance).x) > abs((*pDestance).y))
+		{
+			e.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
+			e.sprite.setOrigin(32, 32);
+		}
+		if ((*pDestance).x > (*pDestance).y && abs((*pDestance).y) > abs((*pDestance).x))
+		{
+			e.sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
+			e.sprite.setOrigin(32, 32);
+		}
+		Vector2f* p2Destance = new Vector2f(VectorDistanceBetween(e.sprite, h.sprite));
+		if ((*p2Destance).x > (*p2Destance).y && abs((*p2Destance).x) > abs((*p2Destance).y))
+		{
+			h.sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
+			h.sprite.setOrigin(32, 32);
+		}
+		if ((*p2Destance).y > (*p2Destance).x && abs((*p2Destance).y) > abs((*p2Destance).x))
+		{
+			h.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+			h.sprite.setOrigin(32, 32);
+		}
+		if ((*p2Destance).y > (*p2Destance).x && abs((*p2Destance).x) > abs((*p2Destance).y))
+		{
+			h.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
+			h.sprite.setOrigin(32, 32);
+		}
+		if ((*p2Destance).x > (*p2Destance).y && abs((*p2Destance).y) > abs((*p2Destance).x))
+		{
+			h.sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
+			h.sprite.setOrigin(32, 32);
+		}
+		delete p2Destance;
+		p2Destance = NULL;
+		delete pDestance;
+		pDestance = NULL;
+		i[23]++;
+		DisplayText(t[24], s[24], i[24], e, h, "FinalBoss");
+	}
+	else if (i[25] < s[25].size())
+	{
+		i[24]++;
+		DisplayText(t[25], s[25], i[25], e, h, "hero");
+	}
+	else if (i[26] < s[26].size())
+	{
+		if (!h.arrive)
+			h.GoTo(e.sprite.getPosition(), 15, 100);
+		e.die("defeated");
+		FinalBossTalk.sprite.setTextureRect(e.sprite.getTextureRect());
+		i[25]++;
+		DisplayText(t[26], s[26], i[26], e, h, "FinalBoss");
+	}
+	else if (i[27] < s[27].size())
+	{
+		if (!h.arrive)
+			h.GoTo(e.sprite.getPosition(), 15, 100);
+		i[26]++;
+		DisplayText(t[27], s[27], i[27], e, h, "hero");
+	}
+	else if (iCS < 255)
+	{
 		typing.stop();
-		skip = 0;
 		typech = 0;
-		typing.stop();
+		CS.setSize({ (float)window.getSize().x, (float)window.getSize().y });
+		CS.setFillColor(Color(0, 0, 0, iCS));
+		if (CSTimer < 0)
+		{
+			iCS++;
+			CSTimer = CSDelay;
+		}
+		else
+		{
+			CSTimer -= DeltaTime;
+		}
+		e.FinalBossDraw(h);
+		window.draw(HeroTalk.sprite);
+		window.draw(t[27]);
+		window.draw(CS);
+	}
+	else if (i[28] < s[28].size())
+	{
+		i[27]++;
+		DisplayText(t[28], s[28], i[28], e, h, "no");
+	}
+	else if (i[29] < s[29].size())
+	{
+		i[28]++;
+		DisplayText(t[29], s[29], i[29], e, h, "no");
+	}
+	else
+	{
+		scene6ch = 0;
+		i[29]++;
 	}
 }

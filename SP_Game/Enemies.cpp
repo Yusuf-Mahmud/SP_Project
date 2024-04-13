@@ -106,6 +106,7 @@ void enemies::move(string x)
 		}
 	}
 }
+
 void enemies::die(string x)
 {
 	if (x == "defeated")
@@ -120,7 +121,7 @@ void enemies::die(string x)
 				sprite.setOrigin(32, 32);
 				DeathTimer = DeathDelay;
 				if (Deathi == 3)
-					IsStanding = false, Deathi = 0;
+					IsStanding = false;
 			}
 			else
 			{
@@ -165,6 +166,7 @@ void enemies::die(string x)
 		}
 	}
 }
+
 void enemies::hit(string x, int& h)
 {
 	if (x == "up")
@@ -223,7 +225,7 @@ void enemies::hit(string x, int& h)
 		{
 			HitTimer -= DeltaTime;
 		}
-		}
+	}
 	else if (x == "right")
 	{
 		if (HitTimer < 0)
@@ -246,11 +248,12 @@ void enemies::hit(string x, int& h)
 }
 
 //Go To some sprite
-void enemies::GoTo(Sprite x)
+void enemies::GoTo(Vector2f x, float s)
 {
-	ChaseDestance = (x.getPosition() - (sprite.getPosition()));
+	ChaseDestance = (x - (sprite.getPosition()));
 	if (sqrt(ChaseDestance.x * ChaseDestance.x + ChaseDestance.y * ChaseDestance.y) > 3)
 	{
+		arrive = 0;
 		if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
 			move("right");
 		if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
@@ -259,8 +262,10 @@ void enemies::GoTo(Sprite x)
 			move("left");
 		if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
 			move("up");
-		sprite.move(normalize(ChaseDestance) * speed * DeltaTime);
+		sprite.move(normalize(ChaseDestance) * s * DeltaTime);
 	}
+	else
+		arrive = 1;
 }
 
 //Chasing Function

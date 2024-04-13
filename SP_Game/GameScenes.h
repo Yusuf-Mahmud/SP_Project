@@ -3,9 +3,15 @@
 
 struct GameScenes
 {
+	//Text appearance Control
+	float InitTextDelay = 0.045, ComaDelay = 0.5; //Typing Speed
+	float SlowTextDelay = 0.2; //While being defeated in scene 2
+
+
+	//Constants
 	bool IsBlinking = 1, scene0ch = 1, scene1ch = 1, scene2ch = 1, scene3ch = 1, scene4ch = 1,
-		 skip = 0;
-	float TextTimer = 0.085, TextDelay = 0.085, ChatTime = 2, ChatDelay = 2, s0ChatTime = 2, s0ChatDelay = 2;
+		 scene5ch = 1, typech = 0, scene6ch = 1;
+	float TextTimer = 0.085, TextDelay = InitTextDelay;
 	SoundBuffer Btyping;
 	Sound typing;
 	enemies FinalBossTalk;
@@ -23,4 +29,8 @@ struct GameScenes
 	void scene3(enemies&, character&);
 	void Scene4Set();
 	void scene4(enemies&, character&);
+	void Scene5Set();
+	void scene5(enemies&, character&);
+	void Scene6Set(character);
+	void scene6(enemies&, character&);
 };
