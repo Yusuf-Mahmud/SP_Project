@@ -12,24 +12,6 @@ extern Vector2f WindowSize;
 extern float DeltaTime;
 extern int GameTime;
 
-// walking to right start frame
-extern const int WalkRightIndex;
-// walking to left start frame
-extern const int WalkLeftIndex;
-// walking up start frame
-extern const int WalkUpIndex;
-// walking down start frame
-extern const int WalkDownIndex;
-
-//Hit Right Start Frame
-extern const int HitRightIndex;
-//Hit Left Start Frame
-extern const int HitLeftIndex;
-//Hit Up Start Frame
-extern const int HitUpIndex;
-//Hit Down Start Frame
-extern const int HitDownIndex;
-
 //Press Control
 extern float PressTimer, PressDelay;
 

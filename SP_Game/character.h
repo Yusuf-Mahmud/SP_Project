@@ -5,36 +5,65 @@
 struct character
 {
 	//Stamina Control
-	int stamina = 100, MaxStamina = 100;//Initial Stamina
+	int stamina = 500;//Initial Stamina
 	float StaminaConsumtionTime = 0, StaminaConsumtionDelay = 0.01;
 	float StaminaRestoreTime = 0, StaminaRestoreDelay = 0.1;
 
 	//Speed Control
-	float walk = 150, speed = walk;//Initial Speed
+	float walk = 150;//Initial Speed
 	float run = walk + (walk * (50.0 / 100));
 
 	//Helth Control
-	int health = 20, MaxHealth = 100;//Initial Health
+	int health = 1000;//Initial Health
 	float HealthRestoreTime = 0, HealthRestoreDelay = 0.1;
 
 	//Hit Control
-	int damage = 100, HitDistance = 60;
+	int damage = 20, HitDistance = 60;
 	float HitSpeed = 0.1f;
 
 	//Death Control
 	float DeathDelay = 0.5;
 
+	//Hero Scales
+	Vector2f scale = { WindowSize.x / 711.1f, WindowSize.y / 400.f };
+
+	//Sprite Sheet Size
+	Vector2f WalkSize = { 64, 64 };
+	Vector2f DieSize = { 64, 64 };
+	Vector2f HitSize = { 192, 192 };
+	int NumOfWalkFrames = 9;
+	int NumOfHitFrames = 6;
+
+	// walking to right start frame
+	const int WalkRightIndex = 11 * WalkSize.y;
+	// walking to left start frame
+	const int WalkLeftIndex = 9 * WalkSize.y;
+	// walking up start frame
+	const int WalkUpIndex = 8 * WalkSize.y;
+	// walking down start frame
+	const int WalkDownIndex = 10 * WalkSize.y;
+	//Dieing index
+	const int DieIndex = 20 * WalkSize.y;
+
+	//Hiting Right Start Frame
+	const int HitRightIndex = 21 * WalkSize.y + 3 * HitSize.y;
+	//Hiting Left Start Frame
+	const int HitLeftIndex = 21 * WalkSize.y + 1 * HitSize.y;
+	//Hiting Up Start Frame
+	const int HitUpIndex = 21 * WalkSize.y + 0 * HitSize.y;
+	//Hiting Down Start Frame
+	const int HitDownIndex = 21 * WalkSize.y + 2 * HitSize.y;
+
 
 	//Not Controls (Don't touch)
-	int score = 0, var;
+	int score = 0, var /*Dealing Damage Handling Variable*/, MaxStamina = stamina, MaxHealth = health;
 	bool IsAlive = 0, IsWeapon = 0, IsWalking = 0, IsAttacking = 0, IsStanding = 1, arrive = 0;
-	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0;
+	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0, speed = walk;
 	int AnimationI = 0, HitI = 0, DeathI = 0;
 	float AnemationDelay = 10 / speed;
 
-	string who, weapon = "Saber", shadow = "NoShadow", lastKey, state = "sleep";
-	Vector2i HeroSize = { 64, 64 };
-	Vector2f scale = { 1.5, 1.5 };
+	string who, weapon = "Saber", shadow = "NoShadow", lastKey, state = "Defeated";
+	Vector2f HeroSize = WalkSize;
 	Sprite sprite;
 	Texture tHero;
 	Sound walking;
@@ -46,9 +75,10 @@ struct character
 	Font StaminaFont;
 	Text StaminaText;
 
-	void set(int posx, int posy);
+	void set(int posx, int posy, bool SetOriginOrNot);
 	void HealthBarSet(int NewHeal);
 	void StaminaBarSet(int NewStamina);
+	void SpeedIncreaseBy(int AddedNumber);
 	void walkRight(bool Move);
 	void walkLeft(bool Move);
 	void walkUp(bool Move);
@@ -60,6 +90,7 @@ struct character
 	void hit();
 	void DealDamage(Sprite&, int& heal);
 	void GoTo(Vector2f Destination,int DestanceToStopBeforeDestenation, int Speed);
+	void LookAt(Sprite);
 	void chooseHero();
 	void ShowHealthBar();
 	void ShowStaminaBar();

@@ -1,89 +1,135 @@
-﻿  character.cpp
+﻿  Game.cpp
 C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(9,60): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'character.cpp')
+  (compiling source file 'Game.cpp')
   
 C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(10,54): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'character.cpp')
+  (compiling source file 'Game.cpp')
   
 C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(14,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'character.cpp')
+  (compiling source file 'Game.cpp')
   
 C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(18,52): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'character.cpp')
+  (compiling source file 'Game.cpp')
   
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(57,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(57,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(62,22): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(67,51): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(70,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(71,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(71,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(71,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(71,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(71,51): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(75,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(76,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(76,46): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(76,46): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(76,46): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(76,46): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,56): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,56): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,56): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(82,56): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(85,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(86,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(86,56): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(86,56): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(86,56): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(86,56): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(90,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(91,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(91,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(91,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(91,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(91,51): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(101,51): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(104,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(105,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(105,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(105,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(105,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(105,51): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(109,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(110,46): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(110,46): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(110,46): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(110,46): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(110,46): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,75): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,56): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,56): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,56): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(120,56): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(123,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(124,56): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(124,56): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(124,56): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(124,56): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(124,56): warning C4244:         ]
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(128,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(129,51): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(129,51): warning C4244:         with
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(129,51): warning C4244:         [
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(129,51): warning C4244:             T=unsigned int
-C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.cpp(129,51): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(38,32): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(38,32): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(38,32): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(38,32): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(38,32): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(40,30): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(40,30): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(40,30): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(40,30): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(40,30): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(42,28): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(42,28): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(42,28): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(42,28): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(42,28): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(44,31): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(44,31): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(44,31): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(44,31): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(44,31): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(46,26): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(46,26): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(46,26): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(46,26): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(46,26): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(49,44): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(49,44): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(49,44): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(49,44): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(49,44): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(51,43): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(51,43): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(51,43): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(51,43): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(51,43): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(53,41): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(53,41): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(53,41): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(53,41): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(53,41): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(55,43): warning C4244: 'initializing': conversion from 'T' to 'const int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(55,43): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(55,43): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(55,43): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\character.h(55,43): warning C4244:         ]
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Enemies.h(8,19): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.h(7,24): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.h(8,28): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\GameScenes.h(17,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(98,34): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(118,13): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(127,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(133,23): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(159,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(159,42): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,54): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,54): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,54): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,54): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(176,54): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(183,50): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,71): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,71): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,71): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,71): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,71): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,47): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,47): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,47): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,47): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(262,47): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(344,54): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(344,54): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(344,54): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(344,54): warning C4244:             T=unsigned int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(344,54): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(362,11): warning C4551: function call missing argument list
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         and
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:             T=int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,113): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         with
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:             T=float
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         ]
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         and
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         [
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:             T=int
+C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\SP_Game\Game.cpp(398,91): warning C4244:         ]
   SP_Game.vcxproj -> C:\Users\dell\OneDrive\Documents\GitHub\SP_Project\x64\Debug\SP_Game.exe

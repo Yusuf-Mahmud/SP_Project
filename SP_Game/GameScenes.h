@@ -4,14 +4,17 @@
 struct GameScenes
 {
 	//Text appearance Control
-	float InitTextDelay = 0.045, ComaDelay = 0.5; //Typing Speed
-	float SlowTextDelay = 0.2; //While being defeated in scene 2
+	float InitTextDelay = 0.045, InitComaDelay = 0.5; //Typing Speed
+	float InitSlowTextDelay = 0.2; //While being defeated in scene 2
+
+	//Text Scale Control
+	Vector2f scale = { WindowSize.x / 1280, WindowSize.y / 720 };
 
 
-	//Constants
-	bool IsBlinking = 1, scene0ch = 1, scene1ch = 1, scene2ch = 1, scene3ch = 1, scene4ch = 1,
+	//Constants (Don't Touch)
+	bool Blinking = 1, scene0ch = 1, scene1ch = 1, scene2ch = 1, scene3ch = 1, scene4ch = 1,
 		 scene5ch = 1, typech = 0, scene6ch = 1;
-	float TextTimer = 0.085, TextDelay = InitTextDelay;
+	float TextTimer = 0.085, TextDelay = InitTextDelay, ComaDelay = InitComaDelay, SlowTextDelay = InitSlowTextDelay;
 	SoundBuffer Btyping;
 	Sound typing;
 	enemies FinalBossTalk;
@@ -33,4 +36,5 @@ struct GameScenes
 	void scene5(enemies&, character&);
 	void Scene6Set(character);
 	void scene6(enemies&, character&);
+	void GameScenesSet(enemies&, character&);
 };

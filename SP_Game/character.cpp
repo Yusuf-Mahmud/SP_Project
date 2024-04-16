@@ -2,13 +2,38 @@
 
 void character::chooseHero()
 {
-    RectangleShape zanaty, ramadan;
-    zanaty.setSize(Vector2f(100, 100));
-    ramadan.setSize(Vector2f(100, 100));
-    zanaty.setPosition(Vector2f(WindowSize.x / 2 - 100, WindowSize.y / 2));
-    ramadan.setPosition(Vector2f(WindowSize.x / 2 + 100, WindowSize.y / 2));
-    zanaty.setFillColor(Color::Yellow);
-    ramadan.setFillColor(Color::Magenta);
+    Sprite zanaty, Mogiwara;
+    Texture tZanaty, tMogiwara;
+    tZanaty.loadFromFile("./res/Heros/zanaty/Shadow/NoWeapon/zanaty.png");
+    tMogiwara.loadFromFile("./res/Heros/Mogiwara/Shadow/NoWeapon/Mogiwara.png");
+    zanaty.setTexture(tZanaty);
+    Mogiwara.setTexture(tMogiwara);
+    zanaty.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
+    Mogiwara.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
+    zanaty.setScale(WindowSize.x / 426.6, WindowSize.y / 240);
+    Mogiwara.setScale(WindowSize.x / 426.7, WindowSize.y / 240);
+    zanaty.setOrigin(HeroSize.x / 2, HeroSize.y * 2 / 3);
+    Mogiwara.setOrigin(HeroSize.x / 2, HeroSize.y *2 / 3);
+    zanaty.setPosition(WindowSize.x * 2 / 3, WindowSize.y / 2);
+    Mogiwara.setPosition(WindowSize.x / 3, WindowSize.y / 2);
+    Font f;
+    f.loadFromFile("./res/Fonts/Vogue.ttf");
+    Text te, te2;
+    te.setFont(f);
+    te.setString("Mogiwara");
+    Vector2f teSize = te.getLocalBounds().getSize();
+    te.setScale(WindowSize.x / 1280, WindowSize.y / 720);
+    te.setOrigin(teSize.x / 2, teSize.y / 2);
+    te.setPosition(Mogiwara.getPosition().x, WindowSize.y / 2 + Mogiwara.getGlobalBounds().height / 3 + te.getGlobalBounds().height);
+    te.setFillColor(Color::White);
+    te2.setFont(f);
+    te2.setString("Zanaty");
+    Vector2f te2Size = te2.getGlobalBounds().getSize();
+    te2.setScale(WindowSize.x / 1280, WindowSize.y / 720);
+    te2.setOrigin(te2Size.x / 2, te2Size.y / 2);
+    te2.setPosition(zanaty.getPosition().x, WindowSize.y / 2 + zanaty.getGlobalBounds().height / 3 + te2.getGlobalBounds().height);
+    te2.setFillColor(Color::White);
+
     Event ev;
     while (window.isOpen())
     {
@@ -22,16 +47,7 @@ void character::chooseHero()
         }
         Vector2i mousePos = Mouse::getPosition(window);
         Vector2f WmousePos = window.mapPixelToCoords(mousePos);
-        if (ramadan.getGlobalBounds().contains(WmousePos))
-        {
-            if (Mouse::isButtonPressed(Mouse::Left))
-            {
-                who = "zanaty";
-                break;
-
-            }
-        }
-        if (zanaty.getGlobalBounds().contains(WmousePos))
+        if (Mogiwara.getGlobalBounds().contains(WmousePos) || te.getGlobalBounds().contains(WmousePos))
         {
             if (Mouse::isButtonPressed(Mouse::Left))
             {
@@ -39,21 +55,32 @@ void character::chooseHero()
                 break;
             }
         }
+        if (zanaty.getGlobalBounds().contains(WmousePos) || te2.getGlobalBounds().contains(WmousePos))
+        {
+            if (Mouse::isButtonPressed(Mouse::Left))
+            {
+                who = "zanaty";
+                break;
+            }
+        }
 
         window.clear();
-        window.draw(zanaty);
-        window.draw(ramadan);
+        window.draw(zanaty);    
+        window.draw(Mogiwara);  
+        window.draw(te);
+        window.draw(te2);
         window.display();
     }
 }
 
-void character::set(int posx, int posy)
+void character::set(int posx, int posy, bool x)
 {
     tHero.loadFromFile("./res/Heros/" + who + "/NoShadow/NoWeapon/" + who + ".png");
     sprite.setTexture(tHero);
     sprite.setScale(scale);
     sprite.setTextureRect(IntRect(0, 64 * 6, 64, 64));
-    sprite.setOrigin(32, 32);
+    if (x) sprite.setOrigin(HeroSize / 2.f);
+    else sprite.setOrigin(WalkSize.x / 6, 0);
     sprite.setPosition(posx, posy);
     lastKey = "Right";
     IsAlive = 1;
@@ -62,88 +89,112 @@ void character::set(int posx, int posy)
     walking.setPitch(1.2);
     walking.setVolume(10);
     HealthFont.loadFromFile("./res/Fonts/score.otf");
+    HealthBar.setSize({ (float)health, 32.f });
+    HealthBar.setOrigin(HealthBar.getLocalBounds().getSize() / 2.f);
+    HealthBar.setPosition(WindowSize.x / 2,WindowSize.y - HealthBar.getSize().y * 3);
+    HealthBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    HealthBar.setFillColor(Color::Red);
+    HealthBarFrame.setSize(HealthBar.getSize());
+    HealthBarFrame.setScale(HealthBar.getScale());
+    HealthBarFrame.setOutlineThickness(5);
+    HealthBarFrame.setOrigin(HealthBar.getOrigin());
+    HealthBarFrame.setPosition(HealthBar.getPosition());
+    HealthBarFrame.setOutlineColor(Color::Blue);
+    HealthBarFrame.setFillColor(Color::Transparent);
     HealthText.setFont(HealthFont);
     HealthText.setOutlineThickness(5);
-    HealthText.setPosition(window.getSize().x / 2 - 16, WindowSize.y - 12.7 * 4);
     HealthText.setFillColor(Color::White);
-    HealthBarFrame.setSize({ (float)health, 32.f });
-    HealthBarFrame.setOrigin(health / 2, 16);
-    HealthBarFrame.setPosition(window.getSize().x / 2, WindowSize.y - 32);
-    HealthBarFrame.setOutlineColor(Color::Blue);
-    HealthBarFrame.setOutlineThickness(5);
-    HealthBarFrame.setFillColor(Color::Transparent);
-    HealthBar.setOrigin(health / 2, 16);
-    HealthBar.setPosition(window.getSize().x / 2, WindowSize.y - 32);
-    HealthBar.setFillColor(Color::Red);
     MaxHealth = health;
     StaminaFont.loadFromFile("./res/Fonts/score.otf");
+    StaminaBar.setSize({ (float)stamina, 32.f });
+    StaminaBar.setOrigin(StaminaBar.getLocalBounds().getSize() / 2.f);
+    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - StaminaBar.getSize().y);
+    StaminaBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    StaminaBar.setFillColor(Color::Green);
+    StaminaBarFrame.setSize(StaminaBar.getSize());
+    StaminaBarFrame.setScale(StaminaBar.getScale());
+    StaminaBarFrame.setOutlineThickness(5);
+    StaminaBarFrame.setOrigin(StaminaBar.getOrigin());
+    StaminaBarFrame.setPosition(StaminaBar.getPosition());
+    StaminaBarFrame.setOutlineColor(Color::Blue);
+    StaminaBarFrame.setFillColor(Color::Transparent);
     StaminaText.setFont(StaminaFont);
     StaminaText.setOutlineThickness(5);
-    StaminaText.setPosition(window.getSize().x * 3 / 4 - 16, WindowSize.y - 12.7 * 4);
     StaminaText.setFillColor(Color::White);
-    StaminaBarFrame.setSize({ (float)stamina, 32.f });
-    StaminaBarFrame.setOrigin(stamina / 2, 16);
-    StaminaBarFrame.setPosition(window.getSize().x * 3 / 4, WindowSize.y - 32);
-    StaminaBarFrame.setOutlineColor(Color::Blue);
-    StaminaBarFrame.setOutlineThickness(5);
-    StaminaBarFrame.setFillColor(Color::Transparent);
-    StaminaBar.setOrigin(stamina / 2, 16);
-    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - 32);
-    StaminaBar.setFillColor(Color::Green);
     MaxStamina = stamina;
 }
 
 void character::HealthBarSet(int x)
 {
-    HealthFont.loadFromFile("./res/Fonts/score.otf");
+    HealthBar.setSize({ (float)x, 32.f });
+    HealthBar.setOrigin(HealthBar.getLocalBounds().getSize() / 2.f);
+    HealthBar.setPosition(WindowSize.x / 2, WindowSize.y - HealthBar.getSize().y * 3);
+    HealthBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    HealthBar.setFillColor(Color::Red);
+    HealthBarFrame.setSize(HealthBar.getSize());
+    HealthBarFrame.setScale(HealthBar.getScale());
+    HealthBarFrame.setOutlineThickness(5);
+    HealthBarFrame.setOrigin(HealthBar.getOrigin());
+    HealthBarFrame.setPosition(HealthBar.getPosition());
+    HealthBarFrame.setOutlineColor(Color::Blue);
+    HealthBarFrame.setFillColor(Color::Transparent);
     HealthText.setFont(HealthFont);
     HealthText.setOutlineThickness(5);
-    HealthText.setPosition(window.getSize().x / 2 - 16, WindowSize.y - 12.7 * 4);
     HealthText.setFillColor(Color::White);
-    HealthBarFrame.setSize({ (float)x, 32.f });
-    HealthBarFrame.setOrigin(x / 2, 16);
-    HealthBarFrame.setPosition(window.getSize().x / 2, WindowSize.y - 32);
-    HealthBarFrame.setOutlineColor(Color::Blue);
-    HealthBarFrame.setOutlineThickness(5);
-    HealthBarFrame.setFillColor(Color::Transparent);
-    HealthBar.setOrigin(x / 2, 16);
-    HealthBar.setPosition(window.getSize().x / 2, WindowSize.y - 32);
-    HealthBar.setFillColor(Color::Red);
     MaxHealth = x;
 }
 
 void character::StaminaBarSet(int x)
 {
     StaminaFont.loadFromFile("./res/Fonts/score.otf");
+    StaminaBar.setSize({ (float)x, 32.f });
+    StaminaBar.setOrigin(StaminaBar.getLocalBounds().getSize() / 2.f);
+    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - StaminaBar.getSize().y);
+    StaminaBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    StaminaBar.setFillColor(Color::Green);
+    StaminaBarFrame.setSize(StaminaBar.getSize());
+    StaminaBarFrame.setScale(StaminaBar.getScale());
+    StaminaBarFrame.setOutlineThickness(5);
+    StaminaBarFrame.setOrigin(StaminaBar.getOrigin());
+    StaminaBarFrame.setPosition(StaminaBar.getPosition());
+    StaminaBarFrame.setOutlineColor(Color::Blue);
+    StaminaBarFrame.setFillColor(Color::Transparent);
     StaminaText.setFont(StaminaFont);
     StaminaText.setOutlineThickness(5);
-    StaminaText.setPosition(window.getSize().x * 3 / 4 - 16, WindowSize.y - 12.7 * 4);
     StaminaText.setFillColor(Color::White);
-    StaminaBarFrame.setSize({ (float)x, 32.f });
-    StaminaBarFrame.setOrigin(x / 2, 16);
-    StaminaBarFrame.setPosition(window.getSize().x * 3 / 4, WindowSize.y - 32);
-    StaminaBarFrame.setOutlineColor(Color::Blue);
-    StaminaBarFrame.setOutlineThickness(5);
-    StaminaBarFrame.setFillColor(Color::Transparent);
-    StaminaBar.setOrigin(x / 2, 16);
-    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - 32);
-    StaminaBar.setFillColor(Color::Green);
     MaxStamina = x;
+}
+
+void character::SpeedIncreaseBy(int x)
+{
+    walk += x;
 }
 
 void character::ShowHealthBar()
 {
-    HealthBar.setSize({ (float)health, 32.f });
+    HealthBar.setSize({ (float)health, HealthBar.getSize().y });
+    HealthBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
     HealthText.setString(to_string(health));
-    window.draw(HealthBar);
+    HealthText.setScale(HealthBar.getScale());
+    HealthText.setOrigin((HealthText.getLocalBounds().width) / 2.f, (HealthText.getLocalBounds().height) / 2.f);
+    HealthText.setPosition(HealthBar.getPosition().x + (HealthText.getOutlineThickness() - 3.8),
+                           HealthBar.getPosition().y - HealthText.getOutlineThickness() +
+                           (HealthText.getOutlineThickness() - (2.2 + HealthBar.getScale().x * 2)) * 2);
     window.draw(HealthBarFrame);
+    window.draw(HealthBar);
     window.draw(HealthText);
 }
 
 void character::ShowStaminaBar()
 {
-    StaminaBar.setSize({ (float)stamina, 32.f });
+    StaminaBar.setSize({ (float)stamina, StaminaBar.getSize().y });
+    StaminaBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
     StaminaText.setString(to_string(stamina));
+    StaminaText.setScale(StaminaBar.getScale());
+    StaminaText.setOrigin((StaminaText.getLocalBounds().width) / 2.f, (StaminaText.getLocalBounds().height) / 2.f);
+    StaminaText.setPosition(StaminaBar.getPosition().x + (StaminaText.getOutlineThickness() - 3.8),
+                           StaminaBar.getPosition().y - StaminaText.getOutlineThickness() +
+                           (StaminaText.getOutlineThickness() - (2.2 + StaminaBar.getScale().x * 2)) * 2);
     window.draw(StaminaBar);
     window.draw(StaminaBarFrame);
     window.draw(StaminaText);
@@ -151,81 +202,72 @@ void character::ShowStaminaBar()
 
 void character::walkRight(bool x)
 {
-    HeroSize.x = 64;
-    HeroSize.y = 64;
+    HeroSize = WalkSize;
     if (AnemationTimer < 0)
     {
-
         AnimationI++;
-        AnimationI %= 9;
+        AnimationI %= NumOfWalkFrames;
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkRightIndex, HeroSize.x, HeroSize.y));
-    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
+    sprite.setOrigin(HeroSize / 2.f);
     if (x) sprite.move(speed * DeltaTime, 0);
     lastKey = "Right";
 }
 
 void character::walkLeft(bool x)
 {
-    HeroSize.x = 64;
-    HeroSize.y = 64;
+    HeroSize = WalkSize;
     if (AnemationTimer < 0)
     {
-
         AnimationI++;
-        AnimationI %= 9;
+        AnimationI %= NumOfWalkFrames;
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkLeftIndex, HeroSize.x, HeroSize.y));
-    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
+    sprite.setOrigin(HeroSize / 2.f);
     if (x) sprite.move(-speed * DeltaTime, 0);
     lastKey = "Left";
 }
 
 void character::walkUp(bool x)
 {
-    HeroSize.x = 64;
-    HeroSize.y = 64;
-
+    HeroSize = WalkSize;
     if (AnemationTimer < 0)
     {
-
         AnimationI++;
-        AnimationI %= 9;
+        AnimationI %= NumOfWalkFrames;
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkUpIndex, HeroSize.x, HeroSize.y));
-    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
+    sprite.setOrigin(HeroSize / 2.f);
     if (x) sprite.move(0, -speed * DeltaTime);
     lastKey = "Up";
 }
 
 void character::walkDown(bool x)
 {
-    HeroSize.x = 64;
-    HeroSize.y = 64;
+    HeroSize = WalkSize;
     if (AnemationTimer < 0)
     {
-
         AnimationI++;
-        AnimationI %= 9;
+        AnimationI %= NumOfWalkFrames;
         AnemationTimer = AnemationDelay;
     }
     else {
         AnemationTimer -= DeltaTime;
     }
     sprite.setTextureRect(IntRect(AnimationI * HeroSize.x, WalkDownIndex, HeroSize.x, HeroSize.y));
-    sprite.setOrigin(HeroSize.x / 2.f, HeroSize.y / 2.f);
+    sprite.setOrigin(HeroSize / 2.f);
     if (x) sprite.move(0, speed * DeltaTime);
     lastKey = "Down";
 }
@@ -235,8 +277,8 @@ void character::move()
 {
     if (!IsAttacking && !IsWalking)
     {
-        HeroSize = { 64, 64 };
-        sprite.setOrigin(32, 32);
+        HeroSize = WalkSize;
+        sprite.setOrigin(HeroSize / 2.f);
         if (lastKey == "Right")
         {
             sprite.setTextureRect(IntRect(0, WalkRightIndex, HeroSize.x, HeroSize.y));
@@ -254,6 +296,7 @@ void character::move()
             sprite.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
         }
     }
+
     // moving hero
     AnemationDelay = 10 / speed;
     if (IsWalking && mu == 0)
@@ -368,6 +411,7 @@ void character::move()
 void character::die(string x)
 {
     walking.pause();
+    HeroSize = DieSize;
     if (x == "defeated")
     {
         if (IsStanding)
@@ -376,8 +420,8 @@ void character::die(string x)
             {
                 DeathI++;
                 DeathI %= 4;
-                sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
-                sprite.setOrigin(32, 32);
+                sprite.setTextureRect(IntRect(HeroSize.x * DeathI, DieIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(HeroSize / 2.f);
                 DeathTimer = DeathDelay;
                 if (DeathI == 3)
                     IsStanding = false;
@@ -395,8 +439,8 @@ void character::die(string x)
             if (DeathTimer < 0)
             {
                 DeathI--;
-                sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
-                sprite.setOrigin(32, 32);
+                sprite.setTextureRect(IntRect(HeroSize.x * DeathI, DieIndex, HeroSize.x, HeroSize.y));
+                sprite.setOrigin(HeroSize / 2.f);
                 DeathTimer = DeathDelay;
                 if (DeathI == 0)
                     IsStanding = true, IsAlive = true;
@@ -413,8 +457,8 @@ void character::die(string x)
         {
             DeathI++;
             DeathI %= 6;
-            sprite.setTextureRect(IntRect(64 * DeathI, 64 * 20, 64, 64));
-            sprite.setOrigin(32, 32);
+            sprite.setTextureRect(IntRect(HeroSize.x * DeathI, DieIndex, HeroSize.x, HeroSize.y));
+            sprite.setOrigin(HeroSize / 2.f);
             DeathTimer = DeathDelay;
             if (DeathI == 5)
                 IsAlive = false;
@@ -455,14 +499,14 @@ void character::hit()
         AnimationI = 0;
         if (lastKey == "Right")
         {
-            HeroSize = { 192, 192 };
+            HeroSize = HitSize;
             if (HitTimer < 0)
             {
                 HitI++;
                 var = HitI;
-                HitI %= 6;
+                HitI %= NumOfHitFrames;
                 sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitRightIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(95, 95);
+                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
                 HitTimer = HitSpeed;
             }
             else {
@@ -472,15 +516,14 @@ void character::hit()
         }
         if (lastKey == "Left")
         {
-            HeroSize.x = 192;
-            HeroSize.y = 192;
+            HeroSize = HitSize;
             if (HitTimer < 0)
             {
                 HitI++;
                 var = HitI;
-                HitI %= 6;
+                HitI %= NumOfHitFrames;
                 sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitLeftIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(95, 95);
+                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
                 HitTimer = HitSpeed;
             }
             else {
@@ -490,14 +533,14 @@ void character::hit()
         }
         if (lastKey == "Up")
         {
-            HeroSize = { 192, 192 };
+            HeroSize = HitSize;
             if (HitTimer < 0)
             {
                 HitI++;
                 var = HitI;
-                HitI %= 6;
+                HitI %= NumOfHitFrames;
                 sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitUpIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(95, 95);
+                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
                 HitTimer = HitSpeed;
             }
             else {
@@ -507,14 +550,14 @@ void character::hit()
         }
         if (lastKey == "Down")
         {
-            HeroSize = { 192, 192 };
+            HeroSize = HitSize;
             if (HitTimer < 0)
             {
                 HitI++;
                 var = HitI;
-                HitI %= 6;
+                HitI %= NumOfHitFrames;
                 sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitDownIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(95, 95);
+                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
                 HitTimer = HitSpeed;
             }
             else {
@@ -536,6 +579,7 @@ void character::DealDamage(Sprite &s, int& h)
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) > abs(d.y))
                     h -= damage;
+                var = 0, IsAttacking = 0, IsWalking = 1;
             }
         }
         if (lastKey == "Left")
@@ -545,6 +589,7 @@ void character::DealDamage(Sprite &s, int& h)
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) > abs(d.y))
                     h -= damage;
+                var = 0, IsAttacking = 0, IsWalking = 1;
             }
         }
         if (lastKey == "Up")
@@ -553,6 +598,7 @@ void character::DealDamage(Sprite &s, int& h)
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) < abs(d.y))
                     h -= damage;
+                var = 0, IsAttacking = 0, IsWalking = 1;
             }
         }
         if (lastKey == "Down")
@@ -561,6 +607,7 @@ void character::DealDamage(Sprite &s, int& h)
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) < abs(d.y))
                     h -= damage;
+                var = 0, IsAttacking = 0, IsWalking = 1;
             }
         }
     }
@@ -592,4 +639,29 @@ void character::GoTo(Vector2f x, int y, int s)
     }
     else
         arrive = 1, walking.pause(), mu2 = 0;
+}
+
+void character::LookAt(Sprite x)
+{
+    Vector2f ChaseDestance = VectorDistanceBetween(x, sprite);
+    if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+    {
+        sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
+        sprite.setOrigin(32, 32);
+    }
+    if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+    {
+        sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+        sprite.setOrigin(32, 32);
+    }
+    if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+    {
+        sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
+        sprite.setOrigin(32, 32);
+    }
+    if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+    {
+        sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
+        sprite.setOrigin(32, 32);
+    }
 }

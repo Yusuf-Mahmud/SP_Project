@@ -1,26 +1,28 @@
 #include "Enemies.h"
 
 //Enemie Set
-void enemies::set(int posx = 0, int posy = 0, int heal = 50, string x = "FinalBoss", string y = "Shadow", string z = "Shield")
+void enemies::set(int posx = 0, int posy = 0, int heal = 50, string x = "FinalBoss", string y = "Shadow", string z = "Shield", bool ch = 1)
 {
 	Type = x;
 	if (x == "FinalBoss")
 	{
 		SpriteTexture.loadFromFile("./res/Enemies/FinalBoss/" + y + '/' + z + '/' + x + ".png");
 		BossHealthFont.loadFromFile("./res/Fonts/score.otf");
+		BossHealthBar.setSize({ (float)heal, 32.f });
+		BossHealthBar.setOrigin(BossHealthBar.getLocalBounds().getSize() / 2.f);
+		BossHealthBar.setPosition(WindowSize.x / 2, BossHealthBar.getSize().y);
+		BossHealthBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+		BossHealthBar.setFillColor(Color::Red);
+		BossHealthBarFrame.setSize(BossHealthBar.getSize());
+		BossHealthBarFrame.setScale(BossHealthBar.getScale());
+		BossHealthBarFrame.setOutlineThickness(5);
+		BossHealthBarFrame.setOrigin(BossHealthBar.getOrigin());
+		BossHealthBarFrame.setPosition(BossHealthBar.getPosition().x, BossHealthBar.getPosition().y);
+		BossHealthBarFrame.setOutlineColor(Color::Blue);
+		BossHealthBarFrame.setFillColor(Color::Transparent);
 		BossHealthText.setFont(BossHealthFont);
 		BossHealthText.setOutlineThickness(5);
-		BossHealthText.setPosition(window.getSize().x / 2 - 16, 12.7);
 		BossHealthText.setFillColor(Color::White);
-		BossHealthBarFrame.setSize({(float)heal, 32.f});
-		BossHealthBarFrame.setOrigin(heal / 2, 16);
-		BossHealthBarFrame.setPosition(window.getSize().x / 2, 32);
-		BossHealthBarFrame.setOutlineColor(Color::Blue);
-		BossHealthBarFrame.setOutlineThickness(5);
-		BossHealthBarFrame.setFillColor(Color::Transparent);
-		BossHealthBar.setOrigin(heal / 2, 16);
-		BossHealthBar.setPosition(window.getSize().x / 2, 32);
-		BossHealthBar.setFillColor(Color::Red);
 		HitAnimationHandle = 8;
 	}
 	else
@@ -29,12 +31,15 @@ void enemies::set(int posx = 0, int posy = 0, int heal = 50, string x = "FinalBo
 		HitAnimationHandle = 6;
 	}
 	sprite.setTexture(SpriteTexture);
-	sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
-	sprite.setOrigin(32, 32);
-	sprite.setScale(1.5f, 1.5f);
+	sprite.setTextureRect(IntRect(0, WalkDownIndex, WalkSize.x, WalkSize.y));
+	if (ch)sprite.setOrigin(WalkSize / 2.f);
+	else sprite.setOrigin(WalkSize.x / 6, 0);
+	if (ch)sprite.setScale(WindowSize.x / 711.1f, WindowSize.y / 400.f);
+	else sprite.setScale(scale);
 	sprite.setPosition(posx, posy);
 	IsAlive = true;
 	health = heal;
+	MaxHealth = heal;
 }
 
 void enemies::DealDamageTo(int &health)
@@ -50,9 +55,9 @@ void enemies::move(string x)
 		if (AnimationTimer < 0)
 		{
 			Animationi++;
-			Animationi %= 9;
-			sprite.setTextureRect(IntRect(64 * Animationi, 64 * 11, 64, 64));
-			sprite.setOrigin(32, 32);
+			Animationi %= NumOfWalkFrames;
+			sprite.setTextureRect(IntRect(WalkSize.x * Animationi, WalkRightIndex, WalkSize.x, WalkSize.y));
+			sprite.setOrigin(WalkSize / 2.f);
 			AnimationTimer = AnimationDelay;
 		}
 		else
@@ -65,8 +70,8 @@ void enemies::move(string x)
 		if (AnimationTimer < 0)
 		{
 			Animationi++;
-			Animationi %= 9;
-			sprite.setTextureRect(IntRect(64 * Animationi, 64 * 10, 64, 64));
+			Animationi %= NumOfWalkFrames;
+			sprite.setTextureRect(IntRect(WalkSize.x * Animationi, WalkDownIndex, WalkSize.x, WalkSize.y));
 			sprite.setOrigin(32, 32);
 			AnimationTimer = AnimationDelay;
 		}
@@ -80,9 +85,9 @@ void enemies::move(string x)
 		if (AnimationTimer < 0)
 		{
 			Animationi++;
-			Animationi %= 9;
-			sprite.setTextureRect(IntRect(64 * Animationi, 64 * 9, 64, 64));
-			sprite.setOrigin(32, 32);
+			Animationi %= NumOfWalkFrames;
+			sprite.setTextureRect(IntRect(WalkSize.x * Animationi, WalkLeftIndex, WalkSize.x, WalkSize.y));
+			sprite.setOrigin(WalkSize / 2.f);
 			AnimationTimer = AnimationDelay;
 		}
 		else
@@ -95,9 +100,9 @@ void enemies::move(string x)
 		if (AnimationTimer < 0)
 		{
 			Animationi++;
-			Animationi %= 9;
-			sprite.setTextureRect(IntRect(64 * Animationi, 64 * 8, 64, 64));
-			sprite.setOrigin(32, 32);
+			Animationi %= NumOfWalkFrames;
+			sprite.setTextureRect(IntRect(WalkSize.x * Animationi, WalkUpIndex, WalkSize.x, WalkSize.y));
+			sprite.setOrigin(WalkSize / 2.f);
 			AnimationTimer = AnimationDelay;
 		}
 		else
@@ -117,8 +122,8 @@ void enemies::die(string x)
 			{
 				Deathi++;
 				Deathi %= 4;
-				sprite.setTextureRect(IntRect(64 * Deathi, 64 * 20, 64, 64));
-				sprite.setOrigin(32, 32);
+				sprite.setTextureRect(IntRect(DieSize.x * Deathi, DieIndex, DieSize.x, DieSize.y));
+				sprite.setOrigin(DieSize / 2.f);
 				DeathTimer = DeathDelay;
 				if (Deathi == 3)
 					IsStanding = false;
@@ -136,8 +141,8 @@ void enemies::die(string x)
 			if (DeathTimer < 0)
 			{
 				Deathi--;
-				sprite.setTextureRect(IntRect(64 * Deathi, 64 * 20, 64, 64));
-				sprite.setOrigin(32, 32);
+				sprite.setTextureRect(IntRect(DieSize.x * Deathi, DieIndex, DieSize.x, DieSize.y));
+				sprite.setOrigin(DieSize / 2.f);
 				DeathTimer = DeathDelay;
 				if (Deathi == 0)
 					IsStanding = true, IsAlive = true;
@@ -154,8 +159,8 @@ void enemies::die(string x)
 		{
 			Deathi++;
 			Deathi %= 6;
-			sprite.setTextureRect(IntRect(64 * Deathi, 64 * 20, 64, 64));
-			sprite.setOrigin(32, 32);
+			sprite.setTextureRect(IntRect(DieSize.x * Deathi, DieIndex, DieSize.x, DieSize.y));
+			sprite.setOrigin(DieSize / 2.f);
 			DeathTimer = DeathDelay;
 			if (Deathi == 5)
 				IsAlive = false;
@@ -175,8 +180,8 @@ void enemies::hit(string x, int& h)
 		{
 			Hiti++;
 			Hiti %= HitAnimationHandle;
-			sprite.setTextureRect(IntRect(192 * Hiti, 64 * 21, 192, 192));
-			sprite.setOrigin(95, 95);
+			sprite.setTextureRect(IntRect(HitSize.x * Hiti, HitUpIndex, HitSize.x, HitSize.y));
+			sprite.setOrigin(HitSize / 2.f);
 			HitTimer = HitSpeed;
 			if (Hiti == HitAnimationHandle - 1)
 			{
@@ -194,8 +199,8 @@ void enemies::hit(string x, int& h)
 		{
 			Hiti++;
 			Hiti %= HitAnimationHandle;
-			sprite.setTextureRect(IntRect(192 * Hiti, 64 * 27, 192, 192));
-			sprite.setOrigin(95, 95);
+			sprite.setTextureRect(IntRect(HitSize.x * Hiti, HitDownIndex, HitSize.x, HitSize.y));
+			sprite.setOrigin(HitSize / 2.f);
 			HitTimer = HitSpeed;
 			if (Hiti == HitAnimationHandle - 1)
 			{
@@ -213,8 +218,8 @@ void enemies::hit(string x, int& h)
 		{
 			Hiti++;
 			Hiti %= HitAnimationHandle;
-			sprite.setTextureRect(IntRect(192 * Hiti, 64 * 24, 192, 192));
-			sprite.setOrigin(95, 95);
+			sprite.setTextureRect(IntRect(HitSize.x * Hiti, HitLeftIndex, HitSize.x, HitSize.y));
+			sprite.setOrigin(HitSize / 2.f);
 			HitTimer = HitSpeed;
 			if (Hiti == HitAnimationHandle - 1)
 			{
@@ -232,8 +237,8 @@ void enemies::hit(string x, int& h)
 		{
 			Hiti++;
 			Hiti %= HitAnimationHandle;
-			sprite.setTextureRect(IntRect(192 * Hiti, 64 * 30, 192, 192));
-			sprite.setOrigin(95, 95);
+			sprite.setTextureRect(IntRect(HitSize.x * Hiti, HitRightIndex, HitSize.x, HitSize.y));
+			sprite.setOrigin(HitSize / 2.f);
 			HitTimer = HitSpeed;
 			if (Hiti == HitAnimationHandle - 1)
 			{
@@ -266,6 +271,31 @@ void enemies::GoTo(Vector2f x, float s)
 	}
 	else
 		arrive = 1;
+}
+
+void enemies::LookAt(Sprite x)
+{
+	Vector2f ChaseDestance = VectorDistanceBetween(x, sprite);
+	if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+	{
+		sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
+		sprite.setOrigin(32, 32);
+	}
+	if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+	{
+		sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
+		sprite.setOrigin(32, 32);
+	}
+	if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+	{
+		sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
+		sprite.setOrigin(32, 32);
+	}
+	if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+	{
+		sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
+		sprite.setOrigin(32, 32);
+	}
 }
 
 //Chasing Function
@@ -310,9 +340,15 @@ void enemies::FinalBossDraw(character x)
 
 void enemies::ShowHealthBar()
 {
-	BossHealthBar.setSize({ (float)health, 32.f });
+	BossHealthBar.setSize({ (float)health, BossHealthBar.getSize().y });
+	BossHealthBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
 	BossHealthText.setString(to_string(health));
-	window.draw(BossHealthBar);
+	BossHealthText.setScale(BossHealthBar.getScale());
+	BossHealthText.setOrigin((BossHealthText.getLocalBounds().width) / 2.f, (BossHealthText.getLocalBounds().height) / 2.f);
+	BossHealthText.setPosition(BossHealthBar.getPosition().x + (BossHealthText.getOutlineThickness() - 3.8),
+							   BossHealthBar.getPosition().y - BossHealthText.getOutlineThickness() + 
+							  (BossHealthText.getOutlineThickness() - (2.2 + BossHealthBar.getScale().x * 2)) * 2);//A very Hard relation done by testing
 	window.draw(BossHealthBarFrame);
+	window.draw(BossHealthBar);
 	window.draw(BossHealthText);
 }

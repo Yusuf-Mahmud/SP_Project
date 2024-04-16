@@ -1,9 +1,6 @@
 #include "GameScenes.h"
 #include "global.h"
 
-//Press Control
-float PressTimer = 0, PressDelay = 0.19;
-
 //Sprite flow control
 SpriteVector DrawSprite;
 
@@ -11,7 +8,6 @@ SpriteVector DrawSprite;
 int SpawnDelay = 10; //Delay is random So (Max = SpawnDelay + Min - 1) & (Min = 3)
 int ls = 3; // (Min)
 
-bool chidx = 0; int FirstIdx = 0; //Show the first apear of monsters in draw array
 const int MaxMonsterSpawn = 10;
 bool enemiesch[MaxMonsterSpawn] = {};
 enemies Monsters[MaxMonsterSpawn] = {};
@@ -27,9 +23,9 @@ void SpawnAndChace(character& x)
 				enemiesch[i] = 1;
 				int x = rand() % 2;
 				if (x)
-					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Skelaton", "", "");
+					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Skelaton", "", "", 1);
 				else
-					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Zombie", "", "");
+					Monsters[i].set(rand() % window.getSize().x + 1, rand() % window.getSize().y + 1, 50, "Zombie", "", "", 1);
 				break;
 			}
 		}
@@ -59,10 +55,8 @@ void SpawnAndChace(character& x)
 	}
 	DrawSprite.add(x.sprite);
 }
-
-bool MonstersKill(character h)
+void MonstersKill()
 {
-	DrawSprite.add(h.sprite);
 	for (int i = 0; i < MaxMonsterSpawn; i++)
 	{
 		if (enemiesch[i] == 1)
@@ -72,52 +66,37 @@ bool MonstersKill(character h)
 				Monsters[i].die("");
 				DrawSprite.add(Monsters[i].sprite);
 			}
-			else if (!Monsters[i].IsAlive)
+			else
 			{
 				cout << "Erase " << i << endl;
 				enemiesch[i] = 0;
 			}
 		}
 	}
-	int j;
-	for (j = 0; j < MaxMonsterSpawn; j++)
+}
+bool ThereIsMonsters()
+{
+	for (int j = 0; j < MaxMonsterSpawn; j++)
 	{
 		if (enemiesch[j] == 1)
-			break;
+			return 1;
 	}
-	if (j == MaxMonsterSpawn)
-		return 1;
-	else
-		return 0;
+	cout << "No Mosters" << endl;
+	return 0;
 }
 
 
-
 //Window Control
-RenderWindow window(VideoMode(1430, 870), "siltara");
+RenderWindow window(VideoMode(1600, 900), "siltara");
 Vector2f WindowSize = { (float)window.getSize().x, (float)window.getSize().y };
 
 //Game Time Control
 float DeltaTime = 0;
 int GameTime = 0;
 
-// walking to right start frame
-const int WalkRightIndex = 64 * 11;
-// walking to left start frame
-const int WalkLeftIndex = 9 * 64;
-// walking up start frame
-const int WalkUpIndex = 8 * 64;
-// walking down start frame
-const int WalkDownIndex = 10 * 64;
+//Press Control
+float PressTimer = 0, PressDelay = 0.19;
 
-//Hiting Right Start Frame
-const int HitRightIndex = 30 * 64;
-//Hiting Left Start Frame
-const int HitLeftIndex = 24 * 64;
-//Hiting Up Start Frame
-const int HitUpIndex = 21 * 64;
-//Hiting Down Start Frame
-const int HitDownIndex = 27 * 64;
 
 //Normalize to auto move
 Vector2f normalize(Vector2f vec)
@@ -145,20 +124,19 @@ Vector2f VectorDistanceBetween(Sprite x, Sprite y)
 
 void Game::Begin()
 {
-	srand(time(0));
+	srand(time(0));//Randoms the (rand()) Function
 
 	//Initializing FinalBoss
 	enemies FinalBoss;
-	FinalBoss.set(500, 400, 500, "FinalBoss", "NoShadow", "NoShield");
+	FinalBoss.set(500, 400, 100, "FinalBoss", "NoShadow", "NoShield", 1);
 	FinalBoss.HitDistance = 100;
-	FinalBoss.HitSpeed = 0.07;
+	FinalBoss.HitSpeed = 0.07;// As the number decrease the hit speed increase
 	FinalBoss.damage = 10;
-	FinalBoss.health = 50;
 
 	//Initializing Hero
 	character hero;
 	hero.chooseHero();
-	hero.set(0, 0);
+	hero.set(0, 0, 1);
 
 	//Set Game Scenes
 	GameScenes scene;
@@ -171,29 +149,32 @@ void Game::Begin()
 	Clock GameClock;
 
 	//Count the need time to avoid the FinalBoss and win
+	int WiningNeedTime = 10; //Time That The Player need to survive while avoiding Siltara's attacks to win
 	Clock WinClock;
 	bool IsWining = 0;
 
 	//Day and Night Control
+	int darknes = 170;//As the number increase the night darknes increase
+	int DNTime = 10; //Control the Day And Night Duration as Seconds
+	float SunSetDelay = 0.015, SunRiseDelay = 0.015;//The Time SunSet And SunRise Take
+	//Day and Night Constants
 	bool Day = 0, InCave = 1; int DayDate = 0;
+	float SunSetTimer = 0, SunRiseTimer = 0;
 	Clock DNclock;
 	RectangleShape night;
-	int Suni = 170;
-	float SunSetDelay = 0.015, SunRiseDelay = 0.015;//The Time SunSet And SunRise Take
-	float SunSetTimer = 0, SunRiseTimer = 0;
 	night.setSize(WindowSize);
-	night.setFillColor(Color(0, 0, 0, 170));
+	night.setFillColor(Color(0, 0, 0, darknes));
 
-	//Last Scenes instructions
+	//Last Scene instructions
 	Font f;
 	Text te;
 	f.loadFromFile("./res/Fonts/Vogue.ttf");
-	string ste2 = "I Cant kill My best Friend";
-	te.setString(ste2);
-	te.setFillColor(Color::White);
-	te.setPosition(0 , window.getSize().y - te.getCharacterSize());
-	te.setScale(0.8, 0.8);
 	te.setFont(f);
+	te.setString("I Cant kill My best Friend");
+	te.setFillColor(Color::White);
+	te.setOrigin(te.getLocalBounds().getSize() / 2.f);
+	te.setPosition(WindowSize.x / 2, window.getSize().y - te.getCharacterSize() * 5);
+	te.setScale(WindowSize.x / 1600, WindowSize.y / 900);
 
 	while (window.isOpen())
 	{
@@ -222,7 +203,7 @@ void Game::Begin()
 			}
 		}
 
-		//Control Shadow Display
+		//Control Hero's Shadow Display
 		if (InCave && hero.shadow == "Shadow")
 			hero.ChangeShadow("NoShadow");
 		else if (!InCave && Day && hero.shadow == "NoShadow")
@@ -240,73 +221,51 @@ void Game::Begin()
 			scene.scene1(FinalBoss, hero);
 			hero.health = 40;
 		}
-		else if (hero.health > 20 && scene.scene2ch)
+		else if (hero.health > 15 && scene.scene2ch)
 		{
-			if (!hero.IsWeapon) 
+			if (!hero.IsWeapon)
 			{
 				hero.ChangeWeapon("Saber");
 			}
 			hero.move();
 			hero.hit();
-			hero.DealDamage(FinalBoss.sprite, FinalBoss.health); 
-			hero.ShowHealthBar();
-			hero.ShowStaminaBar();
-			if (hero.var == 6)
-				hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-			if (FinalBoss.IsAlive && FinalBoss.health > 0)
-			{
-				FinalBoss.ChaceAndHit(hero);
-				DrawSprite.add(FinalBoss.sprite);
-				DrawSprite.add(hero.sprite);
-				if (FinalBoss.health < 0)
-					FinalBoss.health = 0;
-				FinalBoss.ShowHealthBar();
-			}
+			hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
+			FinalBoss.ChaceAndHit(hero);
+			DrawSprite.add(FinalBoss.sprite);
+			DrawSprite.add(hero.sprite);
+			FinalBoss.ShowHealthBar();
 		}
 		else if (scene.scene2ch)
 		{
-			// To look at the hero when he defeat him
-			if (hero.health <= 0)
-				hero.health = 2;
-			Vector2f ChaseDestance = VectorDistanceBetween(hero.sprite, FinalBoss.sprite);
-			if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
-			{
-				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 11, 64, 64));
-				FinalBoss.sprite.setOrigin(32, 32);
-			}
-			if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
-			{
-				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 10, 64, 64));
-				FinalBoss.sprite.setOrigin(32, 32);
-			}
-			if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.x) > abs(ChaseDestance.y))
-			{
-				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
-				FinalBoss.sprite.setOrigin(32, 32);
-			}
-			if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
-			{
-				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
-				FinalBoss.sprite.setOrigin(32, 32);
-			}
+			FinalBoss.LookAt(hero.sprite);
 			if (hero.health <= 0)
 				hero.health = 2;
 			hero.die("defeated");
-			scene.scene2(FinalBoss, hero);
+			if (hero.IsStanding)
+			{
+				FinalBoss.FinalBossDraw(hero);
+				hero.ShowHealthBar();
+				hero.ShowStaminaBar();
+				FinalBoss.ShowHealthBar();
+			}
+			else
+				scene.scene2(FinalBoss, hero);
 		}
-		else if (hero.state == "sleep")
+		else if (hero.state == "Defeated")
 		{
+			hero.HealthBarSet(500);
 			hero.health = hero.MaxHealth;
 			hero.stamina = hero.MaxStamina;
-			FinalBoss.health = 500;
+			FinalBoss.health = FinalBoss.MaxHealth;
 			hero.state = "BeingStronger";
-			hero.ChangeWeapon("NoWeapon");
+			hero.ChangeWeapon("WarAxe");
 			hero.sprite.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+			scene.Blinking = 1;
 		}
 		else if (hero.state == "BeingStronger")
 		{
 			InCave = 0;
-			if (scene.IsBlinking)
+			if (scene.Blinking)
 			{
 				DNclock.restart();
 				window.draw(hero.sprite);
@@ -318,21 +277,22 @@ void Game::Begin()
 				hero.die("stand");
 				hero.lastKey = "down";
 				DrawSprite.add(hero.sprite);
-				hero.ShowHealthBar();
 				window.draw(night);
 			}
 			else
 			{
 				//GamePlay
-				if ((int)DNclock.getElapsedTime().asSeconds() >= 10)
+
+				//Day and Night Apearance
+				if ((int)DNclock.getElapsedTime().asSeconds() >= DNTime)
 				{
 					if (Day)
 					{
-						if (Suni < 170)
+						if (darknes < 170)
 						{
 							if (SunSetTimer < 0)
 							{
-								Suni++;
+								darknes++;
 								SunSetTimer = SunSetDelay;
 							}
 							else
@@ -346,11 +306,11 @@ void Game::Begin()
 					}
 					else
 					{
-						if (Suni > 0)
+						if (darknes > 0)
 						{
 							if (SunRiseTimer < 0)
 							{
-								Suni--;
+								darknes--;
 								SunRiseTimer = SunRiseDelay;
 							}
 							else
@@ -365,13 +325,16 @@ void Game::Begin()
 						}
 					}
 				}
-				night.setFillColor(Color(0, 0, 0, Suni));
+				night.setFillColor(Color(0, 0, 0, darknes));
+
+				//Temp Testing
 				if (DayDate >= 3)
 				{
-					//temp
-					if (MonstersKill(hero))
+					DrawSprite.add(hero.sprite);
+					bool chi = ThereIsMonsters();
+					if (!chi)
 					{
-						hero.GoTo({WindowSize.x, WindowSize.y / 2}, 3, 300);
+						hero.GoTo({ WindowSize.x, WindowSize.y / 2 }, 3, 300);
 						DrawSprite.add(hero.sprite);
 						if (hero.arrive)
 						{
@@ -383,7 +346,10 @@ void Game::Begin()
 						}
 					}
 					else
+					{
 						hero.walking.pause();
+						MonstersKill();
+					}
 					window.draw(night);
 				}
 				else
@@ -393,11 +359,18 @@ void Game::Begin()
 						hero.move();
 						hero.hit();
 						SpawnAndChace(hero);
-						for (int i = 0; i < MaxMonsterSpawn; i++)
+						if (ThereIsMonsters)
 						{
-							if (enemiesch[i] == 1)
-								hero.DealDamage(Monsters[i].sprite, Monsters[i].health);
-							if (i == MaxMonsterSpawn - 1 && hero.var == 6)
+							for (int i = 0; i < MaxMonsterSpawn; i++)
+							{
+								if (enemiesch[i] == 1)
+									hero.DealDamage(Monsters[i].sprite, Monsters[i].health);
+							}
+						}
+						else
+						{
+							//As The Stop hitting Handling is at the (DealDamage()) Function
+							if (hero.var == 6)
 								hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
 						}
 					}
@@ -405,9 +378,13 @@ void Game::Begin()
 					{
 						hero.move();
 						hero.hit();
-						MonstersKill(hero);
+						//As The Stop hitting Handling is at the (DealDamage()) Function
+						if (hero.var == 6)
+							hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
+						if (ThereIsMonsters())
+							MonstersKill();
+						DrawSprite.add(hero.sprite);
 					}
-					hero.ShowHealthBar();
 					window.draw(night);
 				}
 			}
@@ -416,56 +393,49 @@ void Game::Begin()
 		{
 			if (scene.scene3ch)
 			{
-				FinalBoss.sprite.setOrigin(32, 32);
-				FinalBoss.sprite.setPosition(window.getSize().x * 3 / 4, window.getSize().y / 2);
-				FinalBoss.sprite.setTextureRect(IntRect(0, 64 * 9, 64, 64));
+				FinalBoss.sprite.setOrigin(FinalBoss.WalkSize / 2.f);
+				FinalBoss.sprite.setPosition(WindowSize.x * 3 / 4, WindowSize.y / 2);
+				FinalBoss.sprite.setTextureRect(IntRect(0, FinalBoss.WalkLeftIndex, FinalBoss.WalkSize.x, FinalBoss.WalkSize.y));
 				scene.scene3(FinalBoss, hero);
 			}
-			else if (FinalBoss.health > 20 && scene.scene4ch)
+			else if (FinalBoss.health > 15 && scene.scene4ch)
 			{
 				hero.move();
 				hero.hit();
 				hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
-				hero.ShowHealthBar();
-				if (hero.var == 6)
-					hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-				if (FinalBoss.IsAlive && FinalBoss.health > 0)
-				{
-					FinalBoss.ChaceAndHit(hero);
-					DrawSprite.add(FinalBoss.sprite);
-					DrawSprite.add(hero.sprite);
-					FinalBoss.ShowHealthBar();
-				}
+				FinalBoss.ChaceAndHit(hero);
+				DrawSprite.add(FinalBoss.sprite);
+				DrawSprite.add(hero.sprite);
+				FinalBoss.ShowHealthBar();
 			}
 			else if (scene.scene4ch)
 			{
 				if (FinalBoss.health <= 0)
 					FinalBoss.health = 2;
 				FinalBoss.ShowHealthBar();
-				FinalBoss.die("defeated");
-				scene.scene4(FinalBoss, hero);
+				if (FinalBoss.IsStanding)
+				{
+					FinalBoss.die("defeated");
+					FinalBoss.FinalBossDraw(hero);
+				}
+				else
+					scene.scene4(FinalBoss, hero);
 			}
 			else if (scene.scene5ch)
 			{
 				scene.scene5(FinalBoss, hero);
 			}
-			else if (!IsWining || (int)WinClock.getElapsedTime().asSeconds() < 10)
+			else if (!IsWining || (int)WinClock.getElapsedTime().asSeconds() < WiningNeedTime)
 			{
 				if (FinalBoss.health > 2)
 				{
 					hero.move();
 					hero.hit();
-					hero.ShowHealthBar();
 					hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
-					if (hero.var == 6)
-						hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-					if (FinalBoss.IsAlive && FinalBoss.health > 0)
-					{
-						FinalBoss.ChaceAndHit(hero);
-						DrawSprite.add(FinalBoss.sprite);
-						DrawSprite.add(hero.sprite);
-						FinalBoss.ShowHealthBar();
-					}
+					FinalBoss.ChaceAndHit(hero);
+					DrawSprite.add(FinalBoss.sprite);
+					DrawSprite.add(hero.sprite);
+					FinalBoss.ShowHealthBar();
 				}
 				else if (FinalBoss.health < 1)
 					FinalBoss.health = 2;
@@ -475,21 +445,19 @@ void Game::Begin()
 						WinClock.restart(), IsWining = 1;
 					hero.move();
 					hero.hit();
-					hero.ShowHealthBar();
-					window.draw(te);
+					//As The Stop hitting Handling is at the (DealDamage()) Function
 					if (hero.var == 6)
 						hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-					if (FinalBoss.IsAlive && FinalBoss.health > 0)
-					{
-						FinalBoss.ChaceAndHit(hero);
-						DrawSprite.add(FinalBoss.sprite);
-						DrawSprite.add(hero.sprite);
-						FinalBoss.ShowHealthBar();
-					}
+					window.draw(te);
+					FinalBoss.ChaceAndHit(hero);
+					DrawSprite.add(FinalBoss.sprite);
+					DrawSprite.add(hero.sprite);
+					FinalBoss.ShowHealthBar();
 				}
 			}
 			else if (scene.scene6ch)
 			{
+				hero.walking.pause();
 				scene.scene6(FinalBoss, hero);
 			}
 		}
@@ -502,7 +470,7 @@ void Game::Begin()
 		else
 			window.clear(Color(0, 200, 0, 255));
 
-		
+
 
 		DeltaTime = DTclock.getElapsedTime().asSeconds();
 	}
