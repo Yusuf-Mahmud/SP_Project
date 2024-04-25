@@ -55,7 +55,7 @@ struct enemies
 	float AnimationDelay = 10 / speed;
 	int HitAnimationHandle = 6;
 
-	string Type;
+	string Type, HitDirection;
 	RectangleShape BossHealthBar, BossHealthBarFrame;
 	Font BossHealthFont;
 	Text BossHealthText;
@@ -66,6 +66,7 @@ struct enemies
 	
 
 	void set(int posx, int posy, int heal, string type, string shadow, string shield, bool SetOriginOrNot);
+	void reset();
 	void DealDamageTo(int&);
 	void move(string);
 	void hit(string, int&);

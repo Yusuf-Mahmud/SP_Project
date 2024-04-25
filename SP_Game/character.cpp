@@ -2,44 +2,57 @@
 
 void character::chooseHero()
 {
-    Sprite zanaty, Mogiwara;
-    Texture tZanaty, tMogiwara;
-    tZanaty.loadFromFile("./res/Heros/zanaty/Shadow/NoWeapon/zanaty.png");
+    Sprite zanaty, Mogiwara, Lapip;
+    Texture tZanaty, tMogiwara, tLapip;
     tMogiwara.loadFromFile("./res/Heros/Mogiwara/Shadow/NoWeapon/Mogiwara.png");
-    zanaty.setTexture(tZanaty);
     Mogiwara.setTexture(tMogiwara);
-    zanaty.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
     Mogiwara.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
-    zanaty.setScale(WindowSize.x / 426.6, WindowSize.y / 240);
     Mogiwara.setScale(WindowSize.x / 426.7, WindowSize.y / 240);
-    zanaty.setOrigin(HeroSize.x / 2, HeroSize.y * 2 / 3);
     Mogiwara.setOrigin(HeroSize.x / 2, HeroSize.y *2 / 3);
-    zanaty.setPosition(WindowSize.x * 2 / 3, WindowSize.y / 2);
-    Mogiwara.setPosition(WindowSize.x / 3, WindowSize.y / 2);
+    Mogiwara.setPosition(WindowSize.x / 4, WindowSize.y / 4);
+    tZanaty.loadFromFile("./res/Heros/zanaty/Shadow/NoWeapon/zanaty.png");
+    zanaty.setTexture(tZanaty);
+    zanaty.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
+    zanaty.setScale(WindowSize.x / 426.6, WindowSize.y / 240);
+    zanaty.setOrigin(HeroSize.x / 2, HeroSize.y * 2 / 3);
+    zanaty.setPosition(WindowSize.x * 3 / 4, WindowSize.y / 4);
+    tLapip.loadFromFile("./res/Heros/Lapip/Shadow/NoWeapon/Lapip.png");
+    Lapip.setTexture(tLapip);
+    Lapip.setTextureRect(IntRect(0, WalkDownIndex, HeroSize.x, HeroSize.y));
+    Lapip.setScale(WindowSize.x / 426.7, WindowSize.y / 240);
+    Lapip.setOrigin(HeroSize.x / 2, HeroSize.y * 2 / 3);
+    Lapip.setPosition(WindowSize.x * 3 / 4, WindowSize.y * 3 / 4);
     Font f;
-    f.loadFromFile("./res/Fonts/Vogue.ttf");
-    Text te, te2;
-    te.setFont(f);
-    te.setString("Mogiwara");
-    Vector2f teSize = te.getLocalBounds().getSize();
-    te.setScale(WindowSize.x / 1280, WindowSize.y / 720);
-    te.setOrigin(teSize.x / 2, teSize.y / 2);
-    te.setPosition(Mogiwara.getPosition().x, WindowSize.y / 2 + Mogiwara.getGlobalBounds().height / 3 + te.getGlobalBounds().height);
-    te.setFillColor(Color::White);
-    te2.setFont(f);
-    te2.setString("Zanaty");
-    Vector2f te2Size = te2.getGlobalBounds().getSize();
-    te2.setScale(WindowSize.x / 1280, WindowSize.y / 720);
-    te2.setOrigin(te2Size.x / 2, te2Size.y / 2);
-    te2.setPosition(zanaty.getPosition().x, WindowSize.y / 2 + zanaty.getGlobalBounds().height / 3 + te2.getGlobalBounds().height);
-    te2.setFillColor(Color::White);
+    f.loadFromFile("./res/Fonts/minecraft_font.ttf");
+    Text Mte, Zte, Lte;
+    Mte.setFont(f);
+    Mte.setString("Mogiwara");
+    Vector2f MteSize = Mte.getLocalBounds().getSize();
+    Mte.setScale(WindowSize.x / 1280, WindowSize.y / 720);
+    Mte.setOrigin(MteSize.x / 2, MteSize.y / 2);
+    Mte.setPosition(Mogiwara.getPosition().x, WindowSize.y / 4 + Mogiwara.getGlobalBounds().height / 3 + Mte.getGlobalBounds().height);
+    Mte.setFillColor(Color::White);
+    Zte.setFont(f);
+    Zte.setString("Zanaty");
+    Vector2f ZteSize = Zte.getGlobalBounds().getSize();
+    Zte.setScale(WindowSize.x / 1280, WindowSize.y / 720);
+    Zte.setOrigin(ZteSize.x / 2, ZteSize.y / 2);
+    Zte.setPosition(zanaty.getPosition().x, WindowSize.y / 4 + zanaty.getGlobalBounds().height / 3 + Zte.getGlobalBounds().height);
+    Zte.setFillColor(Color::White);
+    Lte.setFont(f);
+    Lte.setString("Lapip");
+    Vector2f LteSize = Lte.getLocalBounds().getSize();
+    Lte.setScale(WindowSize.x / 1280, WindowSize.y / 720);
+    Lte.setOrigin(LteSize.x / 2, LteSize.y / 2);
+    Lte.setPosition(Lapip.getPosition().x, WindowSize.y * 3 / 4 + Lapip.getGlobalBounds().height / 3 + Lte.getGlobalBounds().height);
+    Lte.setFillColor(Color::White);
 
     Event ev;
     while (window.isOpen())
     {
         while (window.pollEvent(ev))
         {
-            if (ev.type == Event::Closed)
+            if (ev.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape))
             {
                 window.close();
             }
@@ -47,7 +60,7 @@ void character::chooseHero()
         }
         Vector2i mousePos = Mouse::getPosition(window);
         Vector2f WmousePos = window.mapPixelToCoords(mousePos);
-        if (Mogiwara.getGlobalBounds().contains(WmousePos) || te.getGlobalBounds().contains(WmousePos))
+        if (Mogiwara.getGlobalBounds().contains(WmousePos) || Mte.getGlobalBounds().contains(WmousePos))
         {
             if (Mouse::isButtonPressed(Mouse::Left))
             {
@@ -55,7 +68,7 @@ void character::chooseHero()
                 break;
             }
         }
-        if (zanaty.getGlobalBounds().contains(WmousePos) || te2.getGlobalBounds().contains(WmousePos))
+        if (zanaty.getGlobalBounds().contains(WmousePos) || Zte.getGlobalBounds().contains(WmousePos))
         {
             if (Mouse::isButtonPressed(Mouse::Left))
             {
@@ -63,12 +76,22 @@ void character::chooseHero()
                 break;
             }
         }
+        if (Lapip.getGlobalBounds().contains(WmousePos) || Lte.getGlobalBounds().contains(WmousePos))
+        {
+            if (Mouse::isButtonPressed(Mouse::Left))
+            {
+                who = "Lapip";
+                break;
+            }
+        }
 
         window.clear();
         window.draw(zanaty);    
         window.draw(Mogiwara);  
-        window.draw(te);
-        window.draw(te2);
+        window.draw(Lapip);
+        window.draw(Mte);
+        window.draw(Zte);
+        window.draw(Lte);
         window.display();
     }
 }
@@ -122,6 +145,30 @@ void character::set(int posx, int posy, bool x)
     StaminaText.setOutlineThickness(5);
     StaminaText.setFillColor(Color::White);
     MaxStamina = stamina;
+    HungerFont.loadFromFile("./res/Fonts/score.otf");
+    HungerBar.setSize({ (float)hunger, 32.f });
+    HungerBar.setOrigin(HungerBar.getLocalBounds().getSize() / 2.f);
+    HungerBar.setPosition(window.getSize().x / 4, WindowSize.y - HungerBar.getSize().y);
+    HungerBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    HungerBar.setFillColor(Color(150, 75, 0, 255));//Brown
+    HungerBarFrame.setSize(HungerBar.getSize());
+    HungerBarFrame.setScale(HungerBar.getScale());
+    HungerBarFrame.setOutlineThickness(5);
+    HungerBarFrame.setOrigin(HungerBar.getOrigin());
+    HungerBarFrame.setPosition(HungerBar.getPosition());
+    HungerBarFrame.setOutlineColor(Color::Blue);
+    HungerBarFrame.setFillColor(Color::Transparent);
+    HungerText.setFont(HungerFont);
+    HungerText.setOutlineThickness(5);
+    HungerText.setFillColor(Color::White);
+    MaxHunger = hunger;
+}
+
+void character::reset()
+{
+    health = MaxHealth;
+    stamina = MaxStamina;
+    hunger = MaxHunger;
 }
 
 void character::HealthBarSet(int x)
@@ -198,6 +245,21 @@ void character::ShowStaminaBar()
     window.draw(StaminaBar);
     window.draw(StaminaBarFrame);
     window.draw(StaminaText);
+}
+
+void character::ShowHungerBar()
+{
+    HungerBar.setSize({ (float)hunger, HungerBar.getSize().y });
+    HungerBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
+    HungerText.setString(to_string(hunger));
+    HungerText.setScale(HungerBar.getScale());
+    HungerText.setOrigin((HungerText.getLocalBounds().width) / 2.f, (HungerText.getLocalBounds().height) / 2.f);
+    HungerText.setPosition(HungerBar.getPosition().x + (HungerText.getOutlineThickness() - 3.8),
+        HungerBar.getPosition().y - HungerText.getOutlineThickness() +
+        (HungerText.getOutlineThickness() - (2.2 + HungerBar.getScale().x * 2)) * 2);
+    window.draw(HungerBar);
+    window.draw(HungerBarFrame);
+    window.draw(HungerText);
 }
 
 void character::walkRight(bool x)
@@ -310,7 +372,7 @@ void character::move()
         walking.pause();
         mu = 0;
     }
-    if (Keyboard::isKeyPressed(Keyboard::D))
+    if (Keyboard::isKeyPressed(Keyboard::Right))
     {
         if (Keyboard::isKeyPressed(Keyboard::LShift) && stamina > 0)
         {
@@ -322,6 +384,7 @@ void character::move()
             }
             else
                 StaminaConsumtionTime -= DeltaTime;
+            HungerConsumeTime -= 5 * DeltaTime;
         }
         else
             speed = walk;
@@ -330,7 +393,7 @@ void character::move()
         IsWalking = 1;
         walkRight(1);
     }
-    else if (Keyboard::isKeyPressed(Keyboard::A))
+    else if (Keyboard::isKeyPressed(Keyboard::Left))
     {
         if (Keyboard::isKeyPressed(Keyboard::LShift) && stamina > 0)
         {
@@ -342,6 +405,7 @@ void character::move()
             }
             else
                 StaminaConsumtionTime -= DeltaTime;
+            HungerConsumeTime -= 5 * DeltaTime;
         }
         else
             speed = walk;
@@ -350,7 +414,7 @@ void character::move()
         IsWalking = 1;
         walkLeft(1);
     }
-    else if (Keyboard::isKeyPressed(Keyboard::W))
+    else if (Keyboard::isKeyPressed(Keyboard::Up))
     {
         if (Keyboard::isKeyPressed(Keyboard::LShift) && stamina > 0)
         {
@@ -362,6 +426,7 @@ void character::move()
             }
             else
                 StaminaConsumtionTime -= DeltaTime;
+            HungerConsumeTime -= 5 * DeltaTime;
         }
         else
             speed = walk;
@@ -370,7 +435,7 @@ void character::move()
         IsWalking = 1;
         walkUp(1);
     }
-    else if (Keyboard::isKeyPressed(Keyboard::S))
+    else if (Keyboard::isKeyPressed(Keyboard::Down))
     {
         if (Keyboard::isKeyPressed(Keyboard::LShift) && stamina > 0)
         {
@@ -382,6 +447,7 @@ void character::move()
             }
             else
                 StaminaConsumtionTime -= DeltaTime;
+            HungerConsumeTime -= 5 * DeltaTime;
         }
         else
             speed = walk;
@@ -404,8 +470,26 @@ void character::move()
         else
             StaminaRestoreTime -= DeltaTime;
     }
-    ShowHealthBar();
-    ShowStaminaBar();
+    if (hunger > 0)
+    {
+        if (HungerConsumeTime < 0)
+        {
+            hunger--;
+            HungerConsumeTime = HungerConsumeDelay;
+        }
+        else
+            HungerConsumeTime -= DeltaTime;
+    }
+    else
+    {
+        if (HealthConsumtionTime < 0)
+        {
+            health -= 10;
+            HealthConsumtionTime = HealthConsumtionDelay;
+        }
+        else
+            HealthConsumtionTime -= DeltaTime;
+    }
 }
 
 void character::die(string x)
@@ -461,7 +545,7 @@ void character::die(string x)
             sprite.setOrigin(HeroSize / 2.f);
             DeathTimer = DeathDelay;
             if (DeathI == 5)
-                IsAlive = false;
+                IsAlive = false, IsStanding = 0;
         }
         else
         {
@@ -492,78 +576,163 @@ void character::ChangeShadow(string s)
 
 void character::hit()
 {
-    if (Mouse::isButtonPressed(Mouse::Left))
+    if (Keyboard::isKeyPressed(Keyboard::X))
         IsAttacking = 1;
     if (IsWeapon && IsAttacking && !IsWalking)
     {
         AnimationI = 0;
-        if (lastKey == "Right")
+        if (weapon == "Axe" || weapon == "Pickaxe")
         {
-            HeroSize = HitSize;
-            if (HitTimer < 0)
+            if (HitI == 0)
+                HitI = 6;
+            HeroSize = { 128, 128 };
+            //Hiting Right Start Frame
+            int HitRightIndex = 21 * WalkSize.y + 3 * HeroSize.y;
+            //Hiting Left Start Frame
+            int HitLeftIndex = 21 * WalkSize.y + 1 * HeroSize.y;
+            //Hiting Up Start Frame
+            int HitUpIndex = 21 * WalkSize.y + 0 * HeroSize.y;
+            //Hiting Down Start Frame
+            int HitDownIndex = 21 * WalkSize.y + 2 * HeroSize.y;
+            if (lastKey == "Right")
             {
-                HitI++;
-                var = HitI;
-                HitI %= NumOfHitFrames;
-                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitRightIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
-                HitTimer = HitSpeed;
+                if (HitTimer < 0)
+                {
+                    HitI--;
+                    var = HitI;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitRightIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Right";
             }
-            else {
-                HitTimer -= DeltaTime;
+            if (lastKey == "Left")
+            {
+                if (HitTimer < 0)
+                {
+                    HitI--;
+                    var = HitI;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitLeftIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Left";
             }
-            lastKey = "Right";
+            if (lastKey == "Up")
+            {
+                if (HitTimer < 0)
+                {
+                    HitI--;
+                    var = HitI;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitUpIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Up";
+            }
+            if (lastKey == "Down")
+            {
+                if (HitTimer < 0)
+                {
+                    HitI--;
+                    var = HitI;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitDownIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Down";
+            }
+
         }
-        if (lastKey == "Left")
+        else
         {
+            if (HitI == 6)
+                HitI = 0;
             HeroSize = HitSize;
-            if (HitTimer < 0)
+            //Hiting Right Start Frame
+            int HitRightIndex = 21 * WalkSize.y + 3 * HeroSize.y;
+            //Hiting Left Start Frame
+            int HitLeftIndex = 21 * WalkSize.y + 1 * HeroSize.y;
+            //Hiting Up Start Frame
+            int HitUpIndex = 21 * WalkSize.y + 0 * HeroSize.y;
+            //Hiting Down Start Frame
+            int HitDownIndex = 21 * WalkSize.y + 2 * HeroSize.y;
+            if (lastKey == "Right")
             {
-                HitI++;
-                var = HitI;
-                HitI %= NumOfHitFrames;
-                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitLeftIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
-                HitTimer = HitSpeed;
+                if (HitTimer < 0)
+                {
+                    HitI++;
+                    var = HitI;
+                    HitI %= NumOfHitFrames;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitRightIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Right";
             }
-            else {
-                HitTimer -= DeltaTime;
-            }
-            lastKey = "Left";
-        }
-        if (lastKey == "Up")
-        {
-            HeroSize = HitSize;
-            if (HitTimer < 0)
+            if (lastKey == "Left")
             {
-                HitI++;
-                var = HitI;
-                HitI %= NumOfHitFrames;
-                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitUpIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
-                HitTimer = HitSpeed;
+                if (HitTimer < 0)
+                {
+                    HitI++;
+                    var = HitI;
+                    HitI %= NumOfHitFrames;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitLeftIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Left";
             }
-            else {
-                HitTimer -= DeltaTime;
-            }
-            lastKey = "Up";
-        }
-        if (lastKey == "Down")
-        {
-            HeroSize = HitSize;
-            if (HitTimer < 0)
+            if (lastKey == "Up")
             {
-                HitI++;
-                var = HitI;
-                HitI %= NumOfHitFrames;
-                sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitDownIndex, HeroSize.x, HeroSize.y));
-                sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
-                HitTimer = HitSpeed;
+                if (HitTimer < 0)
+                {
+                    HitI++;
+                    var = HitI;
+                    HitI %= NumOfHitFrames;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitUpIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Up";
             }
-            else {
-                HitTimer -= DeltaTime;
+            if (lastKey == "Down")
+            {
+                if (HitTimer < 0)
+                {
+                    HitI++;
+                    var = HitI;
+                    HitI %= NumOfHitFrames;
+                    sprite.setTextureRect(IntRect(HitI * HeroSize.x, HitDownIndex, HeroSize.x, HeroSize.y));
+                    sprite.setOrigin(HeroSize.x / 2, HeroSize.y / 2);
+                    HitTimer = HitSpeed;
+                }
+                else {
+                    HitTimer -= DeltaTime;
+                }
+                lastKey = "Down";
             }
-            lastKey = "Down";
         }
     }
 }
@@ -575,39 +744,64 @@ void character::DealDamage(Sprite &s, int& h)
     {
         if (lastKey == "Right")
         {
-            if (var == 6)
+            if (var == 6 && (weapon == "LongSword" || weapon == "Saber"))
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) > abs(d.y))
                     h -= damage;
                 var = 0, IsAttacking = 0, IsWalking = 1;
             }
+            else if (var == 0 && (weapon == "Axe" || weapon == "Pickaxe"))
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) > abs(d.y))
+                    h -= damage;
+                var = 6, IsAttacking = 0, IsWalking = 1;
+            }
         }
         if (lastKey == "Left")
         {
             
-            if (var == 6)
+            if (var == 6 && (weapon == "LongSword" || weapon == "Saber"))
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) > abs(d.y))
                     h -= damage;
                 var = 0, IsAttacking = 0, IsWalking = 1;
             }
+            else if (var == 0 && (weapon == "Axe" || weapon == "Pickaxe"))
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) > abs(d.y))
+                    h -= damage;
+                var = 6, IsAttacking = 0, IsWalking = 1;
+            }
         }
         if (lastKey == "Up")
         {
-            if (var == 6)
+            if (var == 6 && (weapon == "LongSword" || weapon == "Saber"))
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) < abs(d.y))
                     h -= damage;
                 var = 0, IsAttacking = 0, IsWalking = 1;
             }
+            else if (var == 0 && (weapon == "Axe" || weapon == "Pickaxe"))
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x < d.y && abs(d.x) < abs(d.y))
+                    h -= damage;
+                var = 6, IsAttacking = 0, IsWalking = 1;
+            }
         }
         if (lastKey == "Down")
         {
-            if (var == 6)
+            if (var == 6 && (weapon == "LongSword" || weapon == "Saber"))
             {
                 if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) < abs(d.y))
                     h -= damage;
                 var = 0, IsAttacking = 0, IsWalking = 1;
+            }
+            else if (var == 0 && (weapon == "Axe" || weapon == "Pickaxe"))
+            {
+                if (DistanceBetween(s, sprite) <= HitDistance && d.x > d.y && abs(d.x) < abs(d.y))
+                    h -= damage;
+                var = 6, IsAttacking = 0, IsWalking = 1;
+                cout << var << endl;
             }
         }
     }
@@ -664,4 +858,47 @@ void character::LookAt(Sprite x)
         sprite.setTextureRect(IntRect(0, 64 * 8, 64, 64));
         sprite.setOrigin(32, 32);
     }
+}
+
+bool dcCh = true;
+void character::dodge()
+{
+    if (Keyboard::isKeyPressed(Keyboard::C) && dcCh && stamina >= DodgeStminaConsumtion)
+    {
+        if (lastKey == "Right")
+        {
+            sprite.setPosition(sprite.getPosition().x + DodgeTeleportDis, sprite.getPosition().y);
+            stamina -= DodgeStminaConsumtion;
+        }
+        else if (lastKey == "Left")
+        {
+            sprite.setPosition(sprite.getPosition().x - DodgeTeleportDis, sprite.getPosition().y);
+            stamina -= DodgeStminaConsumtion;
+        }
+        else if (lastKey == "Up")
+        {
+            sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y - DodgeTeleportDis);
+            stamina -= DodgeStminaConsumtion;
+        }
+        else if (lastKey == "Down")
+        {
+            sprite.setPosition(sprite.getPosition().x, sprite.getPosition().y + DodgeTeleportDis);
+            stamina -= DodgeStminaConsumtion;
+        }
+        dcCh = 0;
+    }
+    else if (!Keyboard::isKeyPressed(Keyboard::C))
+    {
+        dcCh = 1;
+    }
+}
+
+void character::play()
+{
+    move();
+    hit();
+    dodge();
+    ShowHealthBar();
+    ShowStaminaBar();
+    ShowHungerBar();
 }

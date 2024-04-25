@@ -1,6 +1,18 @@
 #ifndef CollisionManager_H_
 #define CollisionManager_H_
-#include "character.h"
+#pragma once
+#include<SFML/Graphics.hpp>
+#include<SFML/System.hpp>
+#include<SFML/Window.hpp>
+#include<iostream>
+#include<vector>
+#include<string>
+#include<cmath>
+#include<set>
+#include<map>
+using namespace std;
+using namespace sf;
+bool checkCollision(const sf::Sprite& Animal, const sf::Sprite& box2, const sf::Vector2f& velocity1);
 
 struct collisionManager1
 {
@@ -46,6 +58,8 @@ struct collisionManager2 : public collisionManager1
 {
 	void applyCollision(vector<Sprite>&, Vector2f&, vector<Sprite>&);
 	void applyCollision(vector<RectangleShape>&, Vector2f&, RectangleShape&);
+	int applyCollisionAnimal(Sprite& wall, Vector2f& Velocity, Sprite& object);
+	//int applyCollision(Sprite& wall, Vector2f& Velocity, Sprite& object);
 	void applyCollision(vector<Sprite>&, Vector2f&, RectangleShape&);
 
 

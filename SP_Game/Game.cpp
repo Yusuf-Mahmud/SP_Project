@@ -81,7 +81,6 @@ bool ThereIsMonsters()
 		if (enemiesch[j] == 1)
 			return 1;
 	}
-	cout << "No Mosters" << endl;
 	return 0;
 }
 
@@ -154,7 +153,7 @@ void Game::Begin()
 	bool IsWining = 0;
 
 	//Day and Night Control
-	int darknes = 170;//As the number increase the night darknes increase
+	int darknes = 110;//As the number increase the night darknes increase
 	int DNTime = 10; //Control the Day And Night Duration as Seconds
 	float SunSetDelay = 0.015, SunRiseDelay = 0.015;//The Time SunSet And SunRise Take
 	//Day and Night Constants
@@ -168,7 +167,7 @@ void Game::Begin()
 	//Last Scene instructions
 	Font f;
 	Text te;
-	f.loadFromFile("./res/Fonts/Vogue.ttf");
+	f.loadFromFile("./res/Fonts/minecraft_font.ttf");
 	te.setFont(f);
 	te.setString("I Cant kill My best Friend");
 	te.setFillColor(Color::White);
@@ -181,6 +180,8 @@ void Game::Begin()
 		//Calculate Delta And Game Time
 		DTclock.restart();
 		GameTime = GameClock.getElapsedTime().asSeconds();
+
+		window.setMouseCursorVisible(0);
 
 		//Drawing Sprites
 		for (int i = 0; i < WindowSize.y; i++)
@@ -197,7 +198,7 @@ void Game::Begin()
 		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed)
+			if (event.type == Event::Closed || Keyboard::isKeyPressed(Keyboard::Escape))
 			{
 				window.close();
 			}
@@ -227,8 +228,7 @@ void Game::Begin()
 			{
 				hero.ChangeWeapon("Saber");
 			}
-			hero.move();
-			hero.hit();
+			hero.play();
 			hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
 			FinalBoss.ChaceAndHit(hero);
 			DrawSprite.add(FinalBoss.sprite);
@@ -246,6 +246,7 @@ void Game::Begin()
 				FinalBoss.FinalBossDraw(hero);
 				hero.ShowHealthBar();
 				hero.ShowStaminaBar();
+				hero.ShowHungerBar();
 				FinalBoss.ShowHealthBar();
 			}
 			else
@@ -258,18 +259,17 @@ void Game::Begin()
 			hero.stamina = hero.MaxStamina;
 			FinalBoss.health = FinalBoss.MaxHealth;
 			hero.state = "BeingStronger";
-			hero.ChangeWeapon("WarAxe");
+			hero.ChangeWeapon("Pickaxe");
 			hero.sprite.setPosition(window.getSize().x / 2, window.getSize().y / 2);
 			scene.Blinking = 1;
 		}
 		else if (hero.state == "BeingStronger")
 		{
 			InCave = 0;
-			if (scene.Blinking)
+			if (scene.Blinking && !hero.IsAlive)
 			{
 				DNclock.restart();
 				window.draw(hero.sprite);
-				window.draw(night);
 				scene.blink();
 			}
 			else if (!hero.IsAlive)
@@ -277,10 +277,10 @@ void Game::Begin()
 				hero.die("stand");
 				hero.lastKey = "down";
 				DrawSprite.add(hero.sprite);
-				window.draw(night);
 			}
 			else
 			{
+				scene.BlinkReset();
 				//GamePlay
 
 				//Day and Night Apearance
@@ -326,66 +326,77 @@ void Game::Begin()
 					}
 				}
 				night.setFillColor(Color(0, 0, 0, darknes));
-
-				//Temp Testing
-				if (DayDate >= 3)
+				if (hero.health > 0)
 				{
-					DrawSprite.add(hero.sprite);
-					bool chi = ThereIsMonsters();
-					if (!chi)
+
+					//Temp Testing
+					if (DayDate >= 3)
 					{
-						hero.GoTo({ WindowSize.x, WindowSize.y / 2 }, 3, 300);
 						DrawSprite.add(hero.sprite);
-						if (hero.arrive)
+						bool chi = ThereIsMonsters();
+						if (!chi)
 						{
-							hero.ChangeWeapon("LongSword");
-							hero.state = "FinalBossFight";
-							InCave = 1;
-							hero.sprite.setPosition(0, window.getSize().y / 2);
-							hero.arrive = 0;
+							hero.GoTo({ WindowSize.x, WindowSize.y / 2 }, 3, 300);
+							DrawSprite.add(hero.sprite);
+							if (hero.arrive)
+							{
+								hero.ChangeWeapon("LongSword");
+								hero.state = "FinalBossFight";
+								InCave = 1;
+								hero.sprite.setPosition(0, window.getSize().y / 2);
+								hero.arrive = 0;
+							}
 						}
+						else
+						{
+							hero.walking.pause();
+							MonstersKill();
+						}
+						window.draw(night);
 					}
 					else
 					{
-						hero.walking.pause();
-						MonstersKill();
-					}
-					window.draw(night);
-				}
-				else
-				{
-					if (!Day)
-					{
-						hero.move();
-						hero.hit();
-						SpawnAndChace(hero);
-						if (ThereIsMonsters)
+						if (!Day)
 						{
-							for (int i = 0; i < MaxMonsterSpawn; i++)
+							SpawnAndChace(hero);
+							if (ThereIsMonsters)
 							{
-								if (enemiesch[i] == 1)
-									hero.DealDamage(Monsters[i].sprite, Monsters[i].health);
+								for (int i = 0; i < MaxMonsterSpawn; i++)
+								{
+									if (enemiesch[i] == 1)
+										hero.DealDamage(Monsters[i].sprite, Monsters[i].health);
+								}
+							}
+							else
+							{
+								//As The Stop hitting Handling is at the (DealDamage()) Function
+								if (hero.var == 6 && (hero.weapon == "LongSword" || hero.weapon == "Saber"))
+									hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
+								else if (hero.var == 0 && (hero.weapon == "Axe" || hero.weapon == "Pickaxe"))
+									hero.var = 6, hero.IsAttacking = 0, hero.IsWalking = 1;
 							}
 						}
 						else
 						{
 							//As The Stop hitting Handling is at the (DealDamage()) Function
-							if (hero.var == 6)
+							if (hero.var == 6 && (hero.weapon == "LongSword" || hero.weapon == "Saber"))
 								hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
+							else if (hero.var == 0 && (hero.weapon == "Axe" || hero.weapon == "Pickaxe"))
+								hero.var = 6, hero.IsAttacking = 0, hero.IsWalking = 1;
+							if (ThereIsMonsters())
+								MonstersKill();
+							DrawSprite.add(hero.sprite);
 						}
+						window.draw(night);
 					}
-					else
-					{
-						hero.move();
-						hero.hit();
-						//As The Stop hitting Handling is at the (DealDamage()) Function
-						if (hero.var == 6)
-							hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-						if (ThereIsMonsters())
-							MonstersKill();
-						DrawSprite.add(hero.sprite);
-					}
-					window.draw(night);
+					hero.play();
+				}
+				else
+				{
+					hero.die("");
+					if (!hero.IsAlive)
+						hero.reset();
+					window.draw(hero.sprite);
 				}
 			}
 		}
@@ -400,13 +411,20 @@ void Game::Begin()
 			}
 			else if (FinalBoss.health > 15 && scene.scene4ch)
 			{
-				hero.move();
-				hero.hit();
-				hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
-				FinalBoss.ChaceAndHit(hero);
-				DrawSprite.add(FinalBoss.sprite);
-				DrawSprite.add(hero.sprite);
-				FinalBoss.ShowHealthBar();
+				if (hero.health > 0)
+				{
+					hero.play();
+					hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
+					FinalBoss.ChaceAndHit(hero);
+					DrawSprite.add(FinalBoss.sprite);
+					DrawSprite.add(hero.sprite);
+					FinalBoss.ShowHealthBar();
+				}
+				else
+				{
+					hero.die("");
+					hero.state = "BeingStronger";
+				}
 			}
 			else if (scene.scene4ch)
 			{
@@ -427,32 +445,40 @@ void Game::Begin()
 			}
 			else if (!IsWining || (int)WinClock.getElapsedTime().asSeconds() < WiningNeedTime)
 			{
-				if (FinalBoss.health > 2)
+				if (hero.health > 0)
 				{
-					hero.move();
-					hero.hit();
-					hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
-					FinalBoss.ChaceAndHit(hero);
-					DrawSprite.add(FinalBoss.sprite);
-					DrawSprite.add(hero.sprite);
-					FinalBoss.ShowHealthBar();
+					if (FinalBoss.health > 2)
+					{
+						hero.play();
+						hero.DealDamage(FinalBoss.sprite, FinalBoss.health);
+						FinalBoss.ChaceAndHit(hero);
+						DrawSprite.add(FinalBoss.sprite);
+						DrawSprite.add(hero.sprite);
+						FinalBoss.ShowHealthBar();
+					}
+					else if (FinalBoss.health < 1)
+						FinalBoss.health = 2;
+					else
+					{
+						if (!IsWining)
+							WinClock.restart(), IsWining = 1;
+						hero.play();
+						//As The Stop hitting Handling is at the (DealDamage()) Function
+						if (hero.var == 6)
+							hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
+						window.draw(te);
+						FinalBoss.ChaceAndHit(hero);
+						DrawSprite.add(FinalBoss.sprite);
+						DrawSprite.add(hero.sprite);
+						FinalBoss.ShowHealthBar();
+					}
 				}
-				else if (FinalBoss.health < 1)
-					FinalBoss.health = 2;
 				else
 				{
-					if (!IsWining)
-						WinClock.restart(), IsWining = 1;
-					hero.move();
-					hero.hit();
-					//As The Stop hitting Handling is at the (DealDamage()) Function
-					if (hero.var == 6)
-						hero.var = 0, hero.IsAttacking = 0, hero.IsWalking = 1;
-					window.draw(te);
-					FinalBoss.ChaceAndHit(hero);
-					DrawSprite.add(FinalBoss.sprite);
-					DrawSprite.add(hero.sprite);
-					FinalBoss.ShowHealthBar();
+					hero.die("");
+					hero.state = "BeingStronger";
+					hero.reset();
+					FinalBoss.reset();
 				}
 			}
 			else if (scene.scene6ch)

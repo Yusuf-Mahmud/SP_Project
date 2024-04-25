@@ -1,6 +1,7 @@
 #pragma once
 #include "CollisionManager.h"
 #include "SpriteVector.h"
+#include "includes.h"
 #ifndef GLOBALS_H 
 #define GLOBALS_H 
 

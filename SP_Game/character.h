@@ -17,9 +17,18 @@ struct character
 	int health = 1000;//Initial Health
 	float HealthRestoreTime = 0, HealthRestoreDelay = 0.1;
 
+	//Hunger Control
+	int hunger = 500;
+	float HungerConsumeTime = 0, HungerConsumeDelay = 5;
+	float HealthConsumtionTime = 0, HealthConsumtionDelay = 0.5;
+
 	//Hit Control
-	int damage = 20, HitDistance = 60;
+	int damage = 20, HitDistance = 100;
 	float HitSpeed = 0.1f;
+
+	//Dodge Control
+	int DodgeStminaConsumtion = 50;
+	float DodgeTeleportDis = 100 * WindowSize.x / 1280;
 
 	//Death Control
 	float DeathDelay = 0.5;
@@ -46,17 +55,17 @@ struct character
 	const int DieIndex = 20 * WalkSize.y;
 
 	//Hiting Right Start Frame
-	const int HitRightIndex = 21 * WalkSize.y + 3 * HitSize.y;
+	int HitRightIndex = 21 * WalkSize.y + 3 * HitSize.y;
 	//Hiting Left Start Frame
-	const int HitLeftIndex = 21 * WalkSize.y + 1 * HitSize.y;
+	int HitLeftIndex = 21 * WalkSize.y + 1 * HitSize.y;
 	//Hiting Up Start Frame
-	const int HitUpIndex = 21 * WalkSize.y + 0 * HitSize.y;
+	int HitUpIndex = 21 * WalkSize.y + 0 * HitSize.y;
 	//Hiting Down Start Frame
-	const int HitDownIndex = 21 * WalkSize.y + 2 * HitSize.y;
+	int HitDownIndex = 21 * WalkSize.y + 2 * HitSize.y;
 
 
 	//Not Controls (Don't touch)
-	int score = 0, var /*Dealing Damage Handling Variable*/, MaxStamina = stamina, MaxHealth = health;
+	int score = 0, var /*Dealing Damage Handling Variable*/, MaxStamina = stamina, MaxHealth = health, MaxHunger = hunger;
 	bool IsAlive = 0, IsWeapon = 0, IsWalking = 0, IsAttacking = 0, IsStanding = 1, arrive = 0;
 	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0, speed = walk;
 	int AnimationI = 0, HitI = 0, DeathI = 0;
@@ -74,8 +83,12 @@ struct character
 	RectangleShape StaminaBar, StaminaBarFrame;
 	Font StaminaFont;
 	Text StaminaText;
+	RectangleShape HungerBar, HungerBarFrame;
+	Font HungerFont;
+	Text HungerText;
 
 	void set(int posx, int posy, bool SetOriginOrNot);
+	void reset();
 	void HealthBarSet(int NewHeal);
 	void StaminaBarSet(int NewStamina);
 	void SpeedIncreaseBy(int AddedNumber);
@@ -86,6 +99,8 @@ struct character
 	void ChangeWeapon(string weapon);
 	void ChangeShadow(string shadow);
 	void move();
+	void dodge();
+	void play();
 	void die(string);
 	void hit();
 	void DealDamage(Sprite&, int& heal);
@@ -94,4 +109,5 @@ struct character
 	void chooseHero();
 	void ShowHealthBar();
 	void ShowStaminaBar();
+	void ShowHungerBar();
 };

@@ -1,5 +1,14 @@
 #include "CollisionManager.h"
+bool checkCollision(const sf::Sprite& Animal, const sf::Sprite& box2, const sf::Vector2f& velocity1) {
+	sf::FloatRect sweptBox1 = Animal.getGlobalBounds();
+	sweptBox1.left += velocity1.x;
+	sweptBox1.top += velocity1.y;
 
+	sf::FloatRect sweptBox2 = box2.getGlobalBounds();
+
+
+	return sweptBox1.intersects(sweptBox2);
+}
 void collisionManager1::setObjectBound(Sprite& a, Sprite& b) {
 	ob1Bounds = a.getGlobalBounds(), ob2Bounds = b.getGlobalBounds();
 }
@@ -153,37 +162,50 @@ void collisionManager2::applyCollision(vector<RectangleShape>& walls, Vector2f& 
 }
 
 //Testing 
-void collisionManager2::applyCollision(vector<Sprite>& walls, Vector2f& Velocity, RectangleShape& object)
+int collisionManager2::applyCollisionAnimal(Sprite &wall, Vector2f& Velocity, Sprite& object)
 {
-	for (auto& wall : walls) {
+	int tar = 0,select=0;
 		setObjectBound(object, wall);
 		setNextBound(ob1Bounds, Velocity);
 		if (ob2Bounds.intersects(nextStep)) {
 			//Handle Left Collision
 			if (leftCollision()) {
-				Velocity.x = 0;
-				object.setPosition(ob2Bounds.left + ob2Bounds.width, ob1Bounds.top);
+				Velocity.x=0;
+				object.setPosition(ob2Bounds.left + ob2Bounds.width+12, object.getPosition().y);
+				tar = 2;
+				
+
 			}
 			//Handle Right Collision
-			else if (rightCollision()) {
-				Velocity.x = 0;
-				object.setPosition(ob2Bounds.left - ob1Bounds.width, ob1Bounds.top);
+			  if (rightCollision()) {
+				Velocity.x =0;
+				object.setPosition(ob2Bounds.left - ob1Bounds.width-12, object.getPosition().y);
+				tar = 1;
+				
 			}
 
 			//Handle Top Collision
 			if (topCollision()) {
-				Velocity.y = 0;
-				object.setPosition(ob1Bounds.left, ob2Bounds.top + ob2Bounds.height);
+				Velocity.y =0;
+				object.setPosition(object.getPosition().x, ob2Bounds.top + ob2Bounds.height+12);
+				tar = 4;
+				
 			}
 			//Handle Bottom Collision
-			else if (bottomCollision()) {
-				Velocity.y = 0;
-				object.setPosition(ob1Bounds.left, ob2Bounds.top - ob1Bounds.height);
+			  if (bottomCollision()) {
+				Velocity.y =0;
+				object.setPosition(object.getPosition().x, ob2Bounds.top - ob1Bounds.height-12);
+				tar = 3;
 			}
+				select = rand() % 4 + 1;
+				while (select == tar)
+					select = rand() % 4 + 1;
+			
 
 		}
+			return select;
 	}
-}
+
 
 //Check the collision from Left side
 bool collisionManager2::leftCollision()
@@ -261,7 +283,7 @@ void collisionManager2::applyCollisionWithAnimals(vector<Sprite>& walls, Vector2
 				Velocity.x = -Velocity.x;
 			}
 			//Handle Right Collision
-			else if (rightCollision()) {
+			 if (rightCollision()) {
 				//Velocity.x = 0;
 				object.setPosition(ob2Bounds.left - ob1Bounds.width, object.getPosition().y);
 				Velocity.x = -Velocity.x;
@@ -274,7 +296,7 @@ void collisionManager2::applyCollisionWithAnimals(vector<Sprite>& walls, Vector2
 				Velocity.y = -Velocity.y;
 			}
 			//Handle Bottom Collision
-			else if (bottomCollision()) {
+			 if (bottomCollision()) {
 				//Velocity.y = 0;
 				object.setPosition(object.getPosition().x, ob2Bounds.top - ob1Bounds.height);
 				Velocity.y = -Velocity.y;

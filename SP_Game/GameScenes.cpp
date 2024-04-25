@@ -1,8 +1,8 @@
 #include "GameScenes.h"
 
-Text t[30];
-string s[30];
-int i[30];//Typing index
+Text t[31];
+string s[31];
+int i[31];//Typing index
 
 Font f;
 bool tch = 1;
@@ -96,7 +96,7 @@ void GameScenes::DisplayText(Text &t, string &s, int &idx, enemies& e, character
 
 void GameScenes::Scene0Set()
 {
-	f.loadFromFile("./res/Fonts/Vogue.ttf");
+	f.loadFromFile("./res/Fonts/minecraft_font.ttf");
 	Btyping.loadFromFile("./res/Sounds/typing.mp3");
 	typing.setBuffer(Btyping);
 	s[0] = "It all starts when i was traveling with the only person i know and trust in the whole world, everyone we meet ";
@@ -143,7 +143,7 @@ void GameScenes::Scene1Set(enemies& e, character& h)
 	HeroTalk.who = h.who;
 	HeroTalk.scale = { WindowSize.x / 320, WindowSize.y / 180 };
 	HeroTalk.set(0, WindowSize.y - HeroTalk.WalkSize.y * HeroTalk.scale.y, 0);
-	for (int i = 1; i < 30; i++)
+	for (int i = 1; i < 31; i++)
 	{
 		t[i].setFont(f);
 		t[i].setString("");
@@ -170,6 +170,7 @@ void GameScenes::blink()
 	eye.setFillColor(Color(0, 0, 0, ieye));
 	if (ieye >= 0 && BlinkCheck)
 	{
+		cout << ieye << " " << endl;
 		if (EyeTimer < 0)
 		{
 			EyeTimer = EyeDelay;
@@ -201,6 +202,14 @@ void GameScenes::blink()
 	window.draw(eye);
 }
 
+void GameScenes::BlinkReset()
+{
+	che = 1;
+	ieye = 255;
+	EyeDelay = 0.009;
+	Blinking = 1;
+}
+
 void GameScenes::scene1(enemies &e, character &h)
 {
 	if (Blinking)
@@ -217,7 +226,7 @@ void GameScenes::scene1(enemies &e, character &h)
 	{
 		 
 		i[1]++;
-		ieye = 255, che = 1,EyeDelay = 0.009, Blinking = true;
+		BlinkReset();
 		scene1ch = 0;
 	}
 }
@@ -227,7 +236,7 @@ void GameScenes::Scene2Set()
 	s[2] = "Do you think you can Defeat me, hhh, You are a useles pathetic weak hero who does not even deserve to be killed by my blade//";
 	s[3] = "Egh, i will take revenge on my friend and defeat you at any cost//";
 	s[4] = "HHHH, your friend is still alive, but you will never see him again//";
-	s[5] = "What do you meen?!";
+	s[5] = "What do you mean?!";
 	s[6] = "HaHaHaHa, FareWell, Hero!//";
 }
 
@@ -379,7 +388,8 @@ void GameScenes::Scene5Set()
 	FakeBrother.setTextureRect(IntRect(0, 64 * 8, 64, 64));
 	FakeBrother.setPosition(WindowSize.x / 2, WindowSize.y / 2 + 50);
 	s[12] = "Siltara, Brother, Are you okay?//";
-	s[13] = "A Zombie?, Where is My friend you freaking pumpkin head??//";
+	s[30] = "A Zombie??!!//";
+	s[13] = "Where is My friend you freaking pumpkin head??//";
 	s[14] = "hhhhhhhhhh, hahahaha, aah hero, my friend, my best friend, What you were looking for was always infront of you//";
 	s[15] = "Siltara???????!//";
 	s[16] = "Yes friend, it is me//";
@@ -473,7 +483,9 @@ void GameScenes::scene5(enemies& e, character& h)
 		{
 			HitTimer -= DeltaTime;
 		}
-		if (!chh && FBi == 5)
+		if (i[30] < s[30].size())
+			DisplayText(t[30], s[30], i[30], e, h, "hero");
+		else if (!chh && FBi == 5)
 		{
 			HitSpeed = 0.2;
 			if (HitTimer < 0 && heroi1 != 6)

@@ -8,7 +8,7 @@ struct GameScenes
 	float InitSlowTextDelay = 0.2; //While being defeated in scene 2
 
 	//Text Scale Control
-	Vector2f scale = { WindowSize.x / 1280, WindowSize.y / 720 };
+	Vector2f scale = { WindowSize.x / 1600, WindowSize.y / 900 };
 
 
 	//Constants (Don't Touch)
@@ -22,6 +22,7 @@ struct GameScenes
 
 	void DisplayText(Text& t, string& s, int& idx, enemies& e, character& h, string talker);
 	void blink();
+	void BlinkReset();
 	void Scene0Set();
 	void scene0(enemies&, character&);
 	void Scene1Set(enemies&, character&);

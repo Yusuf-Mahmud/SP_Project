@@ -1,7 +1,7 @@
 #include "Game.h"
 
+Game game;
 int main()
 {
-	Game game;
 	game.Begin();
 }

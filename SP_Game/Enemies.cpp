@@ -42,6 +42,11 @@ void enemies::set(int posx = 0, int posy = 0, int heal = 50, string x = "FinalBo
 	MaxHealth = heal;
 }
 
+void enemies::reset()
+{
+	health = MaxHealth;
+}
+
 void enemies::DealDamageTo(int &health)
 {
 	health -= damage;
@@ -319,13 +324,41 @@ void enemies::ChaceAndHit(character &x)
 	{
 		Animationi = 0;
 		if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+		{
+			if (HitDirection != "right")
+			{
+				Hiti = 0;
+				HitDirection = "right";
+			}
 			hit("right", x.health);
+		}
 		if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+		{
+			if (HitDirection != "down")
+			{
+				Hiti = 0;
+				HitDirection = "down";
+			}
 			hit("down", x.health);
+		}
 		if (ChaseDestance.y > ChaseDestance.x && abs(ChaseDestance.x) > abs(ChaseDestance.y))
+		{
+			if (HitDirection != "left")
+			{
+				Hiti = 0;
+				HitDirection = "left";
+			}
 			hit("left", x.health);
+		}
 		if (ChaseDestance.x > ChaseDestance.y && abs(ChaseDestance.y) > abs(ChaseDestance.x))
+		{
+			if (HitDirection != "up")
+			{
+				Hiti = 0;
+				HitDirection = "up";
+			}
 			hit("up", x.health);
+		}
 	}
 }
 
