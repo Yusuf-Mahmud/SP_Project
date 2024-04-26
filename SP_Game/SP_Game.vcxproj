@@ -138,8 +138,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="DayAndNight.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Story.cpp" />
     <ClCompile Include="GameScenes.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
@@ -147,8 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="DayAndNight.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Story.h" />
     <ClInclude Include="GameScenes.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="includes.h" />

@@ -24,7 +24,7 @@
     <ClCompile Include="character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Story.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameScenes.cpp">
@@ -34,6 +34,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpriteVector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DayAndNight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +53,7 @@
     <ClInclude Include="character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Story.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameScenes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DayAndNight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

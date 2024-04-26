@@ -1,7 +1,6 @@
-#pragma once
-#include "Enemies.h"
+#include "GameScenes.h"
 
 struct Game
 {
-	void Begin();
+	void play(character&);
 };

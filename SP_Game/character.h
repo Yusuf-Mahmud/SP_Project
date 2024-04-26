@@ -5,13 +5,13 @@
 struct character
 {
 	//Stamina Control
-	int stamina = 500;//Initial Stamina
+	int stamina = 250;//Initial Stamina
 	float StaminaConsumtionTime = 0, StaminaConsumtionDelay = 0.01;
 	float StaminaRestoreTime = 0, StaminaRestoreDelay = 0.1;
 
 	//Speed Control
 	float walk = 150;//Initial Speed
-	float run = walk + (walk * (50.0 / 100));
+	float run = walk + (walk * (60.0 / 100));
 
 	//Helth Control
 	int health = 1000;//Initial Health
@@ -66,7 +66,7 @@ struct character
 
 	//Not Controls (Don't touch)
 	int score = 0, var /*Dealing Damage Handling Variable*/, MaxStamina = stamina, MaxHealth = health, MaxHunger = hunger;
-	bool IsAlive = 0, IsWeapon = 0, IsWalking = 0, IsAttacking = 0, IsStanding = 1, arrive = 0;
+	bool IsAlive = 0, IsWeapon = 0, IsWalking = 0, IsAttacking = 0, IsStanding = 1, arrive = 0, InCave = 1, IsUpdating = 1;
 	float AnemationTimer = 0, HitTimer = 0, DeathTimer = 0, speed = walk;
 	int AnimationI = 0, HitI = 0, DeathI = 0;
 	float AnemationDelay = 10 / speed;
@@ -98,6 +98,7 @@ struct character
 	void walkDown(bool Move);
 	void ChangeWeapon(string weapon);
 	void ChangeShadow(string shadow);
+	void SkillUpdate(int&, int&, int&, float&, float&);
 	void move();
 	void dodge();
 	void play();

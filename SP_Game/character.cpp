@@ -131,7 +131,7 @@ void character::set(int posx, int posy, bool x)
     StaminaFont.loadFromFile("./res/Fonts/score.otf");
     StaminaBar.setSize({ (float)stamina, 32.f });
     StaminaBar.setOrigin(StaminaBar.getLocalBounds().getSize() / 2.f);
-    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - StaminaBar.getSize().y);
+    StaminaBar.setPosition(window.getSize().x * 4 / 5, WindowSize.y - StaminaBar.getSize().y);
     StaminaBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
     StaminaBar.setFillColor(Color::Green);
     StaminaBarFrame.setSize(StaminaBar.getSize());
@@ -148,7 +148,7 @@ void character::set(int posx, int posy, bool x)
     HungerFont.loadFromFile("./res/Fonts/score.otf");
     HungerBar.setSize({ (float)hunger, 32.f });
     HungerBar.setOrigin(HungerBar.getLocalBounds().getSize() / 2.f);
-    HungerBar.setPosition(window.getSize().x / 4, WindowSize.y - HungerBar.getSize().y);
+    HungerBar.setPosition(window.getSize().x / 5, WindowSize.y - HungerBar.getSize().y);
     HungerBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
     HungerBar.setFillColor(Color(150, 75, 0, 255));//Brown
     HungerBarFrame.setSize(HungerBar.getSize());
@@ -196,7 +196,7 @@ void character::StaminaBarSet(int x)
     StaminaFont.loadFromFile("./res/Fonts/score.otf");
     StaminaBar.setSize({ (float)x, 32.f });
     StaminaBar.setOrigin(StaminaBar.getLocalBounds().getSize() / 2.f);
-    StaminaBar.setPosition(window.getSize().x * 3 / 4, WindowSize.y - StaminaBar.getSize().y);
+    StaminaBar.setPosition(window.getSize().x * 4 / 5, WindowSize.y - StaminaBar.getSize().y);
     StaminaBar.setScale(WindowSize.x / 1280.f, WindowSize.y / 720.f);
     StaminaBar.setFillColor(Color::Green);
     StaminaBarFrame.setSize(StaminaBar.getSize());
@@ -490,6 +490,109 @@ void character::move()
         else
             HealthConsumtionTime -= DeltaTime;
     }
+}
+
+void character::SkillUpdate(int& x, int& y, int& z, float& a, float& b)
+{
+    int* power[3] = { &x, &y, &z };
+    float* powerf[2] = { &a, &b };
+    RectangleShape shaps[5];
+    for (int i = 0; i < 5; i++)
+    {
+        shaps[i].setSize(Vector2f((WindowSize.x / 1600.f) * 100,(WindowSize.y / 900) * 100));
+        shaps[i].setOrigin(shaps[i].getSize().x / 2, 0);
+    }
+    shaps[0].setPosition(window.getSize().x * 1 / 5.f, WindowSize.y / 2.f);
+    shaps[1].setPosition(window.getSize().x * 1.5f / 5.f, WindowSize.y / 4.f);
+    shaps[2].setPosition(window.getSize().x / 2.f, WindowSize.y / 10.f);
+    shaps[3].setPosition(window.getSize().x * 3.5f / 5.f, WindowSize.y / 4.f);
+    shaps[4].setPosition(window.getSize().x * 4 / 5.f, WindowSize.y / 2.f);
+    shaps[0].setFillColor(Color(128, 128, 128, 255)); //Gray
+    shaps[1].setFillColor(Color(200, 0, 0, 255)); //Red
+    shaps[2].setFillColor(Color(0, 200, 0, 255)); //Green
+    shaps[3].setFillColor(Color(0, 0, 200, 255)); //Blue
+    shaps[4].setFillColor(Color(50, 50, 50, 255)); //Dark Gray
+
+    Font powerUPdetailsFont;
+    Text powerUpDetailsText[5], SkillName[5], Hint1, Hint2;
+    powerUPdetailsFont.loadFromFile("./res/Fonts/minecraft_font.ttf");
+    SkillName[0].setString("Damage");
+    SkillName[1].setString("Health");
+    SkillName[2].setString("Stamina");
+    SkillName[3].setString("Speed");
+    SkillName[4].setString("    Hit\nSpeed");
+    powerUpDetailsText[0].setString("Increase By 50");
+    powerUpDetailsText[1].setString("Increase By 50");
+    powerUpDetailsText[2].setString("Increase By 50");
+    powerUpDetailsText[3].setString("Increase By 10%");
+    powerUpDetailsText[4].setString("Increase By 10%");
+    Hint1.setString("Stand On A Skill To Upgrade");
+    Hint1.setFont(powerUPdetailsFont);
+    Hint1.setOrigin(Hint1.getLocalBounds().width / 2.f, 0);
+    Hint1.setPosition(WindowSize.x / 2.f, WindowSize.y - Hint1.getGlobalBounds().height * 1.5f);
+    Hint1.setFillColor(Color::White);
+    Hint1.setScale((WindowSize.x / 1600.f) * 0.8, (WindowSize.y / 900.f) * 0.8);
+    Hint2.setString("Press Enter To Select");
+    Hint2.setFont(powerUPdetailsFont);
+    Hint2.setOrigin(Hint2.getLocalBounds().width / 2.f, 0);
+    Hint2.setPosition(WindowSize.x / 2.f, WindowSize.y - Hint2.getGlobalBounds().height * 1.5f);
+    Hint2.setFillColor(Color::White);
+    Hint2.setScale((WindowSize.x / 1600.f) * 0.8, (WindowSize.y / 900.f) * 0.8);
+
+    for (int i = 0; i < 5; i++) {
+        powerUpDetailsText[i].setFont(powerUPdetailsFont);
+        powerUpDetailsText[i].setOrigin(powerUpDetailsText[i].getLocalBounds().width / 2.f, 0);
+        powerUpDetailsText[i].setPosition(shaps[i].getPosition().x, shaps[i].getPosition().y + shaps[i].getSize().y + 16);
+        powerUpDetailsText[i].setFillColor(Color::White);
+        powerUpDetailsText[i].setScale((WindowSize.x / 1600.f) * 0.8, (WindowSize.y / 900.f) * 0.8);
+        SkillName[i].setFont(powerUPdetailsFont);
+        SkillName[i].setOrigin(SkillName[i].getLocalBounds().getSize() / 2.f);
+        SkillName[i].setPosition(shaps[i].getPosition().x, shaps[i].getPosition().y + shaps[i].getSize().y / 2);
+        SkillName[i].setFillColor(Color::White);
+        SkillName[i].setScale((WindowSize.x / 1600.f) * 0.7, (WindowSize.y / 900.f) * 0.7);
+    }
+
+    bool oneClick = 1, chh = 1;
+    Vector2f PlayerPosition = { sprite.getPosition().x , sprite.getPosition().y + sprite.getGlobalBounds().getSize().y / 3};
+    for (int i = 0; i < 3; i++) 
+    {
+        if (shaps[i].getGlobalBounds().contains(PlayerPosition))
+        {
+            chh = 0;
+            window.draw(powerUpDetailsText[i]);
+            if (Keyboard::isKeyPressed(Keyboard::Enter) and oneClick)
+            {
+                oneClick = 0;
+                *power[i] += 50;
+                IsUpdating = 0;
+            }
+        }
+    }
+    for (int i = 3; i < 5; i++)
+    {
+        if (shaps[i].getGlobalBounds().contains(PlayerPosition))
+        {
+            chh = 0;
+            window.draw(powerUpDetailsText[i]);
+            if (Keyboard::isKeyPressed(Keyboard::Enter) and oneClick)
+            {
+                oneClick = 0;
+                if (i == 3)
+                    *powerf[i - 3] += *powerf[i - 3] * 10 / 100.f;
+                else
+                    *powerf[i - 3] -= *powerf[i - 3] * 10 / 100.f;
+                IsUpdating = 0;
+            }
+        }
+    }
+    if (chh)
+        window.draw(Hint1);
+    else
+        window.draw(Hint2);
+    move();
+    for (int i = 0; i < 5; i++)
+        window.draw(shaps[i]), window.draw(SkillName[i]);
+    window.draw(sprite);
 }
 
 void character::die(string x)

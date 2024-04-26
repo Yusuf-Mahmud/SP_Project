@@ -1,7 +1,7 @@
-#include "Game.h"
+#include "Story.h"
 
-Game game;
+Story story;
 int main()
 {
-	game.Begin();
+	story.Begin();
 }

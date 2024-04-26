@@ -170,7 +170,6 @@ void GameScenes::blink()
 	eye.setFillColor(Color(0, 0, 0, ieye));
 	if (ieye >= 0 && BlinkCheck)
 	{
-		cout << ieye << " " << endl;
 		if (EyeTimer < 0)
 		{
 			EyeTimer = EyeDelay;
@@ -487,6 +486,7 @@ void GameScenes::scene5(enemies& e, character& h)
 			DisplayText(t[30], s[30], i[30], e, h, "hero");
 		else if (!chh && FBi == 5)
 		{
+			FakeBrother.setTextureRect(IntRect(0, 64 * 8, 64, 64));
 			HitSpeed = 0.2;
 			if (HitTimer < 0 && heroi1 != 6)
 			{
