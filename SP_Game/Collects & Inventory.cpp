@@ -1,108 +1,49 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
-//#include "HBD.h" 
-using namespace std;
-using namespace sf;
-
-
-struct Inventory
-{
-    int currentWood = 0, currentStones = 0, currentIron = 0, meat = 0;
-    bool isOpen;
-    Texture inventoryTexture;
-    Sprite inventorySprite;
-    Texture BlocksTexture;
-    Sprite BlocksSprite;
-};
-
-// longSowrd -> 1, Axe -> 2 , Saber -> 3, pickAxe -> 4
-// 1st material = 5 ............. 6th material = 10
-struct mawared_str
-{
-    int type;
-    int quantity;
-    Sprite sprite;
-};
-struct weapons_str
-{
-    int type;
-    int health = 100;
-    Sprite sprite;
-};
-struct item_type
-{
-    int weapon_or_mawared_or_nothing = -1; // -1 -> not occupied, 1 -> weapon, 2 -> mawared
-    weapons_str weapons;
-    mawared_str mawared;
-};
-item_type inv_items[18];
-
-
-struct Player
-{
-    Vector2f position;
-    float speed;
-    Inventory inventory;
-};
-
-struct Tree
-{
-    
-    Sprite sprite;
-    int health = 50;
-};
-
-struct Stone
-{
-    Sprite sprite;
-    int health = 75;
-};
-
-struct Iron
-{
-    Sprite sprite;
-    int health = 100;
-};
-
-struct Iron_collectable
-{
-    Sprite sprite;
-    Vector2f position;
-    bool collected;
-};
-
-struct Stone_collectable
-{
-    Sprite sprite;
-    Vector2f position;
-    bool collected;
-};
-
-struct Wood
-{
-    Sprite sprite;
-    Vector2f position;
-    bool collected;
-};
-
-struct Item
-{
-    string name;
-    int quantity;
-    int health;
-    Vector2f position;
-    Sprite sprite;
-};
-
-
-const int INVENTORY_SIZE = 18;
-bool inventoryOccupied[INVENTORY_SIZE] = {};
-Item inventoryItems[INVENTORY_SIZE];
+#include "PressF.h"
+int INVENTORY_SIZE = 18;
+bool inventoryOccupied[18];
+Item inventoryItems[18];
 Texture woodTexture, dropped_stone_texture, dropped_iron_texture, treeTexture, stoneTexture, ironTexture, inventoryTexture;
 Inventory inventory;
+Tree tree;
+Stone stone;
+Iron iron;
+item_type inv_items[18];
+Player player = { {100, 100}, 5 };
+bool playerBesideTree = false, playerBesideStone = false, playerBesideIron = false;
+bool isInventoryOpen = false;
+float inventoryWidth = 6 * inventory.BlocksSprite.getGlobalBounds().width * 2.f;
+float inventoryHeight = 3 * inventory.BlocksSprite.getGlobalBounds().height * 2.f;
+void pre()
+{
+    inventory.BlocksTexture.loadFromFile("./res/weapons/list - Copy.jpg");
+    inventory.BlocksSprite.setTexture(inventory.BlocksTexture);
+    inventory.inventoryTexture.loadFromFile("./res/weapons/inventory.jpg");
+    inventory.inventorySprite.setTexture(inventoryTexture);
+    inventory.inventorySprite.setScale(2.f * WindowSize.x / 1920.f, 2.f * WindowSize.y / 1080.f);
+    window.draw(inventory.inventorySprite);
+    inventory.BlocksSprite.setScale(2.f * WindowSize.x / 1920.f, 2.f * WindowSize.x / 1920.f);
+    treeTexture.loadFromFile("./used res/trees-green3.png");
+    stoneTexture.loadFromFile("./used res/stone 2.png");
+    ironTexture.loadFromFile("./used res/tower 2.png");
+    tree.sprite.setOrigin(tree.sprite.getGlobalBounds().width / 2, tree.sprite.getGlobalBounds().height / 2);
+    stone.sprite.setOrigin(stone.sprite.getGlobalBounds().width / 2, stone.sprite.getGlobalBounds().height / 2);
+    iron.sprite.setOrigin(iron.sprite.getGlobalBounds().width / 2, iron.sprite.getGlobalBounds().height / 2);
+    tree.sprite.setTexture(treeTexture);
+    tree.sprite.setPosition(400, 800);
+    tree.sprite.getPosition();
+    stone.sprite.setTexture(stoneTexture);
+    stone.sprite.setPosition(100, 190);
+    stone.sprite.getPosition();
+    iron.sprite.setTexture(ironTexture);
+    iron.sprite.setPosition(100, 90);
+    iron.sprite.getPosition();
+    woodTexture.loadFromFile("./used res/wood1.png");
+    dropped_stone_texture.loadFromFile("./used res/stone 4.png");
+   //stone.collected = false;
 
-                                    // Function to add an item to the inventory
+}
+
+                              // Function to add an item to the inventory
 int addToInventory(item_type item)
 {
     for (int i = 0; i < INVENTORY_SIZE; ++i)
@@ -119,16 +60,106 @@ int addToInventory(item_type item)
                                         // Function to remove an item from the inventory
 void removeFromInventory(int index)
 {
-    item_type null_item;
-    if (index >= 0 && index < INVENTORY_SIZE && inventoryOccupied[index])
-    {
+         item_type null_item;
         inv_items[index] = null_item;
-        inventoryOccupied[index] = false;
         // You may want to reset the item at 'index' to a default value
-    }
+  
 }
+// the magic function from number one HHHHHHHHhhhhhhhhhhhh 
+void drawInventory()
+{
+    inventory.BlocksSprite.setScale(2 * WindowSize.x / 1920.f, 2 * WindowSize.x / 1920.f);
+    float initial_width = WindowSize.x / 2.f - 3 * inventory.BlocksSprite.getGlobalBounds().width;
+    float cur_width = inventory.BlocksSprite.getGlobalBounds().width;
+    float intitial_height = WindowSize.y / 2.f - inventory.BlocksSprite.getGlobalBounds().height;
+    float cur_height = inventory.BlocksSprite.getGlobalBounds().height;
+    float inv_width = initial_width;
+    float inv_height = intitial_height - inventory.BlocksSprite.getGlobalBounds().height;
+    inventory.inventorySprite.setPosition(inv_width, inv_height);
+    RectangleShape eat, drop;
+    Text eatf, dropf;
+    eatf.setFont(pressfont);
+    dropf.setFont(pressfont);
+    eatf.setCharacterSize(12.f * WindowSize.x / 1920.f);
+    dropf.setCharacterSize(12.f * WindowSize.x / 1920.f);
+    for (int i = initial_width, idx = 0; i < initial_width + 6 * cur_width; i += cur_width)
+    {
+        for (int j = intitial_height; j < intitial_height + 3 * cur_height; j += cur_height, idx++)
+        {
+            inventory.BlocksSprite.setPosition(i, j);
+            window.draw(inventory.BlocksSprite);
 
-                                        // Function to check if an item is in the inventory
+            if (inv_items[idx].weapon_or_mawared_or_nothing == 1) // if this block contains a weapon
+            {
+                inv_items[idx].weapons.sprite.setPosition(i + inventory.BlocksSprite.getGlobalBounds().width / 2.f, j + inventory.BlocksSprite.getGlobalBounds().height / 2.f);
+                window.draw(inv_items[idx].weapons.sprite);
+                HealthBarSet(inv_items[idx].weapons.health, {(float)i,(float)j});
+                if (inventory.BlocksSprite.getGlobalBounds().contains((Vector2f)Mouse::getPosition(window)))
+                {
+                    drop.setSize({ inventory.BlocksSprite.getGlobalBounds().width, 15 * WindowSize.x / 1920.f });
+                    drop.setPosition(i, j + inventory.BlocksSprite.getGlobalBounds().height - drop.getGlobalBounds().height);
+                    drop.setFillColor(Color::Red);
+                    dropf.setString("drop");
+                    dropf.setPosition(drop.getPosition().x + drop.getGlobalBounds().width / 4.f, drop.getPosition().y);
+                    if (Mouse::isButtonPressed(Mouse::Left))
+                    {
+                        removeFromInventory(idx);
+                    }
+                }
+              
+            }
+            else if (inv_items[idx].weapon_or_mawared_or_nothing == 2) // contains a mawared
+            {
+                inv_items[idx].mawared.sprite.setOrigin(inv_items[idx].mawared.sprite.getGlobalBounds().width / 2.f, inv_items[idx].mawared.sprite.getGlobalBounds().height / 2.f);
+                inv_items[idx].mawared.sprite.setPosition(i + inventory.BlocksSprite.getGlobalBounds().width / 2.f, j + inventory.BlocksSprite.getGlobalBounds().height / 2.f);
+
+                window.draw(inv_items[idx].mawared.sprite);
+                if (inventory.BlocksSprite.getGlobalBounds().contains((Vector2f)Mouse::getPosition(window)))
+                {
+                    drop.setSize({ inventory.BlocksSprite.getGlobalBounds().width, 15 * WindowSize.x / 1920.f });
+                    drop.setPosition(i, j + inventory.BlocksSprite.getGlobalBounds().height - drop.getGlobalBounds().height);
+                    drop.setFillColor(Color::Red);
+                    dropf.setString("drop");
+                    dropf.setPosition(drop.getPosition().x + drop.getGlobalBounds().width / 4.f, drop.getPosition().y);
+                    if (Mouse::isButtonPressed(Mouse::Left))
+                    {
+                        removeFromInventory(idx);
+                    }
+                }
+
+            }
+            else if (inv_items[idx].weapon_or_mawared_or_nothing == 3) // if this block contains a roasted food
+            {
+                inv_items[idx].food.setPosition(i + inventory.BlocksSprite.getGlobalBounds().width / 2.f, j + inventory.BlocksSprite.getGlobalBounds().height / 2.f);
+                window.draw(inv_items[idx].food);
+                if (inventory.BlocksSprite.getGlobalBounds().contains((Vector2f)Mouse::getPosition(window)))
+                {
+                    eat.setSize({ inventory.BlocksSprite.getGlobalBounds().width / 2.f, 15 * WindowSize.x / 1920.f });
+                    eat.setPosition(i,j+ inventory.BlocksSprite.getGlobalBounds().height-eat.getGlobalBounds().height);
+                    eat.setFillColor(Color::Green);
+                    eatf.setString("eat");
+                    eatf.setPosition(eat.getPosition());
+                    drop.setSize({inventory.BlocksSprite.getGlobalBounds().width / 2.f, 15 * WindowSize.x / 1920.f});
+                    drop.setPosition(i+ inventory.BlocksSprite.getGlobalBounds().width / 2.f, j+ inventory.BlocksSprite.getGlobalBounds().height-drop.getGlobalBounds().height);
+                    drop.setFillColor(Color::Red);
+                    dropf.setString("drop");
+                    dropf.setPosition(drop.getPosition());
+
+                    if (Mouse::isButtonPressed(Mouse::Left))
+                    {
+                        removeFromInventory(idx);
+                    }
+                }
+              
+            }
+            window.draw(eat);
+            window.draw(drop);
+            window.draw(eatf);
+            window.draw(dropf);
+            
+        }
+    }
+}                                       
 bool isInInventory(item_type item)      // if item is in the inventory and not weapon, try to add it 
 {
     // If it is a weapon then it can't be added to another weapon, so break and try to add it in another place 
@@ -167,24 +198,31 @@ void PlayerMovement(Player& player)
         if (player.inventory.isOpen)
             player.inventory.isOpen = false;
         player.position.x -= player.speed;
+        last = '0';
     }
     if (Keyboard::isKeyPressed(Keyboard::Right))
     {
         if (player.inventory.isOpen)
             player.inventory.isOpen = false;
         player.position.x += player.speed;
+        last = '0';
+
     }
     if (Keyboard::isKeyPressed(Keyboard::Up))
     {
         if (player.inventory.isOpen)
             player.inventory.isOpen = false;
         player.position.y -= player.speed;
+        last = '0';
+
     }
     if (Keyboard::isKeyPressed(Keyboard::Down))
     {
         if (player.inventory.isOpen)
             player.inventory.isOpen = false;
         player.position.y += player.speed;
+        last = '0';
+
     }
 }
 /**********************************************************************************************************************************************/
@@ -208,6 +246,7 @@ void updateObjectHealth(Player& player, Tree& tree, Stone& stone, Iron &iron, ve
         if (tree.health <= 0)
         {
             cout << "Tree destroyed, wood dropped!" << endl;
+           
             Wood wood;
             wood.position = tree.sprite.getPosition();
             wood.position.y += 50;
@@ -283,10 +322,7 @@ void collectItems(Player& player, vector<Wood>& collectedWoods, vector<Stone_col
                     addToInventory(item);
                 }
             cout << "Wood collected!" << endl;
-            /*Sprite woodSprite;
-            woodSprite.setTexture(woodTexture);
-            woodSprite.setPosition(findAvailableSlot() * 85, 190);*/
-            /*inventory.inventorySlots.push_back(woodSprite);*/
+           
         }
     }
     
@@ -294,7 +330,7 @@ void collectItems(Player& player, vector<Wood>& collectedWoods, vector<Stone_col
     {
         float distanceSquared = (player.position.x - dstone.position.x) * (player.position.x - dstone.position.x) +
             (player.position.y - dstone.position.y) * (player.position.y - dstone.position.y);
-        if(!dstone.collected && distanceSquared <= 500)
+        if (!dstone.collected && distanceSquared <= 500)
         {
             dstone.collected = true;
             item.weapon_or_mawared_or_nothing = 2;
@@ -308,13 +344,10 @@ void collectItems(Player& player, vector<Wood>& collectedWoods, vector<Stone_col
                         inv_items[i].mawared.quantity += item.mawared.quantity;
             }
             else
-                if(!full())
+                if (!full())
                     addToInventory(item);
             cout << "Stone collected!" << endl;
             Sprite stoneSprite;
-            /*stoneSprite.setTexture(dropped_stone_texture);
-            stoneSprite.setPosition(findAvailableSlot() * 80, 185); */
-            /*inventory.inventorySlots.push_back(stoneSprite);*/
         }
     }
     for (auto& diron : collectedIrons)
@@ -342,159 +375,6 @@ void collectItems(Player& player, vector<Wood>& collectedWoods, vector<Stone_col
             ironSprite.setTexture(dropped_iron_texture);
             ironSprite.setScale(0.2f, 0.2f);
             ironSprite.setPosition(findAvailableSlot() * 80, 180);
-            /*inventory.inventorySlots.push_back(ironSprite);*/
-            // Add stone to player's inventory
         }
-    }
-}
-/***********************************************************************************************************************************************/
-
-vector<Wood> collectedWoods;
-vector<Stone_collectable> collectedStones;
-vector<Iron_collectable>collectedIrons;
-
-    RenderWindow window(VideoMode(1600, 900), "SFML Tree Example");
-    Vector2f WindowSize = (Vector2f)window.getSize();
-int main()
-{
-    Player player = { {100, 100}, 5 };
-    window.setFramerateLimit(60);
-
-    if(!woodTexture.loadFromFile("wood1.png") ||
-        !treeTexture.loadFromFile("trees-green3.png") ||
-        !stoneTexture.loadFromFile("stone 2.png") ||
-        !ironTexture.loadFromFile("tower 2.png") ||
-        !inventoryTexture.loadFromFile("Inventory.jpg") ||
-        !dropped_stone_texture.loadFromFile("stone 4.png") ||
-        !dropped_iron_texture.loadFromFile("iron1.png") ||
-        !inventory.BlocksTexture.loadFromFile("Blocks.jpg"))
-    {
-        cout << "Failed to load textures!" << endl;
-        return 1;
-    }
-    Tree tree;
-    Stone stone;
-    Iron iron;
-    inventory.inventorySprite.setTexture(inventoryTexture);
-    inventory.inventorySprite.setScale(2.f * WindowSize.x / 1920.f, 2.f * WindowSize.y / 900.f);
-    inventory.BlocksSprite.setTexture(inventory.BlocksTexture);
-    inventory.BlocksSprite.setScale(2.f*WindowSize.x/1920.f, 2.f * WindowSize.x / 1920.f);
-    tree.sprite.setOrigin(tree.sprite.getGlobalBounds().width / 2, tree.sprite.getGlobalBounds().height / 2);
-    stone.sprite.setOrigin(stone.sprite.getGlobalBounds().width / 2, stone.sprite.getGlobalBounds().height / 2);
-    iron.sprite.setOrigin(iron.sprite.getGlobalBounds().width / 2, iron.sprite.getGlobalBounds().height / 2);
-    tree.sprite.setTexture(treeTexture);
-    tree.sprite.setPosition(400, 300);
-    tree.sprite.getPosition();
-    stone.sprite.setTexture(stoneTexture);
-    stone.sprite.setPosition(100, 190);
-    stone.sprite.getPosition();
-    iron.sprite.setTexture(ironTexture);
-    iron.sprite.setPosition(100, 90);
-    iron.sprite.getPosition();
-    //stone.collected = false;
-    bool playerBesideTree = false, playerBesideStone = false, playerBesideIron = false;
-    bool isInventoryOpen = false;
-    Font font;
-    if (!font.loadFromFile("arial.ttf")) {
-        cerr << "Failed to load font file!" << endl;
-        return 1;
-    }
-    float inventoryWidth = 6 * inventory.BlocksSprite.getGlobalBounds().width * 2.f;
-    float inventoryHeight = 3 * inventory.BlocksSprite.getGlobalBounds().height * 2.f;
-    while(window.isOpen())
-    {
-        Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == Event::Closed)
-            {
-                window.close();
-            }
-            if (event.type == Event::KeyPressed && event.key.code == Keyboard::I)
-            {
-                if (player.inventory.isOpen)
-                {
-                    player.inventory.isOpen = false;
-                }
-                else
-                {
-                    player.inventory.isOpen = true;
-                    player.inventory.inventorySprite.setTexture(inventoryTexture);
-                }
-            }
-        }
-
-        playerBesideTree = isPlayerBesideObject(player, tree.sprite.getPosition());
-        playerBesideStone = isPlayerBesideObject(player, stone.sprite.getPosition());
-        playerBesideIron = isPlayerBesideObject(player, iron.sprite.getPosition());
-
-        PlayerMovement(player);
-
-        updateObjectHealth(player, tree, stone, iron, collectedWoods, collectedStones, collectedIrons);
-
-        window.clear(Color::White);
-
-        window.draw(tree.sprite);
-        window.draw(stone.sprite);
-        window.draw(iron.sprite);
-
-        for(auto wood : collectedWoods)
-        {
-            if(!wood.collected)
-                window.draw(wood.sprite);
-        }
-        for(auto dstone : collectedStones)
-        {
-            if(!dstone.collected)
-                window.draw(dstone.sprite);
-        }
-        for(auto diron : collectedIrons)
-        {
-            if(!diron.collected)
-            {
-                diron.sprite.setScale(0.4f, 0.4f);
-                window.draw(diron.sprite);
-            }
-        }
-        CircleShape playerShape(20);
-        playerShape.setPosition(player.position);
-        playerShape.setFillColor(Color::Blue);
-        window.draw(playerShape);
-        if(player.inventory.isOpen)
-        {
-            float initial_width = WindowSize.x / 2.f - 3 * inventory.BlocksSprite.getGlobalBounds().width;
-            float cur_width = inventory.BlocksSprite.getGlobalBounds().width;
-            float intitial_height = WindowSize.y / 2.f - inventory.BlocksSprite.getGlobalBounds().height;
-            float cur_height = inventory.BlocksSprite.getGlobalBounds().height;
-            inventory.inventorySprite.setOrigin(inventory.inventorySprite.getGlobalBounds().width / 2.f, inventory.inventorySprite.getGlobalBounds().height / 2.f);
-            float inv_width = initial_width - inventory.BlocksSprite.getGlobalBounds().width + inventory.inventorySprite.getGlobalBounds().width;
-            float inv_height = intitial_height;
-            inventory.inventorySprite.setPosition(inv_width, inv_height);
-            window.draw(inventory.inventorySprite);
-            for (int i = initial_width, idx = 0; i < initial_width + 6 * cur_width; i += cur_width)
-            {
-                for(int j = intitial_height; j < intitial_height + 3 * cur_height; j += cur_height, idx++)
-                {
-                    inventory.BlocksSprite.setPosition(i, j);
-                    window.draw(inventory.BlocksSprite);
-
-                    if(inv_items[idx].weapon_or_mawared_or_nothing == 1) // if this block contains a weapon
-                    {
-                        inv_items[idx].weapons.sprite.setOrigin(inv_items[idx].weapons.sprite.getGlobalBounds().width / 2.f, inv_items[idx].weapons.sprite.getGlobalBounds().height / 2.f);
-                        inv_items[idx].weapons.sprite.setPosition(i + inventory.BlocksSprite.getGlobalBounds().width / 2.f, j + inventory.BlocksSprite.getGlobalBounds().height / 2.f);
-                        window.draw(inv_items[idx].weapons.sprite);
-                    }
-                    else if(inv_items[idx].weapon_or_mawared_or_nothing == 2) // contains a mawared
-                    {
-                        inv_items[idx].mawared.sprite.setOrigin(inv_items[idx].mawared.sprite.getGlobalBounds().width / 2.f, inv_items[idx].mawared.sprite.getGlobalBounds().height / 2.f);
-                        inv_items[idx].mawared.sprite.setPosition(i + inventory.BlocksSprite.getGlobalBounds().width / 2.f, j + inventory.BlocksSprite.getGlobalBounds().height / 2.f);
-                        window.draw(inv_items[idx].mawared.sprite);
-                    }
-                }
-            }
-        }
-        collectItems(player, collectedWoods, collectedStones, collectedIrons);
-
-        window.display();
     }
 }
